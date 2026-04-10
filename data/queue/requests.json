@@ -1,0 +1,86 @@
+[
+  {
+    "request_id": "REQ-690687-100001",
+    "user_id": 100001,
+    "chat_id": -999999,
+    "mention_text": "Test issue #1",
+    "submitted_at": "2026-04-10T20:08:39.690733",
+    "processed_at": "2026-04-10T20:08:39.714637",
+    "ticket_id": "TKT-20250410001500",
+    "status": "completed",
+    "user_name": "User 1",
+    "user_email": "user1@example.com"
+  },
+  {
+    "request_id": "REQ-692429-100002",
+    "user_id": 100002,
+    "chat_id": -999999,
+    "mention_text": "Test issue #2",
+    "submitted_at": "2026-04-10T20:08:39.692457",
+    "processed_at": null,
+    "ticket_id": null,
+    "status": "processing",
+    "user_name": "User 2",
+    "user_email": "user2@example.com"
+  },
+  {
+    "request_id": "REQ-693407-100003",
+    "user_id": 100003,
+    "chat_id": -999999,
+    "mention_text": "Test issue #3",
+    "submitted_at": "2026-04-10T20:08:39.693432",
+    "processed_at": null,
+    "ticket_id": null,
+    "status": "processing",
+    "user_name": "User 3",
+    "user_email": "user3@example.com"
+  },
+  {
+    "request_id": "REQ-884655-999",
+    "user_id": 999,
+    "chat_id": -999,
+    "mention_text": "test mention",
+    "submitted_at": "2026-04-10T20:16:17.884699",
+    "processed_at": null,
+    "ticket_id": null,
+    "status": "processing",
+    "user_name": "Test User",
+    "user_email": null
+  },
+  {
+    "request_id": "REQ-506934-999",
+    "user_id": 999,
+    "chat_id": -999,
+    "mention_text": "test mention",
+    "submitted_at": "2026-04-10T20:59:32.507004",
+    "processed_at": null,
+    "ticket_id": null,
+    "status": "processing",
+    "user_name": "Test User",
+    "user_email": null
+  },
+  {
+    "request_id": "REQ-481002-123",
+    "user_id": 123,
+    "chat_id": 456,
+    "mention_text": "test issue for wifi",
+    "submitted_at": "2026-04-10T21:00:56.481041",
+    "processed_at": null,
+    "ticket_id": null,
+    "status": "queued",
+    "user_name": "Test User",
+    "user_email": null
+  },
+  {
+    "request_id": "REQ-617211-9999",
+    "user_id": 9999,
+    "chat_id": -9999,
+    "mention_text": "test wifi help kitchen",
+    "submitted_at": "2026-04-10T21:14:32.617249",
+    "processed_at": null,
+    "ticket_id": null,
+    "status": "queued",
+    "user_name": "Test User",
+    "user_email": null
+  }
+]

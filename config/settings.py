@@ -50,6 +50,12 @@ class AppConfig:
         self.MIN_DESCRIPTION_LENGTH = int(os.getenv('MIN_DESCRIPTION_LENGTH', '10'))
         self.MAX_DESCRIPTION_LENGTH = int(os.getenv('MAX_DESCRIPTION_LENGTH', '2000'))
 
+        # Group mention queue settings
+        self.QUEUE_ENABLED = os.getenv('QUEUE_ENABLED', 'true').lower() == 'true'
+        self.QUEUE_TIMEOUT_MINUTES = int(os.getenv('QUEUE_TIMEOUT_MINUTES', '30'))
+        self.REQUEST_TIMEOUT_MINUTES = int(os.getenv('REQUEST_TIMEOUT_MINUTES', '60'))
+        self.CONCURRENT_TICKET_CREATION = int(os.getenv('CONCURRENT_TICKET_CREATION', '1'))
+
         Path(self.LOG_FILE_PATH).parent.mkdir(parents=True, exist_ok=True)
 
 class Settings:

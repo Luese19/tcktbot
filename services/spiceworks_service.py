@@ -294,7 +294,7 @@ Description: {ticket_data.get('description', '')}
 Our support team will review your ticket and get back to you shortly.
 
 Best regards,
-{settings.company.NAME} Support Team
+{settings.company.NAME} IT Support Team
 """
 
             msg = MIMEMultipart('alternative')

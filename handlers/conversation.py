@@ -13,7 +13,7 @@ class ConvHandlers:
 
     @staticmethod
     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        user_id = update.effective_user.id
+        user_id = update.effective_user.id # type: ignore
         ConvHandlers.ticket_data[user_id] = {}
 
         from config.departments import create_department_keyboard

@@ -324,6 +324,113 @@ Attachments: {len(ticket.get('attachments', []))}
             logger.error(f"Error viewing replies: {e}")
             await update.message.reply_text("Error retrieving replies.")
 
+    @staticmethod
+    async def group_tickets_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Show tickets from a specific group (admin only)"""
+        try:
+            user_id = update.effective_user.id
+
+            if not AdminHandlers._is_authenticated(user_id):
+                await update.message.reply_text("❌ Access denied. Use /admin to login.")
+                return
+
+            # Get group ID from args or use current chat
+            chat = update.effective_chat
+            group_id = None
+
+            if context.args:
+                try:
+                    group_id = int(context.args[0])
+                except ValueError:
+                    await update.message.reply_text(
+                        "Usage: `/group_tickets` (for current group) or `/group_tickets {chat_id}`",
+                        parse_mode="Markdown"
+                    )
+                    return
+            else:
+                # Use current chat if in a group
+                if chat.type in ["group", "supergroup"]:
+                    group_id = chat.id
+                else:
+                    await update.message.reply_text(
+                        "Usage: `/group_tickets {chat_id}`\n\n"
+                        "Run this command in a group, or provide a group chat ID.",
+                        parse_mode="Markdown"
+                    )
+                    return
+
+            # Get all tickets
+            all_tickets = TicketService.list_tickets()
+
+            # Filter tickets from this group
+            group_tickets = [
+                t for t in all_tickets
+                if t.get('group_id') == group_id
+            ]
+
+            if not group_tickets:
+                await update.message.reply_text(
+                    f"📊 No tickets found for group ID {group_id}"
+                )
+                return
+
+            # Calculate statistics
+            status_counts = {
+                'open': 0,
+                'in_progress': 0,
+                'completed': 0
+            }
+
+            for ticket in group_tickets:
+                status = ticket.get('status', 'open')
+                if status in status_counts:
+                    status_counts[status] += 1
+
+            # Get group name if available
+            group_name = group_tickets[0].get('group_name', f"Group {group_id}")
+
+            # Build response
+            response = f"""📊 **Tickets from "{group_name}"**
+
+**Chat ID:** `{group_id}`
+
+**Statistics:**
+🔴 Open: {status_counts['open']}
+🟡 In Progress: {status_counts['in_progress']}
+🟢 Completed: {status_counts['completed']}
+📊 Total: {len(group_tickets)}
+
+**Recent Tickets (last 5):**
+"""
+
+            for idx, ticket in enumerate(group_tickets[:5], 1):
+                status_emoji = {
+                    "open": "🔴",
+                    "in_progress": "🟡",
+                    "completed": "🟢"
+                }.get(ticket.get('status', 'open'), "⚪")
+
+                response += (
+                    f"\n{idx}. {status_emoji} **{ticket.get('ticket_id')}**\n"
+                    f"   Issue: {ticket.get('issue', 'N/A')[:40]}\n"
+                    f"   User: {ticket.get('name', 'N/A')} | Priority: {ticket.get('priority', 'N/A')}\n"
+                )
+
+            if len(group_tickets) > 5:
+                response += f"\n... and {len(group_tickets) - 5} more tickets"
+
+            response += f"\n\nUse `/view {{ticket_id}}` to view details"
+
+            if len(response) > 4000:
+                # Truncate if too long
+                response = response[:3950] + "...\n\n(message truncated)"
+
+            await update.message.reply_text(response, parse_mode="Markdown")
+
+        except Exception as e:
+            logger.error(f"Error in group_tickets_command: {e}")
+            await update.message.reply_text("Error retrieving group tickets.")
+
     # ==================== HELPERS ====================
     @staticmethod
     def _is_authenticated(user_id: int) -> bool:
@@ -372,4 +479,5 @@ def get_admin_command_handlers():
         CommandHandler("delete", AdminHandlers.delete_ticket_command),
         CommandHandler("reply", AdminHandlers.reply_command),
         CommandHandler("replies", AdminHandlers.view_replies_command),
+        CommandHandler("group_tickets", AdminHandlers.group_tickets_command),
     ]

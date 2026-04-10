@@ -64,6 +64,7 @@ class TicketService:
         ticket = {
             "ticket_id": ticket_id,
             "created_at": datetime.now().isoformat(),
+            "updated_at": datetime.now().isoformat(),
             "name": ticket_data.get("name"),
             "email": ticket_data.get("email"),
             "department": ticket_data.get("department"),
@@ -71,8 +72,23 @@ class TicketService:
             "description": ticket_data.get("description", ""),
             "priority": ticket_data.get("priority"),
             "status": "open",
-            "attachments": []
+            "attachments": [],
+            "status_history": [
+                {
+                    "status": "open",
+                    "updated_at": datetime.now().isoformat(),
+                    "updated_by": "system"
+                }
+            ]
         }
+
+        # Add optional group tracking fields
+        if ticket_data.get("group_id"):
+            ticket["group_id"] = ticket_data.get("group_id")
+            ticket["group_name"] = ticket_data.get("group_name", "Unknown Group")
+            ticket["group_type"] = ticket_data.get("group_type", "group")
+            ticket["bot_message_id"] = ticket_data.get("bot_message_id")
+            ticket["source_message_id"] = ticket_data.get("source_message_id")
 
         # Add attachment info
         if ticket_data.get('attachments'):
@@ -151,6 +167,9 @@ class TicketService:
                 'text': reply_text
             })
 
+            # Update ticket timestamp
+            ticket['updated_at'] = datetime.now().isoformat()
+
             ticket_file = cls.TICKETS_DIR / f"{ticket_id}.json"
             with open(ticket_file, 'w', encoding='utf-8') as f:
                 import json
@@ -161,4 +180,157 @@ class TicketService:
             from utils.logger import get_logger
             logger = get_logger(__name__)
             logger.error(f"Error adding reply to ticket {ticket_id}: {e}")
+            return False
+
+    @classmethod
+    def update_ticket_status(cls, ticket_id: str, new_status: str, updated_by: str = "admin") -> dict:
+        """
+        Update ticket status and track history
+
+        Args:
+            ticket_id: Ticket ID to update
+            new_status: New status value (e.g., "open", "in_progress", "completed")
+            updated_by: Who made the update
+
+        Returns:
+            Updated ticket dict or None if failed
+        """
+        try:
+            ticket = cls.get_ticket(ticket_id)
+            if not ticket:
+                return None
+
+            # Only update if new status is different
+            if ticket.get('status') == new_status:
+                return ticket
+
+            # Update status
+            ticket['status'] = new_status
+            ticket['updated_at'] = datetime.now().isoformat()
+
+            # Track status history
+            if 'status_history' not in ticket:
+                ticket['status_history'] = []
+
+            ticket['status_history'].append({
+                'status': new_status,
+                'updated_at': datetime.now().isoformat(),
+                'updated_by': updated_by
+            })
+
+            # Save updated ticket
+            ticket_file = cls.TICKETS_DIR / f"{ticket_id}.json"
+            with open(ticket_file, 'w', encoding='utf-8') as f:
+                json.dump(ticket, f, indent=2, ensure_ascii=False)
+
+            return ticket
+        except Exception as e:
+            from utils.logger import get_logger
+            logger = get_logger(__name__)
+            logger.error(f"Error updating ticket status {ticket_id}: {e}")
+            return None
+
+    @classmethod
+    def get_tickets_by_user_email(cls, email: str) -> list:
+        """
+        Get all tickets for a specific user by email
+
+        Args:
+            email: User email address
+
+        Returns:
+            List of tickets sorted by creation date (newest first)
+        """
+        tickets = cls.list_tickets()
+        user_tickets = [t for t in tickets if t.get('email', '').lower() == email.lower()]
+        return sorted(user_tickets, key=lambda t: t.get('created_at', ''), reverse=True)
+
+    @classmethod
+    def find_similar_tickets(cls, issue_text: str, max_results: int = 3) -> list:
+        """
+        Find tickets with similar issues using keyword matching
+
+        Args:
+            issue_text: Issue text to search for
+            max_results: Maximum number of similar tickets to return
+
+        Returns:
+            List of similar tickets with similarity scores (highest first)
+        """
+        try:
+            # Get all open tickets
+            all_tickets = cls.list_tickets()
+            open_tickets = [t for t in all_tickets if t.get('status') == 'open']
+
+            if not open_tickets:
+                return []
+
+            # Extract keywords from issue_text
+            issue_words = set(w.lower() for w in issue_text.split() if len(w) > 3)
+
+            if not issue_words:
+                return []
+
+            # Calculate similarity scores
+            scored_tickets = []
+            for ticket in open_tickets:
+                ticket_words = set(w.lower() for w in ticket.get('issue', '').split() if len(w) > 3)
+                if not ticket_words:
+                    continue
+
+                # Calculate intersection and similarity percentage
+                common_words = issue_words & ticket_words
+                if common_words:
+                    similarity = len(common_words) / max(len(issue_words), len(ticket_words))
+                    # Only include if >20% similar
+                    if similarity > 0.2:
+                        scored_tickets.append((ticket, similarity))
+
+            # Sort by similarity score and return top results
+            scored_tickets.sort(key=lambda x: x[1], reverse=True)
+            return [t[0] for t in scored_tickets[:max_results]]
+
+        except Exception as e:
+            from utils.logger import get_logger
+            logger = get_logger(__name__)
+            logger.error(f"Error finding similar tickets: {e}")
+            return []
+
+    @classmethod
+    def save_ticket_source_info(cls, ticket_id: str, group_id: int, group_name: str,
+                                 group_type: str, bot_message_id: int, source_message_id: int) -> bool:
+        """
+        Save group/message tracking info to an existing ticket
+
+        Args:
+            ticket_id: Ticket to update
+            group_id: Telegram group chat ID
+            group_name: Group display name
+            group_type: "group" or "supergroup"
+            bot_message_id: Message ID of bot's confirmation
+            source_message_id: Message ID of original mention
+
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            ticket = cls.get_ticket(ticket_id)
+            if not ticket:
+                return False
+
+            ticket['group_id'] = group_id
+            ticket['group_name'] = group_name
+            ticket['group_type'] = group_type
+            ticket['bot_message_id'] = bot_message_id
+            ticket['source_message_id'] = source_message_id
+
+            ticket_file = cls.TICKETS_DIR / f"{ticket_id}.json"
+            with open(ticket_file, 'w', encoding='utf-8') as f:
+                json.dump(ticket, f, indent=2, ensure_ascii=False)
+
+            return True
+        except Exception as e:
+            from utils.logger import get_logger
+            logger = get_logger(__name__)
+            logger.error(f"Error saving ticket source info for {ticket_id}: {e}")
             return False

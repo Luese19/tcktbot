@@ -3,7 +3,7 @@
 
 import sys
 from telegram import Update
-from telegram.ext import Application, CommandHandler, ContextTypes
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
 from config.settings import settings
 from utils.logger import setup_logging, get_logger
@@ -22,58 +22,46 @@ class TelegramHelpDeskBot:
 
     def _setup_handlers(self):
         """Setup bot handlers"""
-        self.application.add_handler(get_conversation_handler())
+        # Group mention handler FIRST with group 0 (highest priority)
+        from handlers.mention_handler import GroupMentionHandler
+        self.application.add_handler(GroupMentionHandler.get_mention_handler(), group=0)
+        self.application.add_handler(GroupMentionHandler.get_media_mention_handler(), group=0)
+        self.application.add_handler(GroupMentionHandler.get_confirmation_handler(), group=0)
+        self.application.add_handler(GroupMentionHandler.get_welcome_handler(), group=0)
+        self.logger.info("Group mention, media, confirmation, and welcome handlers configured (DIRECT mode with media support)")
 
-        # Admin and lookup handlers
+        # Email registration handlers with group 1
+        from handlers.email_registration import EmailRegistrationHandler
+        self.application.add_handler(EmailRegistrationHandler.get_registration_handler(), group=1)
+        self.application.add_handler(EmailRegistrationHandler.get_check_handler(), group=1)
+        self.logger.info("Email registration handlers configured")
+
+        # Conversation handler with group 2 (lower priority)
+        self.application.add_handler(get_conversation_handler(), group=2)
+
+        # Admin and lookup handlers with group 3
         from handlers.admin import get_lookup_handler, get_admin_handler, get_admin_command_handlers
-        self.application.add_handler(get_lookup_handler())
-        self.application.add_handler(get_admin_handler())
+        self.application.add_handler(get_lookup_handler(), group=3)
+        self.application.add_handler(get_admin_handler(), group=3)
         for handler in get_admin_command_handlers():
-            self.application.add_handler(handler)
+            self.application.add_handler(handler, group=3)
 
-        # Command handlers
-        self.application.add_handler(CommandHandler("help", self.help_cmd))
-        self.application.add_handler(CommandHandler("status", self.status_cmd))
+        # Group command handlers with group 3.5 (between admin and basic commands)
+        from handlers.group_commands import get_group_command_handlers, get_group_help_handler, get_group_reply_handler
+        for handler in get_group_command_handlers():
+            self.application.add_handler(handler, group=3)
+        self.application.add_handler(get_group_reply_handler(), group=2)  # Higher priority for reply detection
+        self.logger.info("Group command handlers configured")
+
+        # Command handlers with group 4
+        self.application.add_handler(get_group_help_handler(), group=4)  # Smart help handler
+        self.application.add_handler(CommandHandler("status", self.status_cmd), group=4)
         self.application.add_error_handler(self.error_handler)
         self.logger.info("Bot handlers configured")
 
     async def error_handler(self, update: object, context: ContextTypes.DEFAULT_TYPE):
         """Handle errors"""
         self.logger.error(f"Exception while handling an update: {context.error}")
-
-    async def help_cmd(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Handle /help command"""
-        msg = f"""📋 Help Desk Bot Commands:
-
-🎫 Ticket Creation:
-/start - Create a new support ticket
-/cancel - Cancel current ticket
-
-🔍 Ticket Lookup:
-/lookup - Check your tickets by email
-
-🔐 Admin Commands:
-/admin - Login to admin panel
-/list - View all tickets
-/view {{ticket_id}} - View ticket details
-/delete {{ticket_id}} - Delete ticket
-/reply {{ticket_id}} {{message}} - Add reply to ticket
-/replies {{ticket_id}} - View ticket replies
-
-Other:
-/help - Show this message
-/status - Check bot status
-
-✨ Features:
-✓ Field validation (name, description)
-✓ File uploads (JPG, PNG, PDF, DOCX)
-✓ HTML formatted emails
-✓ Auto-priority routing
-✓ Ticket replies & notes
-
-Company: {settings.company.NAME}
-Support Email: {settings.email.SPICEWORKS_EMAIL}"""
-        await update.message.reply_text(msg)
 
     async def status_cmd(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle /status command"""
