@@ -1,0 +1,17 @@
+{
+  "ticket_id": "TKT-20260410161832",
+  "created_at": "2026-04-10T16:18:32.924641",
+  "name": "joan",
+  "email": "ernestdave22@gmail.com",
+  "department": "Accounting",
+  "issue": "Printer issue",
+  "description": "Cant print A4 paper",
+  "priority": "NORMAL",
+  "status": "open",
+  "attachments": [
+    {
+      "filename": "photo_1.jpg",
+      "type": "photo"
+    }
+  ]
+}

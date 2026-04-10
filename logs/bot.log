@@ -1,0 +1,245 @@
+2026-04-10 11:29:35 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 11:29:35 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 11:29:35 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 11:29:35 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 11:35:34 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 11:35:34 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 11:35:34 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 11:35:34 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 11:39:58 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 11:39:58 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 11:39:58 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 11:39:58 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 12:04:46 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 12:04:46 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 12:04:46 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 12:04:46 | helpdesk_bot | INFO | Support Email: help@scitechdevfusion.on.spiceworks.com
+2026-04-10 12:05:14 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 12:05:44 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 12:06:31 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 12:07:07 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 12:11:18 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 12:11:18 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 12:11:18 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 12:11:18 | helpdesk_bot | INFO | Support Email: help@scitechdevfusion.on.spiceworks.com
+2026-04-10 12:14:46 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 12:14:46 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 12:14:46 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 12:14:46 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 12:14:52 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:14:58 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:15:05 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:15:16 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:15:23 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:15:37 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:15:58 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:16:04 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:16:09 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:16:15 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:16:22 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:16:30 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:16:40 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:16:53 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:17:12 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:17:35 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:31:32 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 12:31:32 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 12:31:32 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 12:31:32 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 12:31:39 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:31:44 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:31:52 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:31:57 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:32:06 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:32:27 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:32:40 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:32:49 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:33:02 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:33:15 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:33:20 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:33:37 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:33:49 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:33:55 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:34:12 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:34:24 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:34:31 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:34:47 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:34:59 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:35:07 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:35:22 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:35:34 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:35:42 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:35:57 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:36:09 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:36:17 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:36:32 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:36:44 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:36:53 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:37:07 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:37:19 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:37:28 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:37:42 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:37:54 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:38:03 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:38:17 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:38:29 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:38:39 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:38:52 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:39:04 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:39:14 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:39:27 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:39:39 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:39:49 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:40:02 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:40:14 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:40:25 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:40:37 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:40:49 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:41:00 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:41:12 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:41:24 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:41:35 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:41:47 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:42:10 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:42:22 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:42:29 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:42:45 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:42:57 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:43:05 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:43:20 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:43:32 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:43:40 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:43:55 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:44:07 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:44:15 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:44:30 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:44:42 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:44:51 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:45:05 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:45:17 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:45:27 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:45:39 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:45:52 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:46:03 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:46:27 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:46:38 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:46:45 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:47:02 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:47:13 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:47:21 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:47:37 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:47:48 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:47:57 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:48:12 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:48:24 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:48:33 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:48:47 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:48:59 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:49:09 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:49:22 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:49:34 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:49:45 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:49:57 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:50:20 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:50:32 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:50:39 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:50:55 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:51:07 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:51:15 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:51:30 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:51:42 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:51:51 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:52:05 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:52:18 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:52:26 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:52:40 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:52:53 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:53:01 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:53:15 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:53:28 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:53:37 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:53:40 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 12:53:50 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:54:03 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:54:12 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:54:25 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:55:40 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 12:55:40 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 12:55:40 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 12:55:40 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 12:55:47 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:55:53 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:55:59 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:56:11 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:56:20 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:56:32 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:56:48 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:56:57 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:57:09 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:57:13 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:57:19 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:57:25 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:57:32 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:57:39 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:57:47 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:57:56 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:58:10 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:58:27 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:58:49 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:59:20 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 12:59:54 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 13:00:29 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 13:01:04 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 13:01:40 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 13:02:16 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 13:02:53 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 13:03:27 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 13:04:02 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 13:04:37 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 13:05:12 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 13:05:47 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-10 13:07:09 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 13:07:09 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 13:07:09 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 13:07:09 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 13:12:07 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 13:14:01 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 13:14:01 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 13:14:01 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 13:14:01 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 13:33:05 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 13:33:05 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 13:33:05 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 13:33:05 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 13:35:59 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 13:35:59 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 13:35:59 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 13:35:59 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 13:41:06 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 13:41:06 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 13:41:06 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 13:41:06 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 13:49:15 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 13:49:16 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 13:49:16 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 13:49:16 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 13:51:04 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 13:51:04 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 13:51:04 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 13:51:04 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 13:55:59 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 13:55:59 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 13:55:59 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 13:55:59 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 14:06:46 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 14:06:46 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 14:06:46 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 14:06:46 | helpdesk_bot | INFO | Support Email: helpdesk@scitechdevfusion.on.spiceworks.com
+2026-04-10 15:01:30 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 15:01:30 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 15:01:30 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 15:01:30 | helpdesk_bot | INFO | Support Email: help@scitechdevfusion.on.spiceworks.com
+2026-04-10 15:08:09 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-10 15:08:09 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-10 15:08:09 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-10 15:08:09 | helpdesk_bot | INFO | Support Email: help@scitechdevfusion.on.spiceworks.com

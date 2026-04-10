@@ -1,0 +1,17 @@
+{
+  "ticket_id": "TKT-20260410162508",
+  "created_at": "2026-04-10T16:25:08.650715",
+  "name": "joan",
+  "email": "ernestdave22@gmail.com",
+  "department": "Accounting",
+  "issue": "Computer",
+  "description": "Wont turn on no power",
+  "priority": "LOW",
+  "status": "open",
+  "attachments": [
+    {
+      "filename": "photo_1.jpg",
+      "type": "photo"
+    }
+  ]
+}
