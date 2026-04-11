@@ -5,6 +5,7 @@ Complete this checklist before deploying the bot to production.
 ## Pre-Deployment Configuration
 
 ### Security & Credentials
+
 - [ ] Create a new `.env` file (never commit the actual .env)
   - COPY from `.env.example` as template
   - **Never add actual credentials to .env.example**
@@ -16,6 +17,7 @@ Complete this checklist before deploying the bot to production.
 - [ ] Set strong credentials for email services
 
 ### Environment Variables
+
 - [ ] Set `LOG_LEVEL=INFO` for production (not DEBUG)
 - [ ] Configure absolute `LOG_FILE_PATH` for production server
 - [ ] Set appropriate `CONVERSATION_TIMEOUT_MINUTES` (suggested: 30)
@@ -23,12 +25,14 @@ Complete this checklist before deploying the bot to production.
 - [ ] Set `QUEUE_ENABLED=false` for direct ticket creation (or true for queuing)
 
 ### Feature Flags
+
 - [ ] Set `REACTION_TICKET_ENABLED=true` or `false` based on needs
 - [ ] If reaction-based tickets enabled:
   - [ ] Populate `IT_TEAM_USER_IDS` with real Telegram user IDs
   - [ ] Configure `TICKET_REACTION_TRIGGERS` (emoji list)
 
 ### Email Configuration
+
 - [ ] Test SMTP connection before deployment
 - [ ] Verify `COMPANY_EMAIL_DOMAIN` matches your company domain
 - [ ] Ensure email is sent from approved Spiceworks account
@@ -37,6 +41,7 @@ Complete this checklist before deploying the bot to production.
 ## Pre-Deployment Checks
 
 ### Code Quality
+
 - [x] All print() statements replaced with logger calls
 - [x] Configuration errors use stderr/logger (not print)
 - [ ] Review error handlers in all feature handlers
@@ -44,19 +49,22 @@ Complete this checklist before deploying the bot to production.
 - [ ] Verify all TODO/FIXME comments addressed
 
 ### Dependencies
-- [ ] All packages in requirements.txt are: 
+
+- [ ] All packages in requirements.txt are:
   - Pinned to specific versions ✅
   - Up to date (check for security patches)
   - Tested with Python 3.8+
 - [ ] `python-telegram-bot>=21.8` verified compatible
 
 ### Logging
+
 - [ ] Logging configured for rotation (10MB per file, 5 backups) ✅
 - [ ] Log directory permissions allow bot to write
 - [ ] Log level set to INFO for production (not DEBUG)
 - [ ] Sensitive info NOT logged (passwords, tokens, PII)
 
 ### Data Management
+
 - [ ] Verify `bot/data/` directory exists with proper permissions
 - [ ] Backup existing tickets/queue data before upgrade
 - [ ] Review cleanup scheduler (runs 1st of month at 00:00 UTC)
@@ -64,6 +72,7 @@ Complete this checklist before deploying the bot to production.
 ## Deployment Steps
 
 ### 1. Server Setup
+
 ```bash
 # Install Python 3.8+
 python --version  # Verify 3.8+
@@ -84,6 +93,7 @@ pip install -r requirements.txt
 ```
 
 ### 2. Configuration
+
 ```bash
 # Copy and edit .env
 cp .env.example .env
@@ -95,6 +105,7 @@ python -c "from bot.config.settings import settings; print('✅ Config loaded')"
 ```
 
 ### 3. Database/Data Directories
+
 ```bash
 # Create necessary directories
 mkdir -p logs bot/data/tickets bot/data/queue bot/data/temp
@@ -106,7 +117,9 @@ chmod 755 logs bot/data bot/data/*
 ### 4. Service Installation (Linux/Ubuntu)
 
 #### Option A: Systemd Service (Recommended)
+
 Create `/etc/systemd/system/ticketingbot.service`:
+
 ```ini
 [Unit]
 Description=Telegram Ticketing Bot
@@ -128,6 +141,7 @@ WantedBy=multi-user.target
 ```
 
 Start service:
+
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable ticketingbot
@@ -135,9 +149,11 @@ sudo systemctl start ticketingbot
 ```
 
 #### Option B: Docker (Enterprise)
+
 See `DOCKER_DEPLOYMENT.md` for containerized deployment.
 
 ### 5. Verification
+
 ```bash
 # Check bot is running
 sudo systemctl status ticketingbot
@@ -150,6 +166,7 @@ tail -f logs/bot.log
 ```
 
 ### 6. Post-Deployment Tests
+
 - [ ] Bot responds to `/start` command in private chat
 - [ ] Bot accepts ticket creation workflow
 - [ ] Email integration works (check inbox)
@@ -162,20 +179,24 @@ tail -f logs/bot.log
 ## Monitoring & Maintenance
 
 ### Daily
+
 - [ ] Check logs for errors: `tail logs/bot.log | grep ERROR`
 - [ ] Monitor Spiceworks inbox for tickets
 
 ### Weekly
+
 - [ ] Review log file size (should rotate at 10MB)
 - [ ] Check for unhandled exceptions
 - [ ] Verify bot is still responsive
 
 ### Monthly
+
 - [ ] Cleanup scheduler runs (1st of month, 00:00 UTC)
 - [ ] Check database cleanup completed
 - [ ] Archive old logs
 
 ### Security
+
 - [ ] Never expose `.env` file or credentials
 - [ ] Use strong ADMIN_PASSWORD
 - [ ] Restrict bot token exposure
@@ -185,6 +206,7 @@ tail -f logs/bot.log
 ## Rollback Plan
 
 If deployment fails:
+
 1. Stop the bot: `sudo systemctl stop ticketingbot`
 2. Restore previous backup
 3. Check logs for root cause

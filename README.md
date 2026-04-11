@@ -17,13 +17,21 @@ A professional Telegram bot for creating and managing support tickets with intel
 
 ## Setup 🚀
 
+### Quick Deployment Guides
+
+Choose your deployment platform:
+
+- 🪟 **[Windows PC Deployment](WINDOWS_DEPLOYMENT.md)** - Run on your Windows PC (easiest for beginners)
+- 🐧 **[Linux/Ubuntu Deployment](UBUNTU_DEPLOYMENT.md)** - Server deployment on Linux
+- 🐳 **[Docker Deployment](DOCKER_DEPLOYMENT.md)** - Containerized deployment (Docker Desktop or servers)
+
 ### Prerequisites
 - Python 3.8+
 - pip (Python package manager)
 - Telegram Bot Token (from @BotFather)
 - Gmail App Password for email sending
 
-### Installation
+### Quick Start (All Platforms)
 
 1. **Clone the repository**
 ```bash
@@ -43,22 +51,20 @@ pip install -r requirements.txt
 ```
 
 4. **Configure .env file**
-```
-TELEGRAM_BOT_TOKEN=your_token
-COMPANY_NAME=Your Company
-COMPANY_EMAIL_DOMAIN=company.com
-SMTP_SERVER=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USERNAME=your_email@gmail.com
-SMTP_PASSWORD=your_app_password
-SPICEWORKS_EMAIL=support@company.com
-ADMIN_PASSWORD=secure_password
+```bash
+# Copy template
+cp .env.example .env
+
+# Edit with your values
+# nano .env  (Linux/Mac) or notepad .env (Windows)
 ```
 
 5. **Run the bot**
 ```bash
 python bot/main.py
 ```
+
+**→ For detailed Windows setup, see [WINDOWS_DEPLOYMENT.md](WINDOWS_DEPLOYMENT.md)**
 
 ## Commands 📖
 

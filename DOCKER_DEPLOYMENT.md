@@ -11,6 +11,7 @@ Deploy the Telegram Ticketing Bot using Docker for easy setup and management.
 ## Quick Start
 
 ### 1. Prepare Environment
+
 ```bash
 # Copy and configure .env
 cp .env.example .env
@@ -19,6 +20,7 @@ nano .env
 ```
 
 ### 2. Build and Run
+
 ```bash
 # Build the Docker image
 docker-compose build
@@ -31,6 +33,7 @@ docker-compose logs -f ticketingbot
 ```
 
 ### 3. Verify Running
+
 ```bash
 # Check status
 docker-compose ps
@@ -45,12 +48,14 @@ docker-compose down
 ## Docker Configuration
 
 ### Image Details
+
 - **Base Image:** `python:3.11-slim` (minimal, security-focused)
 - **User:** Non-root user `botuser` (1000:1000)
 - **Security:** No new privileges, read-only filesystem where possible
 - **Size:** ~200 MB (slim base image)
 
 ### Volumes
+
 ```yaml
 volumes:
   - ./logs:/app/logs           # Persistent logs
@@ -58,14 +63,17 @@ volumes:
 ```
 
 ### Resource Limits
+
 - **CPU:** Limited to 1 core (max), 0.5 core (reserved)
 - **Memory:** Limited to 512 MB (max), 256 MB (reserved)
 - Adjust values in `docker-compose.yml` based on your hardware
 
 ### Restart Policy
+
 - `restart: unless-stopped` - Automatically restart on failure, unless manually stopped
 
 ### Logging
+
 - **Driver:** json-file
 - **Max size:** 10 MB per file
 - **Backups:** 5 previous logs kept
@@ -73,6 +81,7 @@ volumes:
 ## Production Deployment
 
 ### Option 1: Docker Swarm (Simple)
+
 ```bash
 # Initialize swarm
 docker swarm init
@@ -85,9 +94,11 @@ docker service logs -f ticketingbot_ticketingbot
 ```
 
 ### Option 2: Kubernetes (Advanced)
+
 See `kubernetes/` directory for Helm charts or kustomize templates.
 
 ### Option 3: Managed Container Services
+
 - **AWS ECS:** Use ECR registry, ECS task definition
 - **Google Cloud Run:** Deploy containerized bot
 - **Azure Container Instances:** Simple serverless deployment
@@ -95,6 +106,7 @@ See `kubernetes/` directory for Helm charts or kustomize templates.
 ## Building Custom Images
 
 ### Build for specific architecture
+
 ```bash
 # ARM64 (Raspberry Pi, Apple Silicon)
 docker buildx build --platform linux/arm64 -t ticketingbot:arm64 .
@@ -107,6 +119,7 @@ docker buildx build --platform linux/amd64,linux/arm64 -t ticketingbot:latest .
 ```
 
 ### Tag and push to registry
+
 ```bash
 # Tag image
 docker tag ticketingbot:latest myregistry.azurecr.io/ticketingbot:latest
@@ -118,6 +131,7 @@ docker push myregistry.azurecr.io/ticketingbot:latest
 ## Monitoring
 
 ### Check Bot Health
+
 ```bash
 # View real-time logs
 docker-compose logs -f --tail=50 ticketingbot
@@ -130,6 +144,7 @@ docker-compose ps
 ```
 
 ### View Log Files
+
 ```bash
 # Logs directory on host
 ls -la logs/
@@ -144,6 +159,7 @@ docker-compose logs --timestamps ticketingbot
 ## Troubleshooting
 
 ### Bot won't start
+
 ```bash
 # Check logs
 docker-compose logs ticketingbot
@@ -158,6 +174,7 @@ sudo chown -R $USER:$USER logs bot/data
 ```
 
 ### High memory usage
+
 ```bash
 # Check memory stats
 docker stats ticketingbot
@@ -167,6 +184,7 @@ docker stats ticketingbot
 ```
 
 ### Port conflicts (if using ports)
+
 ```bash
 # List port usage
 sudo netstat -tlnp | grep 8000
@@ -179,6 +197,7 @@ ports:
 ## Backup and Restore
 
 ### Backup Data
+
 ```bash
 # Backup volumes
 docker run --rm -v ticketingbot_logs:/logs -v ticketingbot_data:/data \
@@ -189,6 +208,7 @@ cp .env .env.backup
 ```
 
 ### Restore Data
+
 ```bash
 # Stop bot
 docker-compose down
@@ -228,17 +248,20 @@ docker-compose up -d
 ## Environment Variables (Docker)
 
 All environment variables come from `.env` file:
+
 ```bash
 env_file:
   - .env
 ```
 
 Alternatively, pass via command line:
+
 ```bash
 docker run -e TELEGRAM_BOT_TOKEN=xxxxx ticketingbot:latest
 ```
 
 Or use Docker secrets (Swarm/Kubernetes):
+
 ```bash
 docker secret create telegram_token -
 docker service create --secret telegram_token ticketingbot
@@ -247,6 +270,7 @@ docker service create --secret telegram_token ticketingbot
 ## Performance Tuning
 
 ### Increase Resources (if needed)
+
 ```yaml
 deploy:
   resources:
@@ -259,11 +283,13 @@ deploy:
 ```
 
 ### Optimize Startup
+
 - Reduce LOG_LEVEL to INFO in production
 - Pre-build images on CI/CD (faster deployment)
 - Use `docker-compose up -d` for background startup
 
 ### Monitor Performance
+
 ```bash
 # CPU/Memory usage
 docker stats --no-stream ticketingbot
@@ -278,6 +304,7 @@ docker images ticketingbot --format "{{.Size}}"
 ## Updates and Upgrades
 
 ### Update Bot Code
+
 ```bash
 # Pull latest code
 git pull origin main
@@ -290,6 +317,7 @@ docker-compose up -d
 ```
 
 ### Update Dependencies
+
 1. Update `requirements.txt`
 2. Rebuild: `docker-compose build --no-cache`
 3. Test in staging
@@ -298,6 +326,7 @@ docker-compose up -d
 ## Cleanup
 
 ### Remove unused resources
+
 ```bash
 # Stop containers
 docker-compose down
@@ -312,6 +341,7 @@ docker system prune -a
 ## Integration with CI/CD
 
 ### GitHub Actions
+
 ```yaml
 - name: Build and push Docker image
   uses: docker/build-push-action@v4
@@ -322,6 +352,7 @@ docker system prune -a
 ```
 
 ### GitLab CI
+
 ```yaml
 build-docker:
   image: docker:latest
