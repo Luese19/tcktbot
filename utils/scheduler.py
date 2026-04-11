@@ -10,7 +10,7 @@ class SchedulerManager:
     """Manages background scheduled tasks"""
 
     def __init__(self):
-        self.scheduler = BackgroundScheduler()
+        self.scheduler = BackgroundScheduler(daemon=True)  # Run as daemon thread
         self._is_running = False
 
     def start_cleanup_scheduler(
@@ -37,8 +37,8 @@ class SchedulerManager:
             # Add cleanup job - runs on 1st of each month at specified time
             trigger = CronTrigger(day=day, hour=hour, minute=minute)
             self.scheduler.add_job(
-                CleanupService.run_full_cleanup,
-                trigger,
+                func=self._safe_cleanup_wrapper,
+                trigger=trigger,
                 id="monthly_cleanup",
                 name="Monthly Data Cleanup",
                 max_instances=1,  # Prevent overlapping executions
@@ -59,17 +59,26 @@ class SchedulerManager:
             logger.error(f"Error starting cleanup scheduler: {e}", exc_info=True)
             return False
 
+    @staticmethod
+    def _safe_cleanup_wrapper():
+        """Wrapper to safely execute cleanup"""
+        try:
+            from services.cleanup_service import CleanupService
+            CleanupService.run_full_cleanup()
+        except Exception as e:
+            logger.error(f"Error in scheduled cleanup: {e}", exc_info=True)
+
     def stop_scheduler(self) -> bool:
         """Stop the scheduler"""
         try:
-            if self._is_running and self.scheduler.running:
-                self.scheduler.shutdown(wait=True)
+            if self._is_running:
+                self.scheduler.shutdown(wait=False)  # Non-blocking shutdown
                 self._is_running = False
                 logger.info("Scheduler stopped")
                 return True
             return False
         except Exception as e:
-            logger.error(f"Error stopping scheduler: {e}", exc_info=True)
+            logger.warning(f"Error stopping scheduler: {e}")
             return False
 
     def trigger_cleanup_now(self) -> dict:
@@ -100,3 +109,4 @@ class SchedulerManager:
         except Exception as e:
             logger.error(f"Error getting jobs: {e}")
             return []
+

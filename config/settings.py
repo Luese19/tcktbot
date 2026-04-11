@@ -56,6 +56,13 @@ class AppConfig:
         self.REQUEST_TIMEOUT_MINUTES = int(os.getenv('REQUEST_TIMEOUT_MINUTES', '60'))
         self.CONCURRENT_TICKET_CREATION = int(os.getenv('CONCURRENT_TICKET_CREATION', '1'))
 
+        # Reaction-based ticket creation settings
+        self.REACTION_TICKET_ENABLED = os.getenv('REACTION_TICKET_ENABLED', 'false').lower() == 'true'
+        it_team_str = os.getenv('IT_TEAM_USER_IDS', '')
+        self.IT_TEAM_USER_IDS = [int(uid) for uid in it_team_str.split(',') if uid.strip()]
+        reaction_str = os.getenv('TICKET_REACTION_TRIGGERS', '🎫,👍,✅')
+        self.TICKET_REACTION_TRIGGERS = [r.strip() for r in reaction_str.split(',') if r.strip()]
+
         Path(self.LOG_FILE_PATH).parent.mkdir(parents=True, exist_ok=True)
 
 class Settings:

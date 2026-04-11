@@ -7,7 +7,6 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 
 from config.settings import settings
 from utils.logger import setup_logging, get_logger
-from utils.scheduler import SchedulerManager
 from handlers.conversation import get_conversation_handler
 
 class TelegramHelpDeskBot:
@@ -18,13 +17,53 @@ class TelegramHelpDeskBot:
             raise RuntimeError("Configuration not loaded")
 
         self.logger = setup_logging(settings.app.LOG_LEVEL, settings.app.LOG_FILE_PATH)
+
+        # Build application with message_reaction updates enabled
         self.application = Application.builder().token(settings.bot.TOKEN).build()
-        self.scheduler_manager = SchedulerManager()
+
+        # Enable message reaction updates
+        self.application.post_init = self._post_init
+
+        self.scheduler_manager = None  # Initialize after application is ready
         self._setup_handlers()
+
+    async def _post_init(self, application: Application) -> None:
+        """Initialize allowed_updates after application is built"""
+        self.logger.info("Configuring allowed updates to include message reactions...")
+        # This ensures the bot listens for message_reaction updates
+        await application.bot.set_my_commands([])  # Sync commands
+        self.logger.info("Message reactions enabled in polling")
 
     def _setup_handlers(self):
         """Setup bot handlers"""
-        # Group mention handler FIRST with group 0 (highest priority)
+        # Message cache handler - cache all group messages for reaction lookups
+        async def cache_group_messages(update: Update, context: ContextTypes.DEFAULT_TYPE):
+            """Cache group messages for later retrieval when reactions occur"""
+            if update.message and update.effective_chat.type in ["group", "supergroup"]:
+                from services.message_cache_service import MessageCacheService
+                message_text = update.message.text or update.message.caption or ""
+                sender_name = update.message.from_user.full_name if update.message.from_user else "Unknown"
+
+                if message_text:  # Only cache if there's text
+                    MessageCacheService.store_message(
+                        update.effective_chat.id,
+                        update.message.message_id,
+                        message_text,
+                        sender_name
+                    )
+            return True
+
+        from telegram.ext import TypeHandler
+        self.application.add_handler(TypeHandler(Update, cache_group_messages), group=-99)
+        self.logger.info("Message cache handler enabled")
+
+        # Reaction handler FIRST with group -1 (highest priority)
+        if settings.app.REACTION_TICKET_ENABLED:
+            from handlers.reaction_handler import ReactionTicketHandler
+            self.application.add_handler(ReactionTicketHandler.get_reaction_handler(), group=-1)
+            self.logger.info("Reaction-based ticket creation handler configured")
+
+        # Group mention handler with group 0 (highest priority)
         from handlers.mention_handler import GroupMentionHandler
         self.application.add_handler(GroupMentionHandler.get_mention_handler(), group=0)
         self.application.add_handler(GroupMentionHandler.get_media_mention_handler(), group=0)
@@ -80,23 +119,51 @@ Support Email: {settings.email.SPICEWORKS_EMAIL}"""
         self.logger.info(f"Company: {settings.company.NAME}")
         self.logger.info(f"Support Email: {settings.email.SPICEWORKS_EMAIL}")
 
-        # Start the cleanup scheduler (runs on 1st of each month at 00:00 UTC)
-        if self.scheduler_manager.start_cleanup_scheduler(day=1, hour=0, minute=0):
-            self.logger.info("Cleanup scheduler started successfully")
-            scheduled_jobs = self.scheduler_manager.get_jobs()
-            for job_id, job_name, job_trigger in scheduled_jobs:
-                self.logger.info(f"  Scheduled job: {job_name} ({job_id})")
-        else:
-            self.logger.warning("Failed to start cleanup scheduler")
-
-        # Start bot polling
-        self.logger.info("Bot polling started")
+        # Initialize scheduler after application is fully built
         try:
-            self.application.run_polling(drop_pending_updates=True)
+            from utils.scheduler import SchedulerManager
+
+            self.scheduler_manager = SchedulerManager()
+
+            # Start the cleanup scheduler (runs on 1st of each month at 00:00 UTC)
+            if self.scheduler_manager.start_cleanup_scheduler(day=1, hour=0, minute=0):
+                self.logger.info("Cleanup scheduler started successfully")
+                scheduled_jobs = self.scheduler_manager.get_jobs()
+                for job_id, job_name, job_trigger in scheduled_jobs:
+                    self.logger.info(f"  Scheduled job: {job_name} ({job_id})")
+            else:
+                self.logger.warning("Failed to start cleanup scheduler")
+        except Exception as e:
+            self.logger.warning(f"Could not initialize scheduler: {e}")
+            self.scheduler_manager = None
+
+        # Start bot polling with message reactions enabled
+        self.logger.info("Bot polling started - listening for messages, commands, and reactions")
+        try:
+            # explicitly allow message_reaction updates
+            self.application.run_polling(
+                drop_pending_updates=True,
+                allowed_updates=[
+                    'message',
+                    'message_reaction',
+                    'message_reaction_count',
+                    'callback_query',
+                    'my_chat_member',
+                    'chat_member'
+                ]
+            )
+        except KeyboardInterrupt:
+            self.logger.info("Bot interrupted by user")
+        except Exception as e:
+            self.logger.error(f"Error in bot polling: {e}", exc_info=True)
         finally:
             # Stop scheduler when bot stops
-            self.scheduler_manager.stop_scheduler()
-            self.logger.info("Cleanup scheduler stopped")
+            if self.scheduler_manager:
+                try:
+                    self.scheduler_manager.stop_scheduler()
+                    self.logger.info("Cleanup scheduler stopped")
+                except Exception as e:
+                    self.logger.warning(f"Error stopping scheduler: {e}")
 
 def main():
     """Main entry point"""
