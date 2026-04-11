@@ -168,18 +168,22 @@ Support Email: {settings.email.SPICEWORKS_EMAIL}"""
 def main():
     """Main entry point"""
     try:
-        print("Initializing Telegram Help Desk Bot...")
+        # Setup early logging for startup messages
+        from utils.logger import setup_logging
+        logger = setup_logging('INFO', './logs/bot.log')
+
+        logger.info("Initializing Telegram Help Desk Bot...")
         if settings is None:
-            print("ERROR: Configuration not loaded. Check your .env file.")
+            logger.error("Configuration not loaded. Check your .env file.")
             sys.exit(1)
 
         bot = TelegramHelpDeskBot()
         bot.run()
 
     except KeyboardInterrupt:
-        print("\nBot stopped by user")
+        logger.info("Bot stopped by user")
     except Exception as e:
-        print(f"Error: {e}")
+        logger.critical(f"Fatal error: {e}", exc_info=True)
         sys.exit(1)
 
 if __name__ == "__main__":

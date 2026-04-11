@@ -83,5 +83,8 @@ class Settings:
 try:
     settings = Settings()
 except ValueError as e:
-    print(f"Configuration Error: {e}")
+    # Configuration errors are critical and logged at startup
+    import sys
+    sys.stderr.write(f"FATAL: Configuration Error: {e}\n")
+    sys.stderr.flush()
     settings = None

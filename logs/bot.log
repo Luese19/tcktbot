@@ -637,3 +637,74 @@
 2026-04-11 15:28:07 | helpdesk_bot | INFO | Configuring allowed updates to include message reactions...
 2026-04-11 15:28:07 | helpdesk_bot | INFO | Message reactions enabled in polling
 2026-04-11 15:54:02 | helpdesk_bot | INFO | Cleanup scheduler stopped
+2026-04-11 15:54:13 | helpdesk_bot | INFO | Message cache handler enabled
+2026-04-11 15:54:13 | helpdesk_bot | INFO | Reaction-based ticket creation handler configured
+2026-04-11 15:54:13 | helpdesk_bot | INFO | Group mention, media, confirmation, and welcome handlers configured (DIRECT mode with media support)
+2026-04-11 15:54:13 | helpdesk_bot | INFO | Email registration handlers configured
+2026-04-11 15:54:13 | helpdesk_bot | INFO | Group command handlers configured
+2026-04-11 15:54:13 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-11 15:54:13 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-11 15:54:13 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-11 15:54:13 | helpdesk_bot | INFO | Support Email: help@scitechdevfusion.on.spiceworks.com
+2026-04-11 15:54:13 | helpdesk_bot | INFO | Cleanup scheduler started successfully
+2026-04-11 15:54:13 | helpdesk_bot | INFO |   Scheduled job: Monthly Data Cleanup (monthly_cleanup)
+2026-04-11 15:54:13 | helpdesk_bot | INFO | Bot polling started - listening for messages, commands, and reactions
+2026-04-11 15:54:15 | helpdesk_bot | INFO | Configuring allowed updates to include message reactions...
+2026-04-11 15:54:15 | helpdesk_bot | INFO | Message reactions enabled in polling
+2026-04-11 17:06:24 | helpdesk_bot | INFO | Initializing Telegram Help Desk Bot...
+2026-04-11 17:06:27 | helpdesk_bot | INFO | Message cache handler enabled
+2026-04-11 17:06:27 | helpdesk_bot | INFO | Reaction-based ticket creation handler configured
+2026-04-11 17:06:27 | helpdesk_bot | INFO | Group mention, media, confirmation, and welcome handlers configured (DIRECT mode with media support)
+2026-04-11 17:06:27 | helpdesk_bot | INFO | Email registration handlers configured
+2026-04-11 17:06:27 | helpdesk_bot | INFO | Group command handlers configured
+2026-04-11 17:06:27 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-11 17:06:27 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-11 17:06:27 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-11 17:06:27 | helpdesk_bot | INFO | Support Email: help@scitechdevfusion.on.spiceworks.com
+2026-04-11 17:06:27 | helpdesk_bot | INFO | Cleanup scheduler started successfully
+2026-04-11 17:06:27 | helpdesk_bot | INFO |   Scheduled job: Monthly Data Cleanup (monthly_cleanup)
+2026-04-11 17:06:27 | helpdesk_bot | INFO | Bot polling started - listening for messages, commands, and reactions
+2026-04-11 17:06:28 | helpdesk_bot | INFO | Configuring allowed updates to include message reactions...
+2026-04-11 17:06:29 | helpdesk_bot | INFO | Message reactions enabled in polling
+2026-04-11 17:06:30 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:06:34 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:06:36 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:06:41 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:06:42 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:06:48 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:06:50 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:06:54 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:06:58 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:07:04 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:07:10 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:07:20 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:07:35 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:07:39 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:07:57 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:08:01 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:08:28 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:08:32 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:09:03 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:09:07 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:09:38 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:09:42 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:10:13 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:10:17 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-11 17:10:48 | helpdesk_bot | INFO | Cleanup scheduler stopped
+2026-04-11 17:10:59 | helpdesk_bot | INFO | Cleanup scheduler stopped
+2026-04-11 17:11:17 | helpdesk_bot | INFO | Initializing Telegram Help Desk Bot...
+2026-04-11 17:11:20 | helpdesk_bot | INFO | Message cache handler enabled
+2026-04-11 17:11:20 | helpdesk_bot | INFO | Reaction-based ticket creation handler configured
+2026-04-11 17:11:20 | helpdesk_bot | INFO | Group mention, media, confirmation, and welcome handlers configured (DIRECT mode with media support)
+2026-04-11 17:11:20 | helpdesk_bot | INFO | Email registration handlers configured
+2026-04-11 17:11:20 | helpdesk_bot | INFO | Group command handlers configured
+2026-04-11 17:11:20 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-11 17:11:20 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-11 17:11:20 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-11 17:11:20 | helpdesk_bot | INFO | Support Email: help@scitechdevfusion.on.spiceworks.com
+2026-04-11 17:11:20 | helpdesk_bot | INFO | Cleanup scheduler started successfully
+2026-04-11 17:11:20 | helpdesk_bot | INFO |   Scheduled job: Monthly Data Cleanup (monthly_cleanup)
+2026-04-11 17:11:20 | helpdesk_bot | INFO | Bot polling started - listening for messages, commands, and reactions
+2026-04-11 17:11:21 | helpdesk_bot | INFO | Configuring allowed updates to include message reactions...
+2026-04-11 17:11:22 | helpdesk_bot | INFO | Message reactions enabled in polling
+2026-04-11 17:12:53 | helpdesk_bot | INFO | Cleanup scheduler stopped
