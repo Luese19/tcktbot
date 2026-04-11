@@ -1,0 +1,59 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+*.egg
+dist/
+build/
+.Python
+venv/
+env/
+.venv
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs (created at runtime)
+logs/
+*.log
+
+# Data (mounted as volume)
+bot/data/
+bot/logs/
+
+# Documentation
+*.md
+TRIGGERS_AND_FLOWCHART.txt
+
+# Testing
+.pytest_cache
+.coverage
+htmlcov/
+
+# OS
+.DS_Store
+Thumbs.db
+.Spotlight-V100
+
+# Bot specific
+start_bot.bat
+quick_debug.py
+verify_setup.py
+state_persistence/
+temp_files/
+
+# Environment (should be passed as volume)
+.env
+.env.local
+.env.*.local

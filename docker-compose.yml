@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  ticketingbot:
+    build: .
+    container_name: ticketingbot
+
+    # Environment from .env file
+    env_file:
+      - .env
+
+    # Volume mounts
+    volumes:
+      # Persistent logs
+      - ./logs:/app/logs
+      # Persistent data (tickets, queue)
+      - ./bot/data:/app/bot/data
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+    # Restart policy
+    restart: unless-stopped
+
+    # Logging
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+
+    # Read-only filesystem (except for logs and data)
+    read_only: true
+    tmpfs:
+      - /tmp
+      - /run
