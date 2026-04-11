@@ -39,21 +39,65 @@ class GroupCommandHandlers:
                 )
                 return
 
+            # Status emoji mapping
+            status_emoji = {
+                "open": "🔴",
+                "in_progress": "🟡",
+                "waiting": "⏳",
+                "completed": "🟢",
+                "closed": "🟢"
+            }
+
+            # Check if in group and update any closed/waiting tickets in group messages
+            chat = update.effective_chat
+            if chat.type in ["group", "supergroup"]:
+                for ticket in user_tickets:
+                    ticket_status = ticket.get('status', 'open')
+
+                    # Check if ticket is closed or waiting and has group tracking info
+                    if ticket_status in ['closed', 'waiting']:
+                        source_info = TicketService.get_ticket_source_info(ticket.get('ticket_id'))
+
+                        if source_info and source_info.get('group_id') and source_info.get('bot_message_id'):
+                            try:
+                                # Build updated message with new status
+                                ticket_id = ticket.get('ticket_id')
+                                created_date = ticket.get('created_at', 'N/A')[:10]
+
+                                updated_msg = f"""✅ **Ticket Created!**
+
+**Ticket ID:** `{ticket_id}`
+**Created:** {created_date}
+**Status:** {ticket_status.upper()}
+**Issue:** {ticket.get('issue', 'N/A')[:100]}
+
+Your team will handle this shortly."""
+
+                                # Update the original message in the group
+                                await context.bot.edit_message_text(
+                                    chat_id=source_info['group_id'],
+                                    message_id=source_info['bot_message_id'],
+                                    text=updated_msg,
+                                    parse_mode="Markdown"
+                                )
+                                logger.info(f"Updated ticket {ticket_id} status in group {source_info['group_id']}")
+
+                            except Exception as e:
+                                logger.warning(f"Could not update ticket message in group: {e}")
+                                # Continue processing other tickets even if one update fails
+
             # Show last 5 tickets
             response = f"🎫 Your Tickets ({len(user_tickets)} total, showing last 5):\n\n"
             for ticket in user_tickets[:5]:
-                status_emoji = {
-                    "open": "🔴",
-                    "in_progress": "🟡",
-                    "completed": "🟢"
-                }.get(ticket.get('status', 'open'), "⚪")
+                ticket_status = ticket.get('status', 'open')
+                emoji = status_emoji.get(ticket_status, "⚪")
 
                 created_date = ticket.get('created_at', 'N/A')[:10]
 
                 response += (
-                    f"{status_emoji} **{ticket.get('ticket_id')}**\n"
+                    f"{emoji} **{ticket.get('ticket_id')}**\n"
                     f"   Issue: {ticket.get('issue', 'N/A')[:40]}\n"
-                    f"   Status: {ticket.get('status', 'open').capitalize()} | "
+                    f"   Status: {ticket_status.capitalize()} | "
                     f"Priority: {ticket.get('priority', 'N/A')} | "
                     f"Created: {created_date}\n\n"
                 )
@@ -195,82 +239,81 @@ class GroupCommandHandlers:
                 bot_info = await context.bot.get_me()
                 bot_mention = f"@{bot_info.username}" if bot_info.username else "@bot"
 
-                msg = f"""👋 **Help Desk Bot - Group Commands**
+                msg = f"""👋 <b>Help Desk Bot - Group Commands</b>
 
-**📢 Create Ticket:**
+<b>📢 Create Ticket:</b>
 Mention me in any message:
-```
-{bot_mention} my issue here
-```
+<code>{bot_mention} my issue here</code>
+
 Attachments supported (photos, documents)
 
-**📋 View Your Tickets:**
-`/my_tickets` - See all your open tickets
+<b>📋 View Your Tickets:</b>
+<code>/my_tickets</code> - See all your open tickets
 
-**🔍 Check Ticket Status:**
-`/ticket_status {{ticket_id}}`
-Example: `/ticket_status TKT-20260410225504`
+<b>🔍 Check Ticket Status:</b>
+<code>/ticket_status TICKET_ID</code>
+Example: <code>/ticket_status TKT-20260410225504</code>
 
-**💬 View Ticket Updates:**
-`/ticket_replies {{ticket_id}}` - See all comments and updates
+<b>💬 View Ticket Updates:</b>
+<code>/ticket_replies TICKET_ID</code> - See all comments and updates
 
-**Quick Tips:**
-✓ Reply to my ticket message to add updates
-✓ Include attachments when mentioning me
-✓ Check similar issues before creating new tickets
-✓ Use /register_email to link your company email
+<b>Quick Tips:</b>
+• Reply to my ticket message to add updates
+• Include attachments when mentioning me
+• Check similar issues before creating new tickets
+• Use /register_email to link your company email
 
-Need help? Use `/help` for full command list."""
+Need help? Use <code>/help</code> for full command list."""
 
-                await update.message.reply_text(msg, parse_mode="Markdown")
+                await update.message.reply_text(msg, parse_mode="HTML")
             else:
                 # In DM, show standard help
                 bot_info = await context.bot.get_me()
                 bot_mention = f"@{bot_info.username}" if bot_info.username else "@bot_name"
 
-                msg = f"""📋 **Help Desk Bot Commands**
+                msg = f"""📋 <b>Help Desk Bot Commands</b>
 
-**📧 Email Registration:**
-`/register_email` - Register your company email
-`/my_email` - Check your registered email
+<b>📧 Email Registration:</b>
+<code>/register_email</code> - Register your company email
+<code>/my_email</code> - Check your registered email
 
-**🎫 Create Ticket:**
-`/start` - Create a new support ticket (DM only)
-`/cancel` - Cancel current ticket
+<b>🎫 Create Ticket:</b>
+<code>/start</code> - Create a new support ticket (DM only)
+<code>/cancel</code> - Cancel current ticket
 
-**📢 Group Mentions:**
+<b>📢 Group Mentions:</b>
 Mention the bot in a group:
-```
-{bot_mention} your issue here
-```
-Example: `{bot_mention} office internet down`
+<code>{bot_mention} your issue here</code>
+
+Example: <code>{bot_mention} office internet down</code>
 Tickets created instantly!
 
-**📋 Check Tickets:**
-`/my_tickets` - View your tickets
-`/ticket_status {{id}}` - Get ticket details
-`/ticket_replies {{id}}` - View ticket updates
+<b>📋 Check Tickets:</b>
+<code>/my_tickets</code> - View your tickets
+<code>/ticket_status TICKET_ID</code> - Get ticket details
+<code>/ticket_replies TICKET_ID</code> - View ticket updates
 
-**🔐 Admin Commands:**
-`/admin` - Login to admin panel
-`/list` - View all tickets
-`/view {{ticket_id}}` - View ticket details
-`/delete {{ticket_id}}` - Delete ticket
-`/reply {{ticket_id}} {{message}}` - Add reply to ticket
-`/replies {{ticket_id}}` - View ticket replies
+<b>🔐 Admin Commands:</b>
+<code>/admin</code> - Login to admin panel
+<code>/list</code> - View all tickets
+<code>/view TICKET_ID</code> - View ticket details
+<code>/delete TICKET_ID</code> - Delete ticket
+<code>/reply TICKET_ID MESSAGE</code> - Add reply to ticket
+<code>/replies TICKET_ID</code> - View ticket replies
+<code>/group_tickets</code> - Show tickets from a group
 
-**Features:**
-✓ Email registration for employees
-✓ Automatic confirmation emails
-✓ File uploads (JPG, PNG, PDF, DOCX)
-✓ Auto-priority routing
-✓ Instant ticket creation
-✓ Group collaboration with replies
+<b>Features:</b>
+• Email registration for employees
+• Automatic confirmation emails
+• File uploads (JPG, PNG, PDF, DOCX)
+• Auto-priority routing
+• Instant ticket creation
+• Group collaboration with replies
 
 Company: {settings.company.NAME}
 Support: {settings.email.SPICEWORKS_EMAIL}"""
 
-                await update.message.reply_text(msg, parse_mode="Markdown")
+                await update.message.reply_text(msg, parse_mode="HTML")
 
         except Exception as e:
             logger.error(f"Error in group_help_command: {e}", exc_info=True)

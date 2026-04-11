@@ -7,6 +7,7 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 
 from config.settings import settings
 from utils.logger import setup_logging, get_logger
+from utils.scheduler import SchedulerManager
 from handlers.conversation import get_conversation_handler
 
 class TelegramHelpDeskBot:
@@ -18,6 +19,7 @@ class TelegramHelpDeskBot:
 
         self.logger = setup_logging(settings.app.LOG_LEVEL, settings.app.LOG_FILE_PATH)
         self.application = Application.builder().token(settings.bot.TOKEN).build()
+        self.scheduler_manager = SchedulerManager()
         self._setup_handlers()
 
     def _setup_handlers(self):
@@ -77,7 +79,24 @@ Support Email: {settings.email.SPICEWORKS_EMAIL}"""
         self.logger.info("Starting Telegram Help Desk Bot...")
         self.logger.info(f"Company: {settings.company.NAME}")
         self.logger.info(f"Support Email: {settings.email.SPICEWORKS_EMAIL}")
-        self.application.run_polling(drop_pending_updates=True)
+
+        # Start the cleanup scheduler (runs on 1st of each month at 00:00 UTC)
+        if self.scheduler_manager.start_cleanup_scheduler(day=1, hour=0, minute=0):
+            self.logger.info("Cleanup scheduler started successfully")
+            scheduled_jobs = self.scheduler_manager.get_jobs()
+            for job_id, job_name, job_trigger in scheduled_jobs:
+                self.logger.info(f"  Scheduled job: {job_name} ({job_id})")
+        else:
+            self.logger.warning("Failed to start cleanup scheduler")
+
+        # Start bot polling
+        self.logger.info("Bot polling started")
+        try:
+            self.application.run_polling(drop_pending_updates=True)
+        finally:
+            # Stop scheduler when bot stops
+            self.scheduler_manager.stop_scheduler()
+            self.logger.info("Cleanup scheduler stopped")
 
 def main():
     """Main entry point"""

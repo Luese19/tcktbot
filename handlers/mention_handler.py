@@ -22,6 +22,32 @@ class GroupMentionHandler:
     """Handle bot mentions in groups to create tickets directly"""
 
     @staticmethod
+    def _verify_button_permission(user_id: int, callback_key: str) -> tuple:
+        """
+        Verify user has permission to click confirmation button.
+
+        Args:
+            user_id: The user clicking the button
+            callback_key: The key for the pending confirmation
+
+        Returns:
+            (is_authorized: bool, error_message: str)
+        """
+        if callback_key not in _pending_confirmations:
+            return False, "❌ This button has expired. Please try again."
+
+        ctx = _pending_confirmations[callback_key]
+        if ctx.get('user_id') != user_id:
+            logger.warning(
+                f"SECURITY: Unauthorized button click - "
+                f"User {user_id} attempted to act on confirmation for user {ctx.get('user_id')} "
+                f"in chat {ctx.get('chat_id')}"
+            )
+            return False, "❌ This button was created for someone else. You can start your own ticket with /start or mention me again."
+
+        return True, ""
+
+    @staticmethod
     async def handle_member_status_update(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle when bot is added to a group"""
         try:
@@ -34,32 +60,36 @@ class GroupMentionHandler:
             # Check if bot was added to group
             if my_chat_member.new_chat_member.status == "member":
                 if chat.type in ["group", "supergroup"]:
+                    # Get bot username safely
+                    bot_info = await context.bot.get_me()
+                    bot_username = bot_info.username or "bot"
+
                     welcome_msg = f"""👋 Welcome! I'm the Help Desk Bot.
 
-**How to use me:**
+<b>How to use me:</b>
 Mention me in a message with your issue, for example:
 
-@{context.bot.username} help office wifi not working
+@{bot_username} help office wifi not working
 
 I'll create a ticket in Spiceworks instantly!
 
-**Quick examples:**
-- @{context.bot.username} internet down
-- @{context.bot.username} printer broken
-- @{context.bot.username} need access to server
+<b>Quick examples:</b>
+• @{bot_username} internet down
+• @{bot_username} printer broken
+• @{bot_username} need access to server
 
-**Pro Tips:**
-✓ You can attach photos/files with your mention
-✓ I'll warn if similar issues already exist
-✓ Reply to my ticket message to add updates
-✓ Use /my_tickets to see your tickets
+<b>Pro Tips:</b>
+• You can attach photos/files with your mention
+• I'll warn if similar issues already exist
+• Reply to my ticket message to add updates
+• Use /my_tickets to see your tickets
 
 Type /help for full commands."""
 
                     await context.bot.send_message(
                         chat_id=chat.id,
                         text=welcome_msg,
-                        parse_mode="Markdown"
+                        parse_mode="HTML"
                     )
                     logger.info(f"Welcome message sent to group {chat.id}")
         except Exception as e:
@@ -108,6 +138,11 @@ Type /help for full commands."""
 
             logger.info(f"DETECTED BOT MENTION! Processing...")
 
+            # Get user info immediately
+            user_id = message.from_user.id
+            user_name = message.from_user.full_name or "User"
+            logger.info(f"User: {user_name} (ID: {user_id})")
+
             # Check for multiple user mentions (bulk mention support)
             other_mentions = GroupMentionHandler._extract_mentioned_users(text, bot_username)
 
@@ -115,7 +150,7 @@ Type /help for full commands."""
             all_mentions = other_mentions + [bot_username]
             issue_text = GroupMentionHandler._extract_issue_text_from_bulk_mention(text, all_mentions)
 
-            if not issue_text:
+            if not issue_text or not issue_text.strip():
                 logger.warning("Issue text is empty after removing mention")
                 await message.reply_text(
                     f"Please mention an issue:\n\n@{bot_username} your issue here",
@@ -133,12 +168,6 @@ Type /help for full commands."""
                 return
 
             logger.info(f"Issue extracted: {issue_text[:50]}")
-
-            # Get user info
-            user_id = message.from_user.id
-            user_name = message.from_user.full_name or "User"
-
-            logger.info(f"User: {user_name} (ID: {user_id})")
 
             # Send "processing" message
             proc_msg = await message.reply_text(
@@ -190,10 +219,10 @@ Type /help for full commands."""
                 success_msg = f"""✅ **Ticket Created!**
 
 **Ticket ID:** `{ticket_id}`
-**Created:** {created_date}
+**Created:** {created_date}\n
 **Issue:** {issue_text}
 
-Your support team will handle this shortly."""
+Your Tech Support team will handle this shortly."""
 
                 await proc_msg.edit_text(
                     success_msg,
@@ -258,7 +287,7 @@ Your support team will handle this shortly."""
             keyboard = [
                 [
                     InlineKeyboardButton("✅ Create anyway", callback_data=f"create_ticket_{user_id}_{chat_id}"),
-                    InlineKeyboardButton("❌ Cancel", callback_data=f"cancel_ticket_{user_id}")
+                    InlineKeyboardButton("❌ Cancel", callback_data=f"cancel_ticket_{user_id}_{chat_id}")
                 ]
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
@@ -289,10 +318,9 @@ Your support team will handle this shortly."""
         """Handle button press for similar tickets confirmation"""
         try:
             query = update.callback_query
-            await query.answer()
-
+            clicker_user_id = query.from_user.id
             data = query.data
-            logger.info(f"Button pressed: {data}")
+            logger.info(f"Button pressed by user {clicker_user_id}: {data}")
 
             # Parse the button action
             if data.startswith("create_ticket_"):
@@ -302,6 +330,16 @@ Your support team will handle this shortly."""
                     user_id = int(parts[2])
                     chat_id = int(parts[3])
                     callback_key = f"{user_id}_{chat_id}"
+
+                    # Permission verification
+                    is_authorized, error_msg = GroupMentionHandler._verify_button_permission(
+                        clicker_user_id, callback_key
+                    )
+                    if not is_authorized:
+                        await query.answer(error_msg, show_alert=True)
+                        return
+
+                    await query.answer()
 
                     if callback_key in _pending_confirmations:
                         ctx = _pending_confirmations[callback_key]
@@ -329,9 +367,9 @@ Your support team will handle this shortly."""
                             await query.edit_message_text(
                                 f"✅ **Ticket Created!**\n\n"
                                 f"**Ticket ID:** `{ticket_id}`\n"
-                                f"**Created:** {created_date}\n"
+                                f"**Created:** {created_date}\n\n"
                                 f"**Issue:** {ctx['issue_text']}\n\n"
-                                f"Your team will handle this shortly.",
+                                f"Your Tech Support team will handle this shortly.",
                                 parse_mode="Markdown"
                             )
 
@@ -356,10 +394,35 @@ Your support team will handle this shortly."""
                         del _pending_confirmations[callback_key]
 
             elif data.startswith("cancel_ticket_"):
-                await query.edit_message_text("❌ Ticket creation cancelled.")
+                # Extract user_id and chat_id from cancel button data
+                parts = data.split("_")
+                if len(parts) >= 4:
+                    user_id = int(parts[2])
+                    chat_id = int(parts[3])
+                    callback_key = f"{user_id}_{chat_id}"
+
+                    # Permission verification for cancel
+                    is_authorized, error_msg = GroupMentionHandler._verify_button_permission(
+                        clicker_user_id, callback_key
+                    )
+                    if not is_authorized:
+                        await query.answer(error_msg, show_alert=True)
+                        return
+
+                    await query.answer()
+                    await query.edit_message_text("❌ Ticket creation cancelled.")
+
+                    if callback_key in _pending_confirmations:
+                        del _pending_confirmations[callback_key]
+                else:
+                    await query.answer("❌ Invalid button data.", show_alert=True)
 
         except Exception as e:
             logger.error(f"Error handling confirmation button: {e}", exc_info=True)
+            try:
+                await query.answer("Error processing your request.", show_alert=True)
+            except:
+                logger.error("Could not send error response")
 
     @staticmethod
     async def _download_attachments(message, user_id: int) -> List[dict]:
@@ -565,7 +628,7 @@ Your support team will handle this shortly."""
                     await context.bot.set_message_reaction(
                         chat_id=chat_id,
                         message_id=message_id,
-                        reaction=[ReactionType(type="emoji", emoji=reaction)],
+                        reaction=[ReactionType(emoji=reaction)],
                         is_big=False
                     )
                     # Add slight delay between reactions to avoid rate limiting

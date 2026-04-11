@@ -12,6 +12,25 @@ class ConvHandlers:
     ticket_data = {}
 
     @staticmethod
+    def _verify_ticket_ownership(user_id: int) -> tuple:
+        """
+        Verify user owns the ticket data in current flow.
+
+        Args:
+            user_id: Telegram user ID to verify
+
+        Returns:
+            (is_authorized: bool, error_message: str)
+        """
+        if user_id not in ConvHandlers.ticket_data:
+            return False, "❌ No active ticket found. Please start with /start"
+
+        if ConvHandlers.ticket_data[user_id] is None:
+            return False, "❌ Your ticket session has expired. Please start with /start"
+
+        return True, ""
+
+    @staticmethod
     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_id = update.effective_user.id # type: ignore
         ConvHandlers.ticket_data[user_id] = {}
@@ -27,6 +46,14 @@ class ConvHandlers:
     async def dept_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
         query = update.callback_query
         user_id = query.from_user.id
+
+        # Permission verification
+        is_authorized, error_msg = ConvHandlers._verify_ticket_ownership(user_id)
+        if not is_authorized:
+            await query.answer(error_msg, show_alert=True)
+            logger.warning(f"Unauthorized dept_select attempt by user {user_id}")
+            return ConversationState.DEPT
+
         dept = query.data.replace("dept_", "")
 
         ConvHandlers.ticket_data[user_id]['department'] = dept
@@ -212,6 +239,14 @@ class ConvHandlers:
     async def priority_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
         query = update.callback_query
         user_id = query.from_user.id
+
+        # Permission verification
+        is_authorized, error_msg = ConvHandlers._verify_ticket_ownership(user_id)
+        if not is_authorized:
+            await query.answer(error_msg, show_alert=True)
+            logger.warning(f"Unauthorized priority_select attempt by user {user_id}")
+            return ConversationState.PRIORITY
+
         priority = query.data.replace("priority_", "")
 
         ConvHandlers.ticket_data[user_id]['priority'] = priority
@@ -261,6 +296,13 @@ Submit this ticket?"""
     async def confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
         query = update.callback_query
         user_id = query.from_user.id
+
+        # Permission verification
+        is_authorized, error_msg = ConvHandlers._verify_ticket_ownership(user_id)
+        if not is_authorized:
+            await query.answer(error_msg, show_alert=True)
+            logger.warning(f"Unauthorized confirm attempt by user {user_id}")
+            return ConversationState.CONFIRM
 
         if query.data == "confirm_submit":
             await query.answer()

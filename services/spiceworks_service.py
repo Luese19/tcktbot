@@ -20,7 +20,7 @@ class SpiceworksService:
     SUPPORTED_DOC_TYPES = {'.pdf', '.doc', '.docx', '.txt', '.xlsx', '.xls'}
 
     @classmethod
-    def send_ticket_to_spiceworks(cls, ticket_data: dict, ticket_id: str, attachments: list = None) -> bool:
+    def send_ticket_to_spiceworks(cls, ticket_data: dict, ticket_id: str, attachments: list = None) -> bool: # type: ignore
         """
         Send ticket to Spiceworks via email with retry logic
 
@@ -193,23 +193,23 @@ Description:
     @staticmethod
     def _attach_inline_image(msg: MIMEMultipart, file_path: str, cid: str):
         """Attach an image inline to email message"""
-        file_path = Path(file_path)
+        file_path = Path(file_path) # type: ignore
         with open(file_path, 'rb') as img_file:
             img = MIMEImage(img_file.read())
             img.add_header('Content-ID', f'<{cid}>')
-            img.add_header('Content-Disposition', 'inline', filename=file_path.name)
+            img.add_header('Content-Disposition', 'inline', filename=file_path.name) # type: ignore
             msg.attach(img)
 
     @staticmethod
     def _attach_file(msg: MIMEMultipart, file_path: str):
         """Attach a file to email message"""
-        file_path = Path(file_path)
+        file_path = Path(file_path) # type: ignore
         with open(file_path, 'rb') as attachment:
             part = MIMEBase('application', 'octet-stream')
             part.set_payload(attachment.read())
 
         encoders.encode_base64(part)
-        part.add_header('Content-Disposition', f'attachment; filename= {file_path.name}')
+        part.add_header('Content-Disposition', f'attachment; filename= {file_path.name}') # type: ignore
         msg.attach(part)
 
     @classmethod

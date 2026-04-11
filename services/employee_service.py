@@ -159,3 +159,71 @@ class EmployeeService:
     def is_registered(cls, user_id: int) -> bool:
         """Check if user has registered email"""
         return cls.get_employee_email(user_id) is not None
+
+    @classmethod
+    def get_inactive_users(cls, months_inactive: int = 4) -> list:
+        """
+        Get list of users with no ticket activity in N+ months
+
+        Args:
+            months_inactive: Months of inactivity to check (default: 4)
+
+        Returns:
+            List of user_info dicts for inactive users
+        """
+        from datetime import datetime, timedelta
+        from services.ticket_service import TicketService
+
+        try:
+            all_users = cls.get_all_employees()
+            if not all_users:
+                return []
+
+            cutoff_date = datetime.now() - timedelta(days=30 * months_inactive)
+            inactive_users = []
+
+            for user_info in all_users:
+                user_email = user_info.get('email')
+                if not user_email:
+                    continue
+
+                # Get all tickets for this user
+                user_tickets = TicketService.get_tickets_by_user_email(user_email)
+
+                # Check if user has any recent activity
+                has_recent_activity = False
+
+                if user_tickets:
+                    for ticket in user_tickets:
+                        try:
+                            created_at_str = ticket.get('created_at')
+                            if created_at_str:
+                                created_at = datetime.fromisoformat(created_at_str)
+                                if created_at >= cutoff_date:
+                                    has_recent_activity = True
+                                    break
+                        except (ValueError, TypeError):
+                            continue
+
+                # Add to inactive list if no recent activity found
+                if not has_recent_activity:
+                    inactive_users.append(user_info)
+
+            return inactive_users
+
+        except Exception as e:
+            logger.error(f"Error getting inactive users: {e}")
+            return []
+
+    @classmethod
+    def delete_user_registration(cls, user_id: int) -> bool:
+        """
+        Delete/unregister a user (wrapper for unregister_email)
+
+        Args:
+            user_id: Telegram user ID to delete
+
+        Returns:
+            bool: True if deletion successful
+        """
+        return cls.unregister_email(user_id)

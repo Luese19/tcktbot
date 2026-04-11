@@ -41,7 +41,17 @@ DEPARTMENT_AUTO_ROUTING = {
             "server": "URGENT",
             "network": "HIGH",
             "offline": "URGENT",
-            "password": "NORMAL"
+            "password": "NORMAL",
+            "access": "NORMAL",
+            "email": "NORMAL",
+            "computer": "HIGH",
+            "laptop": "HIGH",
+            "printer": "HIGH",
+            "software": "HIGH",
+            "hardware": "HIGH",
+            "urgent": "URGENT",
+            "asap": "HIGH",
+
         }
     },
     "Accounting": {

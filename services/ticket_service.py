@@ -246,6 +246,46 @@ class TicketService:
         return sorted(user_tickets, key=lambda t: t.get('created_at', ''), reverse=True)
 
     @classmethod
+    def get_tickets_older_than(cls, days: int) -> list:
+        """
+        Get all tickets created more than N days ago
+
+        Args:
+            days: Number of days (tickets older than this will be returned)
+
+        Returns:
+            List of ticket IDs that are older than specified days
+        """
+        from datetime import datetime, timedelta
+
+        try:
+            tickets = cls.list_tickets()
+            cutoff_date = datetime.now() - timedelta(days=days)
+            old_tickets = []
+
+            for ticket in tickets:
+                try:
+                    created_at_str = ticket.get('created_at')
+                    if created_at_str:
+                        created_at = datetime.fromisoformat(created_at_str)
+                        if created_at < cutoff_date:
+                            old_tickets.append(ticket.get('ticket_id'))
+                except (ValueError, TypeError):
+                    from utils.logger import get_logger
+
+                    logger = get_logger(__name__)
+                    logger.warning(f"Could not parse created_at for {ticket.get('ticket_id')}")
+                    continue
+
+            return old_tickets
+        except Exception as e:
+            from utils.logger import get_logger
+
+            logger = get_logger(__name__)
+            logger.error(f"Error getting tickets older than {days} days: {e}")
+            return []
+
+    @classmethod
     def find_similar_tickets(cls, issue_text: str, max_results: int = 3) -> list:
         """
         Find tickets with similar issues using keyword matching
@@ -295,6 +335,36 @@ class TicketService:
             logger = get_logger(__name__)
             logger.error(f"Error finding similar tickets: {e}")
             return []
+
+    @classmethod
+    def get_ticket_source_info(cls, ticket_id: str) -> dict:
+        """
+        Get group/message tracking info from a ticket
+
+        Returns:
+            Dict with group_id, bot_message_id, group_name, group_type if available, else empty dict
+        """
+        try:
+            ticket = cls.get_ticket(ticket_id)
+            if not ticket:
+                return {}
+
+            source_info = {}
+            if 'group_id' in ticket:
+                source_info['group_id'] = ticket['group_id']
+            if 'bot_message_id' in ticket:
+                source_info['bot_message_id'] = ticket['bot_message_id']
+            if 'group_name' in ticket:
+                source_info['group_name'] = ticket['group_name']
+            if 'group_type' in ticket:
+                source_info['group_type'] = ticket['group_type']
+
+            return source_info
+        except Exception as e:
+            from utils.logger import get_logger
+            logger = get_logger(__name__)
+            logger.error(f"Error getting ticket source info for {ticket_id}: {e}")
+            return {}
 
     @classmethod
     def save_ticket_source_info(cls, ticket_id: str, group_id: int, group_name: str,
