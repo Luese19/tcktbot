@@ -15,6 +15,3 @@ requests==2.31.0
 
 # Scheduling & Cleanup
 apscheduler==3.10.4
-
-# Optional: For production deployment
-gunicorn==21.2.0

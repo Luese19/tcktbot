@@ -2,6 +2,7 @@
 """Telegram Help Desk Bot - Main Entry Point"""
 
 import sys
+import asyncio
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
@@ -86,6 +87,13 @@ class TelegramHelpDeskBot:
         self.application.add_handler(get_admin_handler(), group=3)
         for handler in get_admin_command_handlers():
             self.application.add_handler(handler, group=3)
+        
+        # Schedule handler with group 3 (admin only)
+        from handlers.schedule_handler import get_schedule_handler, ScheduleHandler
+        self.application.add_handler(get_schedule_handler(), group=3)
+        self.application.add_handler(CommandHandler('tasks', ScheduleHandler.list_tasks_command), group=3)
+        self.application.add_handler(CommandHandler('delete', ScheduleHandler.delete_task_command), group=3)
+        self.logger.info("Schedule handler configured")
 
         # Group command handlers with group 3.5 (between admin and basic commands)
         from handlers.group_commands import get_group_command_handlers, get_group_help_handler, get_group_reply_handler
@@ -120,22 +128,40 @@ Support Email: {settings.email.SPICEWORKS_EMAIL}"""
         self.logger.info(f"Support Email: {settings.email.SPICEWORKS_EMAIL}")
 
         # Initialize scheduler after application is fully built
+        scheduler_manager = None
+        task_manager = None
+        
         try:
-            from utils.scheduler import SchedulerManager
+            from utils.scheduler import SchedulerManager, TaskManager
 
-            self.scheduler_manager = SchedulerManager()
+            scheduler_manager = SchedulerManager()
 
             # Start the cleanup scheduler (runs on 1st of each month at 00:00 UTC)
-            if self.scheduler_manager.start_cleanup_scheduler(day=1, hour=0, minute=0):
+            if scheduler_manager.start_cleanup_scheduler(day=1, hour=0, minute=0):
                 self.logger.info("Cleanup scheduler started successfully")
-                scheduled_jobs = self.scheduler_manager.get_jobs()
+                scheduled_jobs = scheduler_manager.get_jobs()
                 for job_id, job_name, job_trigger in scheduled_jobs:
                     self.logger.info(f"  Scheduled job: {job_name} ({job_id})")
             else:
                 self.logger.warning("Failed to start cleanup scheduler")
+
+            # Initialize TaskManager
+            task_manager = TaskManager(scheduler_manager.scheduler)
+            self.logger.info("Task Manager initialized")
+            
+            # Store task_manager in bot_data for schedule handler access
+            self.application.bot_data['task_manager'] = task_manager
+
         except Exception as e:
-            self.logger.warning(f"Could not initialize scheduler: {e}")
-            self.scheduler_manager = None
+            self.logger.warning(f"Could not initialize scheduler/task manager: {e}")
+            scheduler_manager = None
+            task_manager = None
+
+        # Ensure event loop exists (Python 3.10+ compatibility)
+        try:
+            asyncio.get_event_loop()
+        except RuntimeError:
+            asyncio.set_event_loop(asyncio.new_event_loop())
 
         # Start bot polling with message reactions enabled
         self.logger.info("Bot polling started - listening for messages, commands, and reactions")
