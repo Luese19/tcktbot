@@ -34,9 +34,6 @@ class ScheduleState:
 
 class ScheduleHandler:
     """Handler for scheduling tasks"""
-    
-    # Admin user IDs - set these in .env or hardcode
-    ADMIN_IDS = [123456789]  # Replace with actual admin IDs from .env
 
     @staticmethod
     async def schedule_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -45,7 +42,7 @@ class ScheduleHandler:
         
         # Check if user is admin
         import os
-        admin_ids_str = os.getenv('ADMIN_IDS', '')
+        admin_ids_str = os.getenv('ADMIN_USER_IDS', '')
         admin_ids = [int(x.strip()) for x in admin_ids_str.split(',') if x.strip()]
         
         if user_id not in admin_ids:
@@ -481,7 +478,7 @@ class ScheduleHandler:
         
         # Check if user is admin
         import os
-        admin_ids_str = os.getenv('ADMIN_IDS', '')
+        admin_ids_str = os.getenv('ADMIN_USER_IDS', '')
         admin_ids = [int(x.strip()) for x in admin_ids_str.split(',') if x.strip()]
         
         if user_id not in admin_ids:
@@ -525,7 +522,7 @@ class ScheduleHandler:
         
         # Check if user is admin
         import os
-        admin_ids_str = os.getenv('ADMIN_IDS', '')
+        admin_ids_str = os.getenv('ADMIN_USER_IDS', '')
         admin_ids = [int(x.strip()) for x in admin_ids_str.split(',') if x.strip()]
         
         if user_id not in admin_ids:

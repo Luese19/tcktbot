@@ -12,7 +12,7 @@ from utils.logger import setup_logging, get_logger
 from handlers.conversation import get_conversation_handler
 
 # Environment variables
-TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
+TELEGRAM_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
 COMPANY_NAME = os.environ.get("COMPANY_NAME")
 SUPPORT_EMAIL = os.environ.get("SUPPORT_EMAIL")
 
