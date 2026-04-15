@@ -62,11 +62,18 @@ Your request will be processed shortly."""
         handlers = []
 
         if settings.app.QUEUE_ENABLED:
-            # Queue status (for admins)
-            handlers.append(
-                CommandHandler("queue_status", QueueAdminHandler.queue_status,
-                              filters=filters.User(user_id=settings.app.ADMIN_USER_IDS) if settings.app.ADMIN_USER_IDS else None)
-            )
+            # Queue status (for admins only)
+            admin_ids = settings.app.get_admin_user_ids()
+            if admin_ids:
+                handlers.append(
+                    CommandHandler("queue_status", QueueAdminHandler.queue_status,
+                                  filters=filters.User(user_id=list(admin_ids)))
+                )
+            else:
+                # If no admins configured, allow anyone (not recommended)
+                handlers.append(
+                    CommandHandler("queue_status", QueueAdminHandler.queue_status)
+                )
 
             # My position (for everyone)
             handlers.append(

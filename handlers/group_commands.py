@@ -273,42 +273,59 @@ Need help? Use <code>/help</code> for full command list."""
 
                 msg = f"""📋 <b>Help Desk Bot Commands</b>
 
-<b>📧 Email Registration:</b>
+<b>📧 User Commands:</b>
+<code>/start</code> - Create a new support ticket (DM only)
 <code>/register_email</code> - Register your company email
 <code>/my_email</code> - Check your registered email
-
-<b>🎫 Create Ticket:</b>
-<code>/start</code> - Create a new support ticket (DM only)
+<code>/lookup</code> - Find your tickets by email
 <code>/cancel</code> - Cancel current ticket
 
 <b>📢 Group Mentions:</b>
 Mention the bot in a group:
 <code>{bot_mention} your issue here</code>
-
 Example: <code>{bot_mention} office internet down</code>
 Tickets created instantly!
 
-<b>📋 Check Tickets:</b>
-<code>/my_tickets</code> - View your tickets
+<b>📋 Ticket Management:</b>
+<code>/my_tickets</code> - View your open tickets
 <code>/ticket_status TICKET_ID</code> - Get ticket details
 <code>/ticket_replies TICKET_ID</code> - View ticket updates
 
-<b>🔐 Admin Commands:</b>
+<b>📊 Queue Commands (if enabled):</b>
+<code>/my_position</code> - Check your position in queue
+<code>/queue_status</code> - View queue statistics (admin)
+
+<b>🔐 Admin Panel Commands:</b>
 <code>/admin</code> - Login to admin panel
 <code>/list</code> - View all tickets
 <code>/view TICKET_ID</code> - View ticket details
-<code>/delete TICKET_ID</code> - Delete ticket
+<code>/delete TICKET_ID</code> - Delete a ticket
 <code>/reply TICKET_ID MESSAGE</code> - Add reply to ticket
 <code>/replies TICKET_ID</code> - View ticket replies
-<code>/group_tickets</code> - Show tickets from a group
+<code>/group_tickets</code> - Show tickets from current group
+<code>/status</code> - Check bot status
 
-<b>Features:</b>
+<b>⏰ Task Scheduling (admin only):</b>
+<code>/schedule</code> - Create scheduled tasks
+<code>/tasks</code> - List all scheduled tasks
+
+<b>👥 User Management (super admin only):</b>
+<code>/add_admin USER_ID</code> - Add admin user
+<code>/remove_admin USER_ID</code> - Remove admin user
+<code>/list_admins</code> - View all admins
+<code>/add_it_member USER_ID</code> - Add IT team member
+<code>/remove_it_member USER_ID</code> - Remove IT team member
+<code>/list_it_members</code> - View all IT members
+
+<b>✨ Features:</b>
 • Email registration for employees
 • Automatic confirmation emails
 • File uploads (JPG, PNG, PDF, DOCX)
 • Auto-priority routing
 • Instant ticket creation
-• Group collaboration with replies
+• Message reaction tickets (IT team)
+• Task scheduling & automation
+• Dynamic user management
 
 Company: {settings.company.NAME}
 Support: {settings.email.SPICEWORKS_EMAIL}"""

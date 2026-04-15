@@ -40,7 +40,10 @@ class AppConfig:
         self.MAX_ATTACHMENTS_PER_TICKET = int(os.getenv('MAX_ATTACHMENTS_PER_TICKET', '5'))
         # Admin settings
         self.ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', 'admin123')
-        self.ADMIN_USER_IDS = [int(uid) for uid in os.getenv('ADMIN_USER_IDS', '').split(',') if uid.strip()]
+        # Super admins: immutable list from .env (required to add/remove other users)
+        self.SUPER_ADMIN_USER_IDS = [int(uid) for uid in os.getenv('ADMIN_USER_IDS', '').split(',') if uid.strip()]
+        # For backward compatibility
+        self.ADMIN_USER_IDS = self.SUPER_ADMIN_USER_IDS
 
         # Field validation
         self.MIN_NAME_LENGTH = int(os.getenv('MIN_NAME_LENGTH', '2'))
@@ -59,11 +62,26 @@ class AppConfig:
         # Reaction-based ticket creation settings
         self.REACTION_TICKET_ENABLED = os.getenv('REACTION_TICKET_ENABLED', 'false').lower() == 'true'
         it_team_str = os.getenv('IT_TEAM_USER_IDS', '')
-        self.IT_TEAM_USER_IDS = [int(uid) for uid in it_team_str.split(',') if uid.strip()]
+        # Super IT team: immutable list from .env
+        self.SUPER_IT_TEAM_USER_IDS = [int(uid) for uid in it_team_str.split(',') if uid.strip()]
+        # For backward compatibility
+        self.IT_TEAM_USER_IDS = self.SUPER_IT_TEAM_USER_IDS
         reaction_str = os.getenv('TICKET_REACTION_TRIGGERS', '🎫,👍,✅')
         self.TICKET_REACTION_TRIGGERS = [r.strip() for r in reaction_str.split(',') if r.strip()]
 
         Path(self.LOG_FILE_PATH).parent.mkdir(parents=True, exist_ok=True)
+
+    def get_admin_user_ids(self) -> set:
+        """Get all admin user IDs (super admins + dynamic admins from user_manager)"""
+        # Lazy import to avoid circular dependency
+        from services.user_manager_service import UserManagerService
+        return UserManagerService.get_admin_users(self.SUPER_ADMIN_USER_IDS)
+
+    def get_it_team_user_ids(self) -> set:
+        """Get all IT team user IDs (super IT team + dynamic members from user_manager)"""
+        # Lazy import to avoid circular dependency
+        from services.user_manager_service import UserManagerService
+        return UserManagerService.get_it_team_users() | set(self.SUPER_IT_TEAM_USER_IDS)
 
 class Settings:
     """Main settings class"""

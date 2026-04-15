@@ -36,10 +36,11 @@ class ReactionTicketHandler:
     @staticmethod
     def _is_it_team_member(user_id: int) -> bool:
         """Check if user is an IT team member"""
-        if not settings.app.IT_TEAM_USER_IDS:
+        it_team_ids = settings.app.get_it_team_user_ids()
+        if not it_team_ids:
             logger.warning("IT_TEAM_USER_IDS not configured")
             return False
-        return user_id in settings.app.IT_TEAM_USER_IDS
+        return user_id in it_team_ids
 
     @staticmethod
     def _should_trigger_ticket(reaction_emoji: str) -> bool:

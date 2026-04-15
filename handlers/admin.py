@@ -473,6 +473,8 @@ def get_admin_handler():
 
 def get_admin_command_handlers():
     """Create admin command handlers"""
+    from handlers.user_manager_handler import get_user_manager_command_handlers
+    
     return [
         CommandHandler("list", AdminHandlers.list_tickets_command),
         CommandHandler("view", AdminHandlers.view_ticket_command),
@@ -480,4 +482,4 @@ def get_admin_command_handlers():
         CommandHandler("reply", AdminHandlers.reply_command),
         CommandHandler("replies", AdminHandlers.view_replies_command),
         CommandHandler("group_tickets", AdminHandlers.group_tickets_command),
-    ]
+    ] + get_user_manager_command_handlers()

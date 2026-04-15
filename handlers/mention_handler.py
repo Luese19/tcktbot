@@ -64,27 +64,9 @@ class GroupMentionHandler:
                     bot_info = await context.bot.get_me()
                     bot_username = bot_info.username or "bot"
 
-                    welcome_msg = f"""👋 Welcome! I'm the Help Desk Bot.
+                    welcome_msg = f"""👋 Welcome! I'm the IT Help Desk Bot, proudly created by the IT Department to assist you. My main goal is to help you submit support tickets quickly and efficiently, ensuring your issues are addressed as soon as possible.
 
-<b>How to use me:</b>
-Mention me in a message with your issue, for example:
-
-@{bot_username} help office wifi not working
-
-I'll create a ticket in Spiceworks instantly!
-
-<b>Quick examples:</b>
-• @{bot_username} internet down
-• @{bot_username} printer broken
-• @{bot_username} need access to server
-
-<b>Pro Tips:</b>
-• You can attach photos/files with your mention
-• I'll warn if similar issues already exist
-• Reply to my ticket message to add updates
-• Use /my_tickets to see your tickets
-
-Type /help for full commands."""
+For direct support, you can also reach our team at help@marquismaintenance.on.spiceworks.com. Thank you for contacting the IT Help Desk!"""
 
                     await context.bot.send_message(
                         chat_id=chat.id,

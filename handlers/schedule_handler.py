@@ -40,10 +40,9 @@ class ScheduleHandler:
         """Start the scheduling flow"""
         user_id = update.effective_user.id
         
-        # Check if user is admin
-        import os
-        admin_ids_str = os.getenv('ADMIN_USER_IDS', '')
-        admin_ids = [int(x.strip()) for x in admin_ids_str.split(',') if x.strip()]
+        # Check if user is admin using runtime admin list
+        from config.settings import settings
+        admin_ids = settings.app.get_admin_user_ids()
         
         if user_id not in admin_ids:
             await update.message.reply_text("❌ You don't have permission to schedule tasks. Contact your administrator.")
