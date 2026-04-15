@@ -2,6 +2,7 @@
 """Telegram Help Desk Bot - Main Entry Point"""
 
 import sys
+import os
 import asyncio
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
@@ -9,6 +10,11 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 from config.settings import settings
 from utils.logger import setup_logging, get_logger
 from handlers.conversation import get_conversation_handler
+
+# Environment variables
+TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
+COMPANY_NAME = os.environ.get("COMPANY_NAME")
+SUPPORT_EMAIL = os.environ.get("SUPPORT_EMAIL")
 
 class TelegramHelpDeskBot:
     """Main bot application class"""

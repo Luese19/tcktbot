@@ -1,0 +1,25 @@
+{
+  "ticket_id": "TKT-20260415111741",
+  "created_at": "2026-04-15T11:17:41.749179",
+  "updated_at": "2026-04-15T11:17:41.749194",
+  "name": "Yobii Kazama",
+  "email": "taguranluese@gmail.com",
+  "department": "General Support",
+  "issue": "/start",
+  "description": "/start",
+  "priority": "Normal",
+  "status": "open",
+  "attachments": [],
+  "status_history": [
+    {
+      "status": "open",
+      "updated_at": "2026-04-15T11:17:41.749202",
+      "updated_by": "system"
+    }
+  ],
+  "group_id": -5288762379,
+  "group_name": "ops-maintenance-triage",
+  "group_type": "group",
+  "bot_message_id": 412,
+  "source_message_id": 411
+}

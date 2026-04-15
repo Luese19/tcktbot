@@ -30,10 +30,6 @@ class ScheduleState:
     
     MESSAGE_TARGET = 20
     MESSAGE_TEXT = 21
-    
-    REMINDER_RECIPIENTS = 30
-    REMINDER_TITLE = 31
-    REMINDER_BODY = 32
 
 
 class ScheduleHandler:
@@ -68,7 +64,6 @@ class ScheduleHandler:
         keyboard = [
             [InlineKeyboardButton("📝 Create Ticket", callback_data="task_create_ticket")],
             [InlineKeyboardButton("💬 Send Message", callback_data="task_send_message")],
-            [InlineKeyboardButton("🔔 Send Reminder", callback_data="task_send_reminder")],
             [InlineKeyboardButton("❌ Cancel", callback_data="task_cancel")]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
@@ -123,13 +118,13 @@ class ScheduleHandler:
         
         # Request schedule details
         if schedule_type == 'once':
-            msg = "📅 <b>One-time Task</b>\n\nEnter the date and time:\n<code>YYYY-MM-DD HH:MM</code>\n\nExample: <code>2026-04-20 14:30</code>"
+            msg = "📅 <b>One-time Task</b>\n\nEnter the date and time (must be in the future):\n<code>YYYY-MM-DD HH:MM AM/PM</code>\n\nToday: <code>" + datetime.now().strftime('%Y-%m-%d') + "</code>\nExample: <code>2026-04-14 6:35 PM</code>"
         elif schedule_type == 'daily':
-            msg = "⏰ <b>Daily Task</b>\n\nEnter the time:\n<code>HH:MM</code>\n\nExample: <code>09:00</code>"
+            msg = "⏰ <b>Daily Task</b>\n\nEnter the time:\n<code>HH:MM AM/PM</code>\n\nExample: <code>9:00 AM</code>"
         elif schedule_type == 'weekly':
-            msg = "📅 <b>Weekly Task</b>\n\nEnter day (0=Mon, 1=Tue, ..., 6=Sun) and time:\n<code>D HH:MM</code>\n\nExample: <code>1 10:00</code> (Tuesday at 10:00)"
+            msg = "📅 <b>Weekly Task</b>\n\nEnter day (0=Mon, 1=Tue, ..., 6=Sun) and time:\n<code>D HH:MM AM/PM</code>\n\nExample: <code>1 10:00 AM</code> (Tuesday at 10:00 AM)"
         elif schedule_type == 'monthly':
-            msg = "📊 <b>Monthly Task</b>\n\nEnter day of month (1-31) and time:\n<code>D HH:MM</code>\n\nExample: <code>15 14:00</code> (15th at 2:00 PM)"
+            msg = "📊 <b>Monthly Task</b>\n\nEnter day of month (1-31) and time:\n<code>D HH:MM AM/PM</code>\n\nExample: <code>15 2:00 PM</code> (15th at 2:00 PM)"
         elif schedule_type == 'cron':
             msg = "⏰ <b>Custom Cron Expression</b>\n\nEnter cron expression:\n<code>M H D M D</code>\n\nExample: <code>0 9 * * 1</code> (Every Monday at 9:00 AM)"
         
@@ -144,8 +139,19 @@ class ScheduleHandler:
         
         try:
             if schedule_type == 'once':
-                # Parse: YYYY-MM-DD HH:MM
-                dt = datetime.strptime(user_input, '%Y-%m-%d %H:%M')
+                # Parse: YYYY-MM-DD HH:MM AM/PM
+                dt = datetime.strptime(user_input, '%Y-%m-%d %I:%M %p')
+                
+                # Check if the scheduled time is in the past
+                if dt < datetime.now():
+                    await update.message.reply_text(
+                        f"❌ The scheduled time ({user_input}) is in the past!\n\n"
+                        f"Please enter a future date and time in format: <code>YYYY-MM-DD HH:MM AM/PM</code>\n"
+                        f"Example: <code>2026-04-14 6:35 PM</code>",
+                        parse_mode='HTML'
+                    )
+                    return ScheduleState.SCHEDULE_DATE_TIME
+                
                 context.user_data['schedule']['schedule_config'] = {
                     'datetime': dt.isoformat()
                 }
@@ -153,24 +159,24 @@ class ScheduleHandler:
                 confirm_msg = f"✅ Scheduled for: {time_str}"
                 
             elif schedule_type == 'daily':
-                # Parse: HH:MM
-                time_parts = user_input.split(':')
-                hour, minute = int(time_parts[0]), int(time_parts[1])
+                # Parse: HH:MM AM/PM
+                dt = datetime.strptime(user_input, '%I:%M %p')
+                hour, minute = dt.hour, dt.minute
                 if hour < 0 or hour > 23 or minute < 0 or minute > 59:
                     raise ValueError("Invalid time")
                 context.user_data['schedule']['schedule_config'] = {
                     'time': f"{hour:02d}:{minute:02d}"
                 }
-                dt = datetime.strptime(f"{hour:02d}:{minute:02d}", '%H:%M')
-                time_str = dt.strftime('%I:%M %p')
+                time_str = datetime.strptime(f"{hour:02d}:{minute:02d}", '%H:%M').strftime('%I:%M %p')
                 confirm_msg = f"✅ Scheduled daily at: {time_str}"
                 
             elif schedule_type == 'weekly':
-                # Parse: D HH:MM
+                # Parse: D HH:MM AM/PM
                 parts = user_input.split()
                 day = int(parts[0])
-                time_parts = parts[1].split(':')
-                hour, minute = int(time_parts[0]), int(time_parts[1])
+                time_str = ' '.join(parts[1:])
+                dt = datetime.strptime(time_str, '%I:%M %p')
+                hour, minute = dt.hour, dt.minute
                 
                 if day < 0 or day > 6:
                     raise ValueError("Day must be 0-6")
@@ -187,11 +193,12 @@ class ScheduleHandler:
                 confirm_msg = f"✅ Scheduled every {days[day]} at {time_str}"
                 
             elif schedule_type == 'monthly':
-                # Parse: D HH:MM
+                # Parse: D HH:MM AM/PM
                 parts = user_input.split()
                 day = int(parts[0])
-                time_parts = parts[1].split(':')
-                hour, minute = int(time_parts[0]), int(time_parts[1])
+                time_str = ' '.join(parts[1:])
+                dt = datetime.strptime(time_str, '%I:%M %p')
+                hour, minute = dt.hour, dt.minute
                 
                 if day < 1 or day > 31:
                     raise ValueError("Day must be 1-31")
@@ -232,12 +239,6 @@ class ScheduleHandler:
                     parse_mode='HTML'
                 )
                 return ScheduleState.MESSAGE_TARGET
-            elif task_type == 'send_reminder':
-                await update.message.reply_text(
-                    "🔔 <b>Reminder Details</b>\n\nSend to all admins or specific user?\n\nReply: <code>all</code> or user ID",
-                    parse_mode='HTML'
-                )
-                return ScheduleState.REMINDER_RECIPIENTS
                 
         except Exception as e:
             await update.message.reply_text(f"❌ Invalid format: {str(e)}\n\nTry again.")
@@ -361,42 +362,6 @@ class ScheduleHandler:
     async def message_collect_text(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Collect message text"""
         context.user_data['schedule']['action_params']['message_text'] = update.message.text
-        await ScheduleHandler._confirm_schedule(update, context)
-        return ScheduleState.CONFIRM_SCHEDULE
-
-    # REMINDER WORKFLOW
-    @staticmethod
-    async def reminder_collect_recipients(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Collect reminder recipients"""
-        user_input = update.message.text.strip().lower()
-        
-        if user_input == 'all':
-            context.user_data['schedule']['action_params']['recipient_type'] = 'all_admins'
-            recipient_info = "all admins"
-        else:
-            try:
-                user_id = int(user_input)
-                context.user_data['schedule']['action_params']['recipient_type'] = 'specific_user'
-                context.user_data['schedule']['action_params']['target_user_id'] = user_id
-                recipient_info = f"user {user_id}"
-            except ValueError:
-                await update.message.reply_text("❌ Enter 'all' or a user ID:")
-                return ScheduleState.REMINDER_RECIPIENTS
-        
-        await update.message.reply_text(f"📋 Reminder title (sending to {recipient_info}):")
-        return ScheduleState.REMINDER_TITLE
-
-    @staticmethod
-    async def reminder_collect_title(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Collect reminder title"""
-        context.user_data['schedule']['action_params']['message_title'] = update.message.text
-        await update.message.reply_text("📄 Enter the reminder message body:")
-        return ScheduleState.REMINDER_BODY
-
-    @staticmethod
-    async def reminder_collect_body(update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Collect reminder body"""
-        context.user_data['schedule']['action_params']['message_body'] = update.message.text
         await ScheduleHandler._confirm_schedule(update, context)
         return ScheduleState.CONFIRM_SCHEDULE
 
@@ -546,7 +511,7 @@ class ScheduleHandler:
                     msg += f"   Next Run: {task.next_run.strftime('%Y-%m-%d %H:%M')}\n"
                 msg += f"   Status: {task.status.value}\n\n"
             
-            msg += "\n💡 Use /delete <task_id> to remove a task"
+            msg += "\n💡 Use /delete [task_id] to remove a task"
             await update.message.reply_text(msg, parse_mode='HTML')
             
         except Exception as e:
@@ -649,15 +614,6 @@ def get_schedule_handler() -> ConversationHandler:
         ],
         ScheduleState.MESSAGE_TEXT: [
             MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.message_collect_text)
-        ],
-        ScheduleState.REMINDER_RECIPIENTS: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.reminder_collect_recipients)
-        ],
-        ScheduleState.REMINDER_TITLE: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.reminder_collect_title)
-        ],
-        ScheduleState.REMINDER_BODY: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.reminder_collect_body)
         ],
         ScheduleState.CONFIRM_SCHEDULE: [
             CallbackQueryHandler(ScheduleHandler.confirm_schedule, pattern='^confirm_')
