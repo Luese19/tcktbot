@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  ticketingbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - BUILDKIT_INLINE_CACHE=1
+    container_name: ticketing-bot
+    restart: unless-stopped
+    environment:
+      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+      - COMPANY_NAME=${COMPANY_NAME}
+      - SUPPORT_EMAIL=${SUPPORT_EMAIL}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    networks:
+      - bot-network
+    # Uncomment for debugging
+    # stdin_open: true
+    # tty: true
+
+networks:
+  bot-network:
+    driver: bridge
