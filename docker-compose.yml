@@ -10,10 +10,16 @@ services:
     container_name: ticketing-bot
     restart: unless-stopped
     environment:
-      - TELEGRAM_TOKEN=${TELEGRAM_TOKEN}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - COMPANY_NAME=${COMPANY_NAME}
+      - COMPANY_EMAIL_DOMAIN=${COMPANY_EMAIL_DOMAIN}
       - SUPPORT_EMAIL=${SUPPORT_EMAIL}
+      - SMTP_SERVER=${SMTP_SERVER}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      - ADMIN_USER_IDS=${ADMIN_USER_IDS}
     volumes:
       - ./data:/app/data
       - ./logs:/app/logs

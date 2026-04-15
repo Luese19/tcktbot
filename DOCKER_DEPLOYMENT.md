@@ -56,10 +56,16 @@ sudo nano /opt/ticketing-bot/.env
 Add the following content:
 
 ```env
-TELEGRAM_TOKEN=your_telegram_bot_token_here
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token_here
 COMPANY_NAME=Your Company Name
+COMPANY_EMAIL_DOMAIN=company.com
 SUPPORT_EMAIL=support@yourcompany.com
+SMTP_SERVER=smtp.company.com
+SMTP_PORT=587
+SMTP_USERNAME=helpdesk@company.com
+SMTP_PASSWORD=your_password
 LOG_LEVEL=INFO
+ADMIN_USER_IDS=123456789
 ```
 
 Save and exit (Ctrl+X, then Y, then Enter)
@@ -86,7 +92,7 @@ sudo docker-compose up -d
 sudo docker run -d \
   --name ticketing-bot \
   --restart unless-stopped \
-  -e TELEGRAM_TOKEN=$TELEGRAM_TOKEN \
+  -e TELEGRAM_BOT_TOKEN=$TELEGRAM_BOT_TOKEN \
   -e COMPANY_NAME="$COMPANY_NAME" \
   -e SUPPORT_EMAIL=$SUPPORT_EMAIL \
   -v /opt/ticketing-bot/data:/app/data \
@@ -238,6 +244,7 @@ sudo systemctl status ticketing-bot
 ### Auto-restart and Health Checks
 
 The Dockerfile includes:
+
 - `restart: unless-stopped` - automatically restarts on failure
 - Health checks every 30 seconds
 - Proper signal handling for graceful shutdown
@@ -305,6 +312,7 @@ sudo docker load < /backup/ticketing-bot-image-latest.tar.gz
 ## Support
 
 For issues or questions:
+
 - Check application logs: `sudo docker-compose logs`
-- Review Telegram Bot API documentation: https://core.telegram.org/bots
-- Check Docker documentation: https://docs.docker.com/
+- Review Telegram Bot API documentation: <https://core.telegram.org/bots>
+- Check Docker documentation: <https://docs.docker.com/>
