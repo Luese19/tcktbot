@@ -1,0 +1,20 @@
+{
+  "ticket_id": "TKT-20260415191604",
+  "created_at": "2026-04-15T19:16:04.258425",
+  "updated_at": "2026-04-15T19:16:04.258435",
+  "name": "luese",
+  "email": "luesegamay@gmail.com",
+  "department": "IT",
+  "issue": "Printer",
+  "description": "cannot print",
+  "priority": "HIGH",
+  "status": "open",
+  "attachments": [],
+  "status_history": [
+    {
+      "status": "open",
+      "updated_at": "2026-04-15T19:16:04.258444",
+      "updated_by": "system"
+    }
+  ]
+}

@@ -86,7 +86,7 @@ sudo docker build -t ticketing-bot:latest .
 
 ```bash
 # Option A: Using docker-compose (recommended)
-sudo docker-compose up -d
+sudo docker-compose ps
 
 # Option B: Using docker directly
 sudo docker run -d \
@@ -188,11 +188,14 @@ sudo docker-compose config
 ### Permission issues with data files
 
 ```bash
-# Fix permissions
+# Fix permissions on the host
 sudo chown -R 1000:1000 /opt/ticketing-bot/data
 sudo chown -R 1000:1000 /opt/ticketing-bot/logs
 sudo chmod -R 755 /opt/ticketing-bot/data
 sudo chmod -R 755 /opt/ticketing-bot/logs
+
+# If still getting permission errors, also try:
+sudo chmod -R 777 /opt/ticketing-bot/logs
 ```
 
 ### Container keeps restarting
@@ -206,6 +209,28 @@ sudo journalctl -u docker -n 50
 
 # Check docker daemon logs
 sudo tail -f /var/log/docker.log
+```
+
+### Multiple bot instances running (Conflict error)
+
+If you see: `Conflict: terminated by other getUpdates request; make sure that only one bot instance is running`
+
+```bash
+# Stop all running instances
+sudo docker-compose down
+
+# Remove any orphaned containers
+sudo docker ps -a | grep ticketing-bot
+sudo docker rm -f ticketing-bot
+
+# Verify no instances are running
+sudo docker ps
+
+# Rebuild the image
+sudo docker-compose build --no-cache
+
+# Start fresh with only one instance
+sudo docker-compose up -d
 ```
 
 ## Advanced Configuration
