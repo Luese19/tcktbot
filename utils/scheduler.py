@@ -136,7 +136,7 @@ class TaskManager:
             task_id of the created task
         """
         try:
-            from bot.models.scheduled_task import ScheduleType, TaskStatus
+            from models.scheduled_task import ScheduleType, TaskStatus
             from apscheduler.triggers.cron import CronTrigger
             from datetime import datetime, timedelta
 
@@ -290,7 +290,7 @@ class TaskManager:
             True if successful
         """
         try:
-            from bot.models.scheduled_task import ScheduledTask
+            from models.scheduled_task import ScheduledTask
             from datetime import datetime
 
             if task_id not in self.tasks:
@@ -362,7 +362,7 @@ class TaskManager:
             True if successful
         """
         try:
-            from bot.models.scheduled_task import TaskStatus
+            from models.scheduled_task import TaskStatus
 
             if task_id not in self.tasks:
                 logger.warning(f"Task {task_id} not found")
@@ -395,7 +395,7 @@ class TaskManager:
             True if successful
         """
         try:
-            from bot.models.scheduled_task import TaskStatus
+            from models.scheduled_task import TaskStatus
 
             if task_id not in self.tasks:
                 logger.warning(f"Task {task_id} not found")

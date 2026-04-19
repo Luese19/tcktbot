@@ -14,10 +14,10 @@ def test_imports():
     """Test that all schedule-related modules can be imported"""
     print("\n📋 TEST 1: Checking Imports...")
     try:
-        from bot.handlers.schedule_handler import get_schedule_handler, ScheduleHandler, ScheduleState
-        from bot.utils.scheduler import TaskManager
-        from bot.models.scheduled_task import ScheduledTask, TaskType, ScheduleType, TaskStatus
-        from bot.services.task_actions import TaskActionExecutor
+        from handlers.schedule_handler import get_schedule_handler, ScheduleHandler, ScheduleState
+        from utils.scheduler import TaskManager
+        from models.scheduled_task import ScheduledTask, TaskType, ScheduleType, TaskStatus
+        from services.task_actions import TaskActionExecutor
         print("✅ All schedule modules imported successfully")
         return True
     except ImportError as e:
@@ -65,7 +65,7 @@ def test_scheduled_task_creation():
     """Test ScheduledTask model"""
     print("\n📋 TEST 3: Testing ScheduledTask Model...")
     try:
-        from bot.models.scheduled_task import ScheduledTask, TaskType, ScheduleType, TaskStatus
+        from models.scheduled_task import ScheduledTask, TaskType, ScheduleType, TaskStatus
         import uuid
         
         # Create a test task
@@ -203,7 +203,7 @@ def test_task_types_and_schedules():
     """Test TaskType and ScheduleType enums"""
     print("\n📋 TEST 7: Testing TaskType and ScheduleType Enums...")
     try:
-        from bot.models.scheduled_task import TaskType, ScheduleType
+        from models.scheduled_task import TaskType, ScheduleType
         
         # Test TaskType
         task_types = [TaskType.CREATE_TICKET, TaskType.SEND_MESSAGE, TaskType.SEND_REMINDER]

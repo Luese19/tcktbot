@@ -86,7 +86,7 @@ sudo docker build -t ticketing-bot:latest .
 
 ```bash
 # Option A: Using docker-compose (recommended)
-sudo docker-compose ps
+sudo docker-compose up -d
 
 # Option B: Using docker directly
 sudo docker run -d \
