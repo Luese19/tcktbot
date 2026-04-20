@@ -1,0 +1,20 @@
+{
+  "ticket_id": "TKT-20260420141000",
+  "created_at": "2026-04-20T14:10:00.460699",
+  "updated_at": "2026-04-20T14:10:00.460725",
+  "name": "LUESE",
+  "email": "luesegamay@gmail.com",
+  "department": "IT",
+  "issue": "ETST",
+  "description": "TEST",
+  "priority": "low",
+  "status": "open",
+  "attachments": [],
+  "status_history": [
+    {
+      "status": "open",
+      "updated_at": "2026-04-20T14:10:00.460735",
+      "updated_by": "system"
+    }
+  ]
+}

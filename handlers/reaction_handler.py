@@ -108,8 +108,12 @@ class ReactionTicketHandler:
                 logger.debug(f"[REACTION] Reaction {reaction_emoji} doesn't trigger tickets")
                 return
 
-            # Get chat and message info
-            chat_id = update.effective_chat.id
+            # Get chat and message info - use message_reaction.chat_id, not effective_chat
+            chat_id = reaction.chat_id if reaction.chat_id else (update.effective_chat.id if update.effective_chat else None)
+            if not chat_id:
+                logger.error("[REACTION] Could not determine chat_id")
+                return
+            
             message_id = reaction.message_id
             sender_name = reaction.user.first_name if reaction.user else "Unknown User"
             sender_username = reaction.user.username if reaction.user else None
