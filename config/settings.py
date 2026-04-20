@@ -3,7 +3,14 @@ import os
 from dotenv import load_dotenv
 from pathlib import Path
 
-load_dotenv()
+# Load .env from the project root directory, not from current working directory
+# This ensures it works whether running from bot/ or root directory
+env_path = Path(__file__).parent.parent / '.env'
+if env_path.exists():
+    load_dotenv(env_path)
+else:
+    # Fallback to current directory
+    load_dotenv()
 
 class BotConfig:
     """Telegram Bot configuration"""
