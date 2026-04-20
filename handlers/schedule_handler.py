@@ -365,42 +365,58 @@ class ScheduleHandler:
     @staticmethod
     async def _confirm_schedule(update_or_query: Union[Update, object], context: ContextTypes.DEFAULT_TYPE):
         """Show confirmation before scheduling"""
-        schedule = context.user_data['schedule']
+        schedule = context.user_data.get('schedule', {})
+        
+        # Validate schedule has required data
+        if not schedule.get('task_type') or not schedule.get('schedule_type'):
+            error_msg = "❌ Error: Schedule data incomplete. Please start over."
+            if hasattr(update_or_query, 'edit_message_text'):
+                await update_or_query.edit_message_text(error_msg)
+            elif hasattr(update_or_query, 'message'):
+                await update_or_query.message.reply_text(error_msg)
+            return
         
         # Determine if it's an Update or CallbackQuery
         if hasattr(update_or_query, 'message'):
-            message_obj = update_or_query.message
+            if hasattr(update_or_query, 'edit_message_text'):  # It's a CallbackQuery
+                message_obj = update_or_query
+            else:  # It's an Update
+                message_obj = update_or_query.message
         else:
             message_obj = update_or_query
         
         # Build confirmation message
         msg = "📋 <b>Confirm Schedule</b>\n\n"
-        msg += f"<b>Task Type:</b> {schedule['task_type'].replace('_', ' ').title()}\n"
-        msg += f"<b>Schedule Type:</b> {schedule['schedule_type'].upper()}\n"
+        msg += f"<b>Task Type:</b> {schedule.get('task_type', 'Unknown').replace('_', ' ').title()}\n"
+        msg += f"<b>Schedule Type:</b> {schedule.get('schedule_type', 'Unknown').upper()}\n"
         
-        if schedule['schedule_type'] == 'once':
-            dt = datetime.fromisoformat(schedule['schedule_config']['datetime'])
-            time_str = dt.strftime('%B %d, %Y at %I:%M %p')
-            msg += f"<b>Date/Time:</b> {time_str}\n"
-        elif schedule['schedule_type'] == 'daily':
-            dt = datetime.strptime(schedule['schedule_config']['time'], '%H:%M')
-            time_str = dt.strftime('%I:%M %p')
-            msg += f"<b>Time:</b> {time_str} every day\n"
-        elif schedule['schedule_type'] == 'weekly':
-            days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-            day = schedule['schedule_config']['day_of_week']
-            dt = datetime.strptime(schedule['schedule_config']['time'], '%H:%M')
-            time_str = dt.strftime('%I:%M %p')
-            msg += f"<b>Day/Time:</b> {days[day]} at {time_str}\n"
-        elif schedule['schedule_type'] == 'monthly':
-            dt = datetime.strptime(schedule['schedule_config']['time'], '%H:%M')
-            time_str = dt.strftime('%I:%M %p')
-            msg += f"<b>Day/Time:</b> Day {schedule['schedule_config']['day']} at {time_str}\n"
-        elif schedule['schedule_type'] == 'cron':
-            msg += f"<b>Cron:</b> {schedule['schedule_config']['expression']}\n"
+        try:
+            if schedule.get('schedule_type') == 'once':
+                dt = datetime.fromisoformat(schedule['schedule_config']['datetime'])
+                time_str = dt.strftime('%B %d, %Y at %I:%M %p')
+                msg += f"<b>Date/Time:</b> {time_str}\n"
+            elif schedule.get('schedule_type') == 'daily':
+                dt = datetime.strptime(schedule['schedule_config']['time'], '%H:%M')
+                time_str = dt.strftime('%I:%M %p')
+                msg += f"<b>Time:</b> {time_str} every day\n"
+            elif schedule.get('schedule_type') == 'weekly':
+                days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+                day = schedule['schedule_config'].get('day_of_week', 0)
+                dt = datetime.strptime(schedule['schedule_config']['time'], '%H:%M')
+                time_str = dt.strftime('%I:%M %p')
+                msg += f"<b>Day/Time:</b> {days[day]} at {time_str}\n"
+            elif schedule.get('schedule_type') == 'monthly':
+                dt = datetime.strptime(schedule['schedule_config']['time'], '%H:%M')
+                time_str = dt.strftime('%I:%M %p')
+                msg += f"<b>Day/Time:</b> Day {schedule['schedule_config'].get('day', 1)} at {time_str}\n"
+            elif schedule.get('schedule_type') == 'cron':
+                msg += f"<b>Cron:</b> {schedule['schedule_config'].get('expression', '')}\n"
+        except (KeyError, ValueError) as e:
+            logger.warning(f"Error building confirmation message: {e}")
+            msg += f"<b>Schedule Config:</b> {schedule.get('schedule_config', {})}\n"
         
         msg += f"\n<b>Details:</b>\n"
-        for key, value in schedule['action_params'].items():
+        for key, value in schedule.get('action_params', {}).items():
             if key != 'user_id':  # Don't show internal user_id
                 msg += f"  • {key.replace('_', ' ').title()}: {value}\n"
         
@@ -430,7 +446,17 @@ class ScheduleHandler:
             import uuid
             import os
             
-            schedule = context.user_data['schedule']
+            schedule = context.user_data.get('schedule', {})
+            
+            # Validate schedule has all required data
+            required_keys = ['task_type', 'schedule_type', 'schedule_config', 'action_params']
+            for key in required_keys:
+                if key not in schedule:
+                    await query.edit_message_text(
+                        f"❌ Error: Missing {key}. Please start over.",
+                        parse_mode='HTML'
+                    )
+                    return ConversationHandler.END
             
             # Get task manager from bot context
             if 'task_manager' not in context.bot_data:
@@ -464,6 +490,9 @@ class ScheduleHandler:
             await query.edit_message_text(msg, parse_mode='HTML')
             logger.info(f"Task {task.task_id} scheduled by admin {query.from_user.id}")
             
+        except KeyError as e:
+            logger.error(f"KeyError scheduling task: {e}", exc_info=True)
+            await query.edit_message_text(f"❌ Error: Missing data ({str(e)}). Please start over.", parse_mode='HTML')
         except Exception as e:
             logger.error(f"Error scheduling task: {e}", exc_info=True)
             await query.edit_message_text(f"❌ Error: {str(e)}", parse_mode='HTML')

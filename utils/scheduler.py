@@ -455,7 +455,7 @@ class TaskManager:
             Result dictionary
         """
         try:
-            from bot.services.task_actions import TaskActionExecutor
+            from services.task_actions import TaskActionExecutor
             from datetime import datetime
             import asyncio
 
