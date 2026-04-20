@@ -5,12 +5,17 @@ import sys
 import os
 import asyncio
 from pathlib import Path
+from dotenv import load_dotenv
 
 # Ensure this directory is first in sys.path for imports
 _root_dir = str(Path(__file__).parent.resolve())
 if _root_dir in sys.path:
     sys.path.remove(_root_dir)
 sys.path.insert(0, _root_dir)
+
+# CRITICAL: Load .env BEFORE any other imports to ensure fresh environment
+_env_path = Path(_root_dir) / '.env'
+load_dotenv(_env_path, override=True)  # override=True forces reload even if already in os.environ
 
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters

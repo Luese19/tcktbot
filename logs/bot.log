@@ -5,3 +5,433 @@
 2026-04-20 12:00:37 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
 2026-04-20 12:00:53 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
 2026-04-20 12:01:10 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:01:26 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:01:48 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:02:23 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:03:04 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:03:44 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:04:37 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:04:42 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:04:48 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:04:55 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:05:04 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:05:16 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:05:19 | helpdesk_bot | INFO | Initializing Telegram Help Desk Bot...
+2026-04-20 12:05:22 | helpdesk_bot | INFO | Message cache handler enabled
+2026-04-20 12:05:23 | helpdesk_bot | INFO | Reaction-based ticket creation handler configured
+2026-04-20 12:05:23 | helpdesk_bot | INFO | Group mention, media, confirmation, and welcome handlers configured (DIRECT mode with media support)
+2026-04-20 12:05:23 | helpdesk_bot | INFO | Email registration handlers configured
+2026-04-20 12:05:23 | helpdesk_bot | INFO | Schedule handler configured
+2026-04-20 12:05:23 | helpdesk_bot | INFO | Group command handlers configured
+2026-04-20 12:05:23 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-20 12:05:23 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-20 12:05:23 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-20 12:05:23 | helpdesk_bot | INFO | Support Email: help@marquismaintenance.on.spiceworks.com
+2026-04-20 12:05:23 | helpdesk_bot | INFO | Cleanup scheduler started successfully
+2026-04-20 12:05:23 | helpdesk_bot | INFO |   Scheduled job: Monthly Data Cleanup (monthly_cleanup)
+2026-04-20 12:05:23 | helpdesk_bot | INFO | Task Manager initialized
+2026-04-20 12:05:23 | helpdesk_bot | INFO | Bot polling started - listening for messages, commands, and reactions
+2026-04-20 12:05:25 | helpdesk_bot | ERROR | Error in bot polling: The token `8003615286:AAEyyiqqO1wNYQxhXiWdnudJ3he-4255O2w` was rejected by the server.
+Traceback (most recent call last):
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 763, in initialize
+    await self.get_me()
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_extbot.py", line 1957, in get_me
+    return await super().get_me(
+           ^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 895, in get_me
+    result = await self._post(
+             ^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\request\_baserequest.py", line 381, in _request_wrapper
+    raise InvalidToken(message)
+telegram.error.InvalidToken: Unauthorized
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\TICKETINGBOT\main.py", line 176, in run
+    self.application.run_polling(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        drop_pending_updates=True,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        ]
+        ^
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_application.py", line 865, in run_polling
+    return self.__run(
+           ~~~~~~~~~~^
+        updater_coroutine=self.updater.start_polling(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<12 lines>...
+        stop_signals=stop_signals,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_application.py", line 1063, in __run
+    loop.run_until_complete(self.initialize())
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\asyncio\base_events.py", line 720, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_application.py", line 487, in initialize
+    await self.bot.initialize()
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_extbot.py", line 300, in initialize
+    await super().initialize()
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 765, in initialize
+    raise InvalidToken(f"The token `{self._token}` was rejected by the server.") from exc
+telegram.error.InvalidToken: The token `8003615286:AAEyyiqqO1wNYQxhXiWdnudJ3he-4255O2w` was rejected by the server.
+2026-04-20 12:05:35 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:05:58 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:06:05 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:06:29 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:06:38 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:07:08 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:07:22 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:07:44 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:08:02 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:08:19 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:08:38 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:08:55 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:09:18 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:09:30 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:09:53 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:10:05 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:10:28 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:10:40 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:11:03 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:11:15 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:11:39 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:11:50 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:12:14 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:12:26 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:12:49 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:13:01 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:13:25 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:14:00 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:14:07 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:14:35 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:14:43 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:15:10 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:15:19 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:15:31 | helpdesk_bot | INFO | Initializing Telegram Help Desk Bot...
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Message cache handler enabled
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Reaction-based ticket creation handler configured
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Group mention, media, confirmation, and welcome handlers configured (DIRECT mode with media support)
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Email registration handlers configured
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Schedule handler configured
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Group command handlers configured
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Support Email: help@scitechdevfusion.on.spiceworks.com
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Cleanup scheduler started successfully
+2026-04-20 12:15:34 | helpdesk_bot | INFO |   Scheduled job: Monthly Data Cleanup (monthly_cleanup)
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Task Manager initialized
+2026-04-20 12:15:34 | helpdesk_bot | INFO | Bot polling started - listening for messages, commands, and reactions
+2026-04-20 12:15:35 | helpdesk_bot | INFO | Configuring allowed updates to include message reactions...
+2026-04-20 12:15:36 | helpdesk_bot | INFO | Message reactions enabled in polling
+2026-04-20 12:15:37 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:15:41 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:15:43 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:15:47 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:15:48 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:15:54 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:15:55 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:15:59 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:16:03 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:16:13 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:16:17 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:16:20 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:16:27 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:16:33 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:16:35 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:16:45 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:16:51 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:16:57 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:17:09 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:17:12 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:17:25 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:17:43 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:17:47 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:18:18 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:18:18 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:18:52 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:18:53 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:19:38 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:19:40 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:20:12 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:20:15 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:20:32 | helpdesk_bot | INFO | Initializing Telegram Help Desk Bot...
+2026-04-20 12:20:36 | helpdesk_bot | INFO | Message cache handler enabled
+2026-04-20 12:20:37 | helpdesk_bot | INFO | Reaction-based ticket creation handler configured
+2026-04-20 12:20:37 | helpdesk_bot | INFO | Group mention, media, confirmation, and welcome handlers configured (DIRECT mode with media support)
+2026-04-20 12:20:37 | helpdesk_bot | INFO | Email registration handlers configured
+2026-04-20 12:20:37 | helpdesk_bot | INFO | Schedule handler configured
+2026-04-20 12:20:37 | helpdesk_bot | INFO | Group command handlers configured
+2026-04-20 12:20:37 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-20 12:20:37 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-20 12:20:37 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-20 12:20:37 | helpdesk_bot | INFO | Support Email: help@marquismaintenance.on.spiceworks.com
+2026-04-20 12:20:37 | helpdesk_bot | INFO | Cleanup scheduler started successfully
+2026-04-20 12:20:37 | helpdesk_bot | INFO |   Scheduled job: Monthly Data Cleanup (monthly_cleanup)
+2026-04-20 12:20:37 | helpdesk_bot | INFO | Task Manager initialized
+2026-04-20 12:20:37 | helpdesk_bot | INFO | Bot polling started - listening for messages, commands, and reactions
+2026-04-20 12:20:40 | helpdesk_bot | ERROR | Error in bot polling: The token `8003615286:AAEyyiqqO1wNYQxhXiWdnudJ3he-4255O2w` was rejected by the server.
+Traceback (most recent call last):
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 763, in initialize
+    await self.get_me()
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_extbot.py", line 1957, in get_me
+    return await super().get_me(
+           ^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 895, in get_me
+    result = await self._post(
+             ^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\request\_baserequest.py", line 381, in _request_wrapper
+    raise InvalidToken(message)
+telegram.error.InvalidToken: Unauthorized
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\TICKETINGBOT\main.py", line 184, in run
+    self.application.run_polling(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        drop_pending_updates=True,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        ]
+        ^
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_application.py", line 865, in run_polling
+    return self.__run(
+           ~~~~~~~~~~^
+        updater_coroutine=self.updater.start_polling(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<12 lines>...
+        stop_signals=stop_signals,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_application.py", line 1063, in __run
+    loop.run_until_complete(self.initialize())
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\asyncio\base_events.py", line 720, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_application.py", line 487, in initialize
+    await self.bot.initialize()
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_extbot.py", line 300, in initialize
+    await super().initialize()
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 765, in initialize
+    raise InvalidToken(f"The token `{self._token}` was rejected by the server.") from exc
+telegram.error.InvalidToken: The token `8003615286:AAEyyiqqO1wNYQxhXiWdnudJ3he-4255O2w` was rejected by the server.
+2026-04-20 12:20:55 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:21:02 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:21:26 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:21:36 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:22:07 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:22:12 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:22:43 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:22:58 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:23:14 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:23:34 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:23:36 | helpdesk_bot | INFO | Initializing Telegram Help Desk Bot...
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Message cache handler enabled
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Reaction-based ticket creation handler configured
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Group mention, media, confirmation, and welcome handlers configured (DIRECT mode with media support)
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Email registration handlers configured
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Schedule handler configured
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Group command handlers configured
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Support Email: help@scitechdevfusion.on.spiceworks.com
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Cleanup scheduler started successfully
+2026-04-20 12:23:40 | helpdesk_bot | INFO |   Scheduled job: Monthly Data Cleanup (monthly_cleanup)
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Task Manager initialized
+2026-04-20 12:23:40 | helpdesk_bot | INFO | Bot polling started - listening for messages, commands, and reactions
+2026-04-20 12:23:42 | helpdesk_bot | INFO | Configuring allowed updates to include message reactions...
+2026-04-20 12:23:42 | helpdesk_bot | INFO | Message reactions enabled in polling
+2026-04-20 12:23:49 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:23:50 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:23:55 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:24:03 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:24:09 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:24:16 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:24:24 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:24:36 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:24:38 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:24:43 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:24:44 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:24:49 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:24:55 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:24:56 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:24:56 | helpdesk_bot | INFO | Initializing Telegram Help Desk Bot...
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Message cache handler enabled
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Reaction-based ticket creation handler configured
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Group mention, media, confirmation, and welcome handlers configured (DIRECT mode with media support)
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Email registration handlers configured
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Schedule handler configured
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Group command handlers configured
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Bot handlers configured
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Starting Telegram Help Desk Bot...
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Company: Marquis Events Place Inc
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Support Email: help@marquismaintenance.on.spiceworks.com
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Cleanup scheduler started successfully
+2026-04-20 12:25:00 | helpdesk_bot | INFO |   Scheduled job: Monthly Data Cleanup (monthly_cleanup)
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Task Manager initialized
+2026-04-20 12:25:00 | helpdesk_bot | INFO | Bot polling started - listening for messages, commands, and reactions
+2026-04-20 12:25:02 | helpdesk_bot | ERROR | Error in bot polling: The token `8003615286:AAEyyiqqO1wNYQxhXiWdnudJ3he-4255O2w` was rejected by the server.
+Traceback (most recent call last):
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 763, in initialize
+    await self.get_me()
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_extbot.py", line 1957, in get_me
+    return await super().get_me(
+           ^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 895, in get_me
+    result = await self._post(
+             ^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 619, in _post
+    return await self._do_post(
+           ^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_extbot.py", line 354, in _do_post
+    return await super()._do_post(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 648, in _do_post
+    result = await request.post(
+             ^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\request\_baserequest.py", line 202, in post
+    result = await self._request_wrapper(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\request\_baserequest.py", line 381, in _request_wrapper
+    raise InvalidToken(message)
+telegram.error.InvalidToken: Unauthorized
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "D:\TICKETINGBOT\main.py", line 184, in run
+    self.application.run_polling(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        drop_pending_updates=True,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        ]
+        ^
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_application.py", line 865, in run_polling
+    return self.__run(
+           ~~~~~~~~~~^
+        updater_coroutine=self.updater.start_polling(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<12 lines>...
+        stop_signals=stop_signals,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_application.py", line 1063, in __run
+    loop.run_until_complete(self.initialize())
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\asyncio\base_events.py", line 720, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_application.py", line 487, in initialize
+    await self.bot.initialize()
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\ext\_extbot.py", line 300, in initialize
+    await super().initialize()
+  File "C:\Users\CiDoy\AppData\Roaming\Python\Python313\site-packages\telegram\_bot.py", line 765, in initialize
+    raise InvalidToken(f"The token `{self._token}` was rejected by the server.") from exc
+telegram.error.InvalidToken: The token `8003615286:AAEyyiqqO1wNYQxhXiWdnudJ3he-4255O2w` was rejected by the server.
+2026-04-20 12:25:12 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:25:17 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:25:21 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:25:26 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:25:30 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:25:35 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:25:39 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:25:55 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:26:00 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:26:09 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:26:09 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2026-04-20 12:26:13 | helpdesk_bot | ERROR | Exception while handling an update: Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
