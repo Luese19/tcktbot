@@ -377,13 +377,7 @@ class ScheduleHandler:
             return
         
         # Determine if it's an Update or CallbackQuery
-        if hasattr(update_or_query, 'message'):
-            if hasattr(update_or_query, 'edit_message_text'):  # It's a CallbackQuery
-                message_obj = update_or_query
-            else:  # It's an Update
-                message_obj = update_or_query.message
-        else:
-            message_obj = update_or_query
+        is_callback = hasattr(update_or_query, 'edit_message_text')  # CallbackQuery has this
         
         # Build confirmation message
         msg = "📋 <b>Confirm Schedule</b>\n\n"
@@ -428,7 +422,13 @@ class ScheduleHandler:
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
-        await message_obj.reply_text(msg, reply_markup=reply_markup, parse_mode='HTML')
+        # Send message using appropriate method
+        if is_callback:
+            # For CallbackQuery, edit the existing message
+            await update_or_query.edit_message_text(msg, reply_markup=reply_markup, parse_mode='HTML')
+        else:
+            # For Update with Message, reply with new message
+            await update_or_query.message.reply_text(msg, reply_markup=reply_markup, parse_mode='HTML')
 
     @staticmethod
     async def confirm_schedule(update: Update, context: ContextTypes.DEFAULT_TYPE):
