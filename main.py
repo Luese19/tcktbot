@@ -4,6 +4,14 @@
 import sys
 import os
 import asyncio
+from pathlib import Path
+
+# Ensure this directory is first in sys.path for imports
+_root_dir = str(Path(__file__).parent.resolve())
+if _root_dir in sys.path:
+    sys.path.remove(_root_dir)
+sys.path.insert(0, _root_dir)
+
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 
