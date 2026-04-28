@@ -99,6 +99,11 @@ class TelegramHelpDeskBot:
         self.application.add_handler(GroupMentionHandler.get_welcome_handler(), group=0)
         self.logger.info("Group mention, media, confirmation, and welcome handlers configured (DIRECT mode with media support)")
 
+        # Private welcome handler with group 0 (high priority, intercepts before conversation handler)
+        from handlers.private_welcome_handler import PrivateWelcomeHandler
+        self.application.add_handler(PrivateWelcomeHandler.get_handler(), group=0)
+        self.logger.info("Private welcome handler configured for registered employees")
+
         # Email registration handlers with group 1
         from handlers.email_registration import EmailRegistrationHandler
         self.application.add_handler(EmailRegistrationHandler.get_registration_handler(), group=1)

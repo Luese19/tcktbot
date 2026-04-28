@@ -1,12 +1,15 @@
 # Render Deployment - Environment Variables Setup
 
 ## Problem
+
 After deploying testing branch to Render, you're getting:
+
 ```
 User 5139651410 attempted to list IT members without permission
 ```
 
 ## Root Cause
+
 The `.env` file is **not committed to git** (for security), so Render doesn't have access to your configuration variables.
 
 ---
@@ -14,11 +17,13 @@ The `.env` file is **not committed to git** (for security), so Render doesn't ha
 ## Solution: Add Environment Variables to Render
 
 ### Step 1: Go to Render Dashboard
+
 1. Log in to: `https://dashboard.render.com/`
 2. Select your app: **tcktbot** (or whatever it's called)
 3. Go to **Settings** tab
 
 ### Step 2: Find "Environment" Section
+
 - Click **Environment** on the left sidebar
 - Look for: **Environment Variables** section
 
@@ -46,7 +51,8 @@ Click **"Add Environment Variable"** for each variable:
 
 ## How to Add Each Variable on Render
 
-### Step-by-Step:
+### Step-by-Step
+
 1. Click **"+ Add Environment Variable"** button
 2. **Key:** Enter variable name (e.g., `TELEGRAM_BOT_TOKEN`)
 3. **Value:** Enter the value from your `.env` file
@@ -54,6 +60,7 @@ Click **"Add Environment Variable"** for each variable:
 5. Repeat for all variables
 
 **Example:**
+
 ```
 Key: ADMIN_USER_IDS
 Value: 5139651410
@@ -82,6 +89,7 @@ After redeployment:
 
 1. Go to Render **Logs** tab
 2. Check for:
+
    ```
    ✅ Bot initialized and ready!
    ✅ User manager service initialized
@@ -112,12 +120,14 @@ After redeployment:
 ## Security Notes
 
 ✅ **Best Practices:**
+
 - Use Render's environment variables, not hardcoded values
 - Never commit `.env` to git
 - Use secrets manager for sensitive data
 - Rotate passwords regularly
 
 ❌ **Don't:**
+
 - Don't hardcode bot token in code
 - Don't commit `.env` file
 - Don't share credentials in messages
@@ -127,16 +137,19 @@ After redeployment:
 ## Troubleshooting
 
 **Error: "attempted to list ... without permission"**
+
 - ✅ Check: `ADMIN_USER_IDS` includes your user ID (5139651410)
 - ✅ Check: `IT_TEAM_USER_IDS` includes your user ID or other IT members
 - ✅ Re-deploy after changing variables
 
 **Error: "Configuration not loaded"**
+
 - ✅ Check: All variables are set on Render
 - ✅ Check: Bot token is correct
 - ✅ Trigger a redeploy
 
 **Bot doesn't respond after adding variables**
+
 - ✅ Go to **Logs** and check for errors
 - ✅ Restart the app: **Manual → Restart Instance**
 - ✅ Check if deployment completed successfully
@@ -168,6 +181,7 @@ TICKET_REACTION_TRIGGERS=👍
 ## After Setup
 
 Once variables are configured:
+
 - ✅ Bot starts without errors
 - ✅ Admin commands work
 - ✅ IT team permissions work

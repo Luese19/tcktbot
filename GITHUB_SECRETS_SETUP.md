@@ -1,9 +1,11 @@
 # GitHub Secrets Setup Guide
 
 ## Problem
+
 CI/CD workflows fail because they don't have access to your `.env` file (which is in `.gitignore` for security).
 
 ## Solution
+
 Use **GitHub Secrets** to store sensitive credentials, and the workflows will use them to create a `.env` file during CI/CD runs.
 
 ---
@@ -11,6 +13,7 @@ Use **GitHub Secrets** to store sensitive credentials, and the workflows will us
 ## How to Add Secrets
 
 ### Step 1: Go to GitHub Repository Settings
+
 1. Go to: `https://github.com/Luese19/tcktbot/settings/secrets/actions`
 2. Or: **Settings** → **Secrets and variables** → **Actions**
 
@@ -38,11 +41,13 @@ Add these secrets with the values from your local `.env` file:
 ## Example: Adding a Secret
 
 ### Step 1
+
 - Secret name: `TELEGRAM_BOT_TOKEN`
 - Secret value: `8789305588:AAE...` (your actual token)
 - Click **"Add secret"**
 
 ### Step 2
+
 Repeat for all 10 secrets above
 
 ---
@@ -50,9 +55,11 @@ Repeat for all 10 secrets above
 ## How It Works
 
 When GitHub Actions runs:
+
 1. ✅ Workflow triggers (push, PR, etc.)
 2. ✅ Checks out your code
 3. ✅ Creates `.env` file from secrets:
+
    ```bash
    cat > .env << EOF
    TELEGRAM_BOT_TOKEN=${{ secrets.TELEGRAM_BOT_TOKEN }}
@@ -60,6 +67,7 @@ When GitHub Actions runs:
    ...
    EOF
    ```
+
 4. ✅ Runs tests with configured environment
 5. ✅ `.env` file is only used during CI, never committed
 
@@ -68,12 +76,14 @@ When GitHub Actions runs:
 ## Security Notes
 
 ✅ **Secrets are:**
+
 - Encrypted at rest
 - Masked in logs (never displayed)
 - Only accessible to workflows in your repo
 - Only visible to repo admins
 
 ❌ **Secrets are NOT:**
+
 - Visible in logs or workflow output
 - Committed to git
 - Visible to collaborators (unless they're admins)
@@ -85,6 +95,7 @@ When GitHub Actions runs:
 After adding secrets, run a workflow:
 
 1. Make a commit and push:
+
    ```bash
    git add .github/workflows/
    git commit -m "Update CI/CD to use GitHub Secrets"
@@ -94,6 +105,7 @@ After adding secrets, run a workflow:
 2. Go to **Actions** tab on GitHub
 3. Look for your workflow run
 4. Check logs - should show:
+
    ```
    ✅ All checks passed
    ✅ Docker build successful
@@ -104,15 +116,18 @@ After adding secrets, run a workflow:
 ## Troubleshooting
 
 **Error:** `Configuration not loaded`
+
 - ✅ Check: Did you add all 10 secrets?
 - ✅ Check: Secret names match exactly (case-sensitive)
 - ✅ Check: Secret values aren't empty
 
 **Error:** `Docker build failed`
+
 - ✅ Check: `TELEGRAM_BOT_TOKEN` is correct
 - ✅ Check: All SMTP settings are correct
 
 **Logs show*** (masked value)**
+
 - ✅ This is normal! Secrets are hidden for security
 
 ---
@@ -156,6 +171,7 @@ Value: [from your .env]
 ## After Setup
 
 Once secrets are configured:
+
 - ✅ CI/CD tests will pass
 - ✅ Docker builds will work
 - ✅ Deployment pipeline is ready
@@ -164,6 +180,7 @@ Once secrets are configured:
 ---
 
 **Next Steps:**
+
 1. Add all 10 secrets to GitHub
 2. Push your changes
 3. GitHub Actions will run automatically
