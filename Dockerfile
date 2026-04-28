@@ -34,27 +34,30 @@ ENV PATH="/opt/venv/bin:$PATH" \
     PYTHONPATH=/app
 
 # Copy application code
-COPY bot /app/bot
 COPY config /app/config
 COPY utils /app/utils
 COPY handlers /app/handlers
 COPY models /app/models
 COPY services /app/services
 COPY data /app/data
-COPY logs /app/logs
 COPY main.py /app/
 
 # Create directories with proper permissions
 RUN mkdir -p /app/data/queue /app/data/tickets /app/data/employees /app/data/usernames /app/logs && \
     chown -R botuser:botuser /app && \
-    chmod -R 755 /app/logs
+    chmod -R 755 /app/logs && \
+    chmod -R 755 /app/data
 
 # Switch to non-root user
 USER botuser
+
+# Set working directory for runtime
+WORKDIR /app
 
 # Health check (optional, checks if process is running)
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD python -c "import os; exit(0 if os.path.exists('/proc/1') else 1)"
 
-# Run the bot
-CMD ["python", "main.py"]
+# Run the bot with proper signal handling
+ENTRYPOINT ["python", "-u"]
+CMD ["main.py"]

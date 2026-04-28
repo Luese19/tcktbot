@@ -461,20 +461,8 @@ class TaskManager:
 
             logger.info(f"Executing task {task.task_id} ({task.task_type.value})")
 
-            # Execute the task action (handle async function in sync context)
-            try:
-                loop = asyncio.get_event_loop()
-                if loop.is_running():
-                    # If loop is already running, create a task instead
-                    import concurrent.futures
-                    with concurrent.futures.ThreadPoolExecutor() as pool:
-                        result = loop.run_in_executor(pool, lambda: asyncio.run(TaskActionExecutor.execute(task)))
-                        result = result.result()
-                else:
-                    result = asyncio.run(TaskActionExecutor.execute(task))
-            except RuntimeError:
-                # No event loop in current thread, create one
-                result = asyncio.run(TaskActionExecutor.execute(task))
+            # Execute the task action - use asyncio.run() which handles event loop properly
+            result = asyncio.run(TaskActionExecutor.execute(task))
 
             # Log the execution
             task.add_execution_log(

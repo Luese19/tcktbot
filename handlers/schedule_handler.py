@@ -46,15 +46,26 @@ class ScheduleHandler:
         
         if user_id not in admin_ids:
             await update.message.reply_text("❌ You don't have permission to schedule tasks. Contact your administrator.")
+            context.user_data['schedule_active'] = False
             return ConversationHandler.END
         
-        # Initialize context data
+        # Check if there's an active schedule conversation and cancel it
+        if 'schedule' in context.user_data and context.user_data.get('schedule_active'):
+            await update.message.reply_text(
+                "⚠️ <b>Previous Schedule Cancelled</b>\n\n"
+                "You had an active schedule command. It has been cancelled to start a new one.",
+                parse_mode='HTML'
+            )
+            logger.info(f"Cancelled previous schedule conversation for user {user_id}")
+        
+        # Initialize new context data
         context.user_data['schedule'] = {
             'task_type': None,
             'schedule_type': None,
             'schedule_config': {},
             'action_params': {}
         }
+        context.user_data['schedule_active'] = True
         
         # Ask for task type
         keyboard = [
@@ -81,6 +92,7 @@ class ScheduleHandler:
         
         if task_type == 'cancel':
             await query.edit_message_text("❌ Scheduling cancelled.")
+            context.user_data['schedule_active'] = False
             return ConversationHandler.END
         
         context.user_data['schedule']['task_type'] = task_type
@@ -438,6 +450,7 @@ class ScheduleHandler:
         
         if query.data == 'confirm_no':
             await query.edit_message_text("❌ Scheduling cancelled.")
+            context.user_data['schedule_active'] = False
             return ConversationHandler.END
         
         try:
@@ -456,6 +469,7 @@ class ScheduleHandler:
                         f"❌ Error: Missing {key}. Please start over.",
                         parse_mode='HTML'
                     )
+                    context.user_data['schedule_active'] = False
                     return ConversationHandler.END
             
             # Get task manager from bot context
@@ -465,6 +479,7 @@ class ScheduleHandler:
                     "⚠️ Task manager not initialized. Please restart the bot.",
                     parse_mode='HTML'
                 )
+                context.user_data['schedule_active'] = False
                 return ConversationHandler.END
             
             task_manager = context.bot_data['task_manager']
@@ -497,6 +512,7 @@ class ScheduleHandler:
             logger.error(f"Error scheduling task: {e}", exc_info=True)
             await query.edit_message_text(f"❌ Error: {str(e)}", parse_mode='HTML')
         
+        context.user_data['schedule_active'] = False
         return ConversationHandler.END
 
     @staticmethod
