@@ -40,13 +40,13 @@ COPY handlers /app/handlers
 COPY models /app/models
 COPY services /app/services
 COPY data /app/data
-COPY logs /app/logs
 COPY main.py /app/
 
 # Create directories with proper permissions
 RUN mkdir -p /app/data/queue /app/data/tickets /app/data/employees /app/data/usernames /app/logs && \
     chown -R botuser:botuser /app && \
-    chmod -R 755 /app/logs
+    chmod -R 755 /app/logs && \
+    chmod -R 755 /app/data
 
 # Switch to non-root user
 USER botuser
