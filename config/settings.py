@@ -56,7 +56,7 @@ class AppConfig:
         if not self.SUPER_ADMIN_USER_IDS:
             print(f"⚠️  WARNING: No super admins configured! ADMIN_USER_IDS='{admin_ids_str}'")
         else:
-            print(f"✅ Super admins loaded: {self.SUPER_ADMIN_USER_IDS}")
+            print(f"[OK] Super admins loaded: {self.SUPER_ADMIN_USER_IDS}")
         
         # For backward compatibility
         self.ADMIN_USER_IDS = self.SUPER_ADMIN_USER_IDS

@@ -232,9 +232,9 @@ def main():
         logger.info("ADMIN CONFIGURATION")
         logger.info("=" * 80)
         if settings.app.SUPER_ADMIN_USER_IDS:
-            logger.info(f"✅ Super Admins: {settings.app.SUPER_ADMIN_USER_IDS}")
+            logger.info(f"[OK] Super Admins: {settings.app.SUPER_ADMIN_USER_IDS}")
         else:
-            logger.error("❌ NO SUPER ADMINS CONFIGURED! Set ADMIN_USER_IDS in .env")
+            logger.error("[ERROR] NO SUPER ADMINS CONFIGURED! Set ADMIN_USER_IDS in .env")
         logger.info("=" * 80)
 
         bot = TelegramHelpDeskBot()
