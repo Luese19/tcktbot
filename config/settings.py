@@ -49,7 +49,15 @@ class AppConfig:
         # Admin settings
         self.ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', 'admin123')
         # Super admins: immutable list from .env (required to add/remove other users)
-        self.SUPER_ADMIN_USER_IDS = [int(uid) for uid in os.getenv('ADMIN_USER_IDS', '').split(',') if uid.strip()]
+        admin_ids_str = os.getenv('ADMIN_USER_IDS', '')
+        self.SUPER_ADMIN_USER_IDS = [int(uid) for uid in admin_ids_str.split(',') if uid.strip()]
+        
+        # Debug logging for admin configuration
+        if not self.SUPER_ADMIN_USER_IDS:
+            print(f"⚠️  WARNING: No super admins configured! ADMIN_USER_IDS='{admin_ids_str}'")
+        else:
+            print(f"✅ Super admins loaded: {self.SUPER_ADMIN_USER_IDS}")
+        
         # For backward compatibility
         self.ADMIN_USER_IDS = self.SUPER_ADMIN_USER_IDS
 

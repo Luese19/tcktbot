@@ -227,6 +227,16 @@ def main():
             logger.error("Configuration not loaded. Check your .env file.")
             sys.exit(1)
 
+        # Log admin configuration for debugging
+        logger.info("=" * 80)
+        logger.info("ADMIN CONFIGURATION")
+        logger.info("=" * 80)
+        if settings.app.SUPER_ADMIN_USER_IDS:
+            logger.info(f"✅ Super Admins: {settings.app.SUPER_ADMIN_USER_IDS}")
+        else:
+            logger.error("❌ NO SUPER ADMINS CONFIGURED! Set ADMIN_USER_IDS in .env")
+        logger.info("=" * 80)
+
         bot = TelegramHelpDeskBot()
         bot.run()
 
