@@ -15,86 +15,86 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.9', '3.10', '3.11']
+        python-version: [ "3.9", "3.10", "3.11" ]
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
 
-    - name: Cache pip packages
-      uses: actions/cache@v3
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
+      - name: Cache pip packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pytest pytest-cov pylint black
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov pylint black
 
-    - name: Run linting (pylint)
-      run: |
-        pylint --disable=all --enable=E,F bot/ handlers/ services/ models/ utils/ || true
-      continue-on-error: true
+      - name: Run linting (pylint)
+        run: |
+          pylint --disable=all --enable=E,F bot/ handlers/ services/ models/ utils/ || true
+        continue-on-error: true
 
-    - name: Check code formatting (black)
-      run: |
-        black --check . || true
-      continue-on-error: true
+      - name: Check code formatting (black)
+        run: |
+          black --check . || true
+        continue-on-error: true
 
-    - name: Run setup verification
-      run: |
-        python verify_setup.py
+      - name: Run setup verification
+        run: |
+          python verify_setup.py
 
-    - name: Run schedule tests
-      run: |
-        python test_schedule.py
+      - name: Run schedule tests
+        run: |
+          python test_schedule.py
 
   docker:
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Build Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: false
-        tags: ticketingbot:test
-        cache-from: type=gha
-        cache-to: type=gha,mode=max
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: ticketingbot:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   branch-protection:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
-    
+
     steps:
-    - name: Validate PR target
-      run: |
-        if [[ "${{ github.base_ref }}" == "main" ]]; then
-          echo "❌ ERROR: Direct PRs to 'main' are not allowed!"
-          echo "Please merge to 'testing' branch first, then create PR from testing → main"
-          exit 1
-        fi
-        echo "✅ PR is correctly targeting 'testing' branch"
+      - name: Validate PR target
+        run: |
+          if [[ "${{ github.base_ref }}" == "main" ]]; then
+            echo "❌ ERROR: Direct PRs to 'main' are not allowed!"
+            echo "Please merge to 'testing' branch first, then create PR from testing → main"
+            exit 1
+          fi
+          echo "✅ PR is correctly targeting 'testing' branch"
 
-    - name: Require successful checks
-      if: github.base_ref == 'testing'
-      run: echo "✅ All checks passed for merge to testing"
+      - name: Require successful checks
+        if: github.base_ref == 'testing'
+        run: echo "✅ All checks passed for merge to testing"
 
-    - name: Require approval for main
-      if: github.base_ref == 'main'
-      run: echo "⚠️  This PR requires team approval before merging to production"
+      - name: Require approval for main
+        if: github.base_ref == 'main'
+        run: echo "⚠️  This PR requires team approval before merging to production"

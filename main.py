@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Telegram Help Desk Bot - Main Entry Point"""
+"""
+Telegram Help Desk Bot - Main Entry Point
+This is the ONLY entry point for the bot. Do not run other main.py files.
+"""
 
 import sys
 import os
@@ -15,7 +18,14 @@ sys.path.insert(0, _root_dir)
 
 # CRITICAL: Load .env BEFORE any other imports to ensure fresh environment
 _env_path = Path(_root_dir) / '.env'
-load_dotenv(_env_path, override=True)  # override=True forces reload even if already in os.environ
+load_dotenv(_env_path, override=True)
+
+# CHECK FOR MULTIPLE INSTANCES FIRST - BEFORE IMPORTING BOT MODULES
+from utils.process_manager import check_single_instance
+if not check_single_instance():
+    print("\n❌ ERROR: Another bot instance is already running!")
+    print("Please stop the other instance first, then try again.")
+    sys.exit(1)
 
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
@@ -23,11 +33,6 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 from config.settings import settings
 from utils.logger import setup_logging, get_logger
 from handlers.conversation import get_conversation_handler
-
-# Environment variables
-TELEGRAM_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
-COMPANY_NAME = os.environ.get("COMPANY_NAME")
-SUPPORT_EMAIL = os.environ.get("SUPPORT_EMAIL")
 
 class TelegramHelpDeskBot:
     """Main bot application class"""
@@ -71,10 +76,13 @@ class TelegramHelpDeskBot:
                         message_text,
                         sender_name
                     )
-            return True
+            return  # Explicitly return to signal handler completion
 
-        from telegram.ext import TypeHandler
-        self.application.add_handler(TypeHandler(Update, cache_group_messages), group=-99)
+        # Use MessageHandler instead of TypeHandler for better async support
+        self.application.add_handler(
+            MessageHandler(filters.TEXT & filters.ChatType.GROUPS, cache_group_messages),
+            group=-99
+        )
         self.logger.info("Message cache handler enabled")
 
         # Reaction handler FIRST with group -1 (highest priority)
@@ -176,11 +184,8 @@ Support Email: {settings.email.SPICEWORKS_EMAIL}"""
             scheduler_manager = None
             task_manager = None
 
-        # Ensure event loop exists (Python 3.10+ compatibility)
-        try:
-            asyncio.get_event_loop()
-        except RuntimeError:
-            asyncio.set_event_loop(asyncio.new_event_loop())
+        # Note: asyncio.run_polling() handles event loop management internally
+        # No need to manually manage event loop here
 
         # Start bot polling with message reactions enabled
         self.logger.info("Bot polling started - listening for messages, commands, and reactions")

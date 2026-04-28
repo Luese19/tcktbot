@@ -10,6 +10,8 @@ services:
     container_name: ticketing-bot
     restart: unless-stopped
     user: "1000:1000"
+    stop_grace_period: 30s
+    stop_signal: SIGINT
     environment:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - COMPANY_NAME=${COMPANY_NAME}
@@ -21,6 +23,7 @@ services:
       - SMTP_PASSWORD=${SMTP_PASSWORD}
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - ADMIN_USER_IDS=${ADMIN_USER_IDS}
+      - PYTHONUNBUFFERED=1
     volumes:
       - ./data:/app/data:rw
       - ./logs:/app/logs:rw
@@ -31,6 +34,9 @@ services:
         limits:
           cpus: '1'
           memory: 512M
+    # Security options
+    security_opt:
+      - no-new-privileges:true
     # Uncomment for debugging
     # stdin_open: true
     # tty: true
