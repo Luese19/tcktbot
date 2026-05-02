@@ -7,6 +7,7 @@ from telegram.ext import (
 )
 from telegram.ext import filters as tg_filters
 from datetime import datetime
+import pytz
 from utils.logger import get_logger
 
 logger = get_logger(__name__)
@@ -126,7 +127,8 @@ class ScheduleHandler:
         
         # Request schedule details
         if schedule_type == 'once':
-            msg = "📅 <b>One-time Task</b>\n\nEnter the date and time (must be in the future):\n<code>YYYY-MM-DD HH:MM AM/PM</code>\n\nToday: <code>" + datetime.now().strftime('%Y-%m-%d') + "</code>\nExample: <code>2026-04-14 6:35 PM</code>"
+            ph_now = datetime.now(pytz.timezone('Asia/Manila'))
+            msg = "📅 <b>One-time Task</b>\n\nEnter the date and time (must be in the future):\n<code>YYYY-MM-DD HH:MM AM/PM</code>\n\nToday: <code>" + ph_now.strftime('%Y-%m-%d') + "</code>\nExample: <code>2026-04-14 6:35 PM</code>"
         elif schedule_type == 'daily':
             msg = "⏰ <b>Daily Task</b>\n\nEnter the time:\n<code>HH:MM AM/PM</code>\n\nExample: <code>9:00 AM</code>"
         elif schedule_type == 'weekly':

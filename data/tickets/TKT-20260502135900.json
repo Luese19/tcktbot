@@ -1,0 +1,20 @@
+{
+  "ticket_id": "TKT-20260502135900",
+  "created_at": "2026-05-02T13:59:00.037904",
+  "updated_at": "2026-05-02T13:59:00.037908",
+  "name": "Uese",
+  "email": "luesegamay@gmail.com",
+  "department": "IT",
+  "issue": "DAILY CHECKLIST",
+  "description": "Check ingress and egress monitoring and wifi bandwidth",
+  "priority": "low",
+  "status": "open",
+  "attachments": [],
+  "status_history": [
+    {
+      "status": "open",
+      "updated_at": "2026-05-02T13:59:00.037910",
+      "updated_by": "system"
+    }
+  ]
+}

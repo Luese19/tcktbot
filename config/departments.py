@@ -8,12 +8,14 @@ DEPARTMENTS = {
     "Sales": "Marketing & Communications",
     "Accounting": "Accounting",
     "Warehouse": "Warehouse",
-    "Kitchen": "Kitechen Office",
-    "Admin Office": "Admin Office",
+    "Kitchen": "Kitchen Office",
+    "Admin Ops": "Admin Ops",
     "Catering": "Catering",
     "Stewards": "Stewards",
     "Maintenance": "Maintenance",
     "IT": "IT Department",
+    "Pastry": "Pastry",
+    "Despatching": "Despatching"
 }
 
 PRIORITY_LEVELS = {
@@ -25,17 +27,8 @@ PRIORITY_LEVELS = {
 
 # Department Auto-routing: Auto-assign priority based on department and keywords
 DEPARTMENT_AUTO_ROUTING = {
-    "HR": {
-        "default": "NORMAL",
-        "keywords": {
-            "urgent": "URGENT",
-            "asap": "HIGH",
-            "complaint": "HIGH",
-            "resign": "URGENT"
-        }
-    },
     "IT": {
-        "default": "HIGH",
+        "default": "NORMAL",
         "keywords": {
             "down": "URGENT",
             "server": "URGENT",
@@ -45,38 +38,41 @@ DEPARTMENT_AUTO_ROUTING = {
             "access": "NORMAL",
             "email": "NORMAL",
             "computer": "HIGH",
-            "laptop": "HIGH",
+            "laptop": "NORMAL",
             "printer": "HIGH",
-            "software": "HIGH",
-            "hardware": "HIGH",
+            "software": "NORMAL",
+            "hardware": "NORMAL",
             "urgent": "URGENT",
             "asap": "HIGH",
-
+            "error": "HIGH",
+            "pc": "NORMAL",
+            "mac": "NORMAL",
+            "windows": "NORMAL",
+            "update": "HIGH",
+            "Permit": "URGENT",
+            "tv remote": "NORMAL",
+            "projector": "NORMAL",
+            "presentation": "NORMAL",
+            "conference": "NORMAL",
+            "video": "NORMAL",
+            "audio": "NORMAL",
+            "zoom": "NORMAL",
+            "teams": "NORMAL",
+            "slack": "NORMAL",
+            "email": "NORMAL",
+            "phone": "NORMAL",
+            "tablet": "NORMAL",
+            "mobile": "NORMAL",
+            "aircondition": "HIGH",
+            "hvac": "HIGH",
+            "heat": "HIGH",
+            "temperature": "HIGH",
+            "light": "HIGH",
+            "bulb": "HIGH",
+            "ac": "HIGH",
+            "internet": "HIGH"
         }
     },
-    "Accounting": {
-        "default": "NORMAL",
-        "keywords": {
-            "urgent": "URGENT",
-            "payment": "HIGH",
-            "invoice": "HIGH"
-        }
-    },
-    "Operations": {
-        "default": "NORMAL",
-        "keywords": {
-            "emergency": "URGENT",
-            "critical": "HIGH"
-        }
-    },
-    "Maintenance": {
-        "default": "HIGH",
-        "keywords": {
-            "emergency": "URGENT",
-            "broken": "HIGH",
-            "urgent": "URGENT"
-        }
-    }
 }
 
 
@@ -92,12 +88,24 @@ def get_auto_routed_priority(department: str, issue: str, description: str = "")
     Returns:
         Priority level (LOW, NORMAL, HIGH, URGENT)
     """
-    if department not in DEPARTMENT_AUTO_ROUTING:
+    if not department or department not in DEPARTMENT_AUTO_ROUTING:
         return "NORMAL"
 
     dept_config = DEPARTMENT_AUTO_ROUTING[department]
     default_priority = dept_config.get("default", "NORMAL")
     keywords = dept_config.get("keywords", {})
+
+    # Combine issue and description for keyword search
+    text_to_search = f"{issue} {description}".lower()
+
+    # Check for keywords (longer keywords first to match "server down" before "server")
+    sorted_keywords = sorted(keywords.keys(), key=len, reverse=True)
+    
+    for kw in sorted_keywords:
+        if kw.lower() in text_to_search:
+            return keywords[kw]
+
+    return default_priority
 
     # Check keywords in issue and description
     combined_text = (issue + " " + description).lower()
