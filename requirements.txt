@@ -12,6 +12,14 @@ secure-smtplib==0.1.1
 
 # Utilities
 requests==2.31.0
-
-# Scheduling & Cleanup
+pytz==2024.1
 apscheduler==3.10.4
+tzlocal==5.2
+httpx==0.27.0
+
+# Process Management
+psutil==7.1.0
+
+# Testing
+pytest==9.0.3
+pytest-asyncio==1.3.0

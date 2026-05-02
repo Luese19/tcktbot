@@ -80,8 +80,13 @@ class ReactionTicketHandler:
 
             # Get date and time from reaction
             from datetime import datetime
-            reaction_time = reaction.date if reaction.date else datetime.utcnow()
-            formatted_time = reaction_time.strftime("%Y-%m-%d %H:%M:%S UTC")
+            import pytz
+            
+            # Use UTC time from the update and convert to Philippine Time (GMT+8)
+            utc_time = reaction.date if reaction.date else datetime.now(pytz.utc)
+            ph_timezone = pytz.timezone('Asia/Manila')
+            ph_time = utc_time.astimezone(ph_timezone)
+            formatted_time = ph_time.strftime("%Y-%m-%d %I:%M:%S %p PHT")
             logger.info(f"[REACTION] Reaction time: {formatted_time}")
 
             # Check if user is IT team member
@@ -108,10 +113,10 @@ class ReactionTicketHandler:
                 logger.debug(f"[REACTION] Reaction {reaction_emoji} doesn't trigger tickets")
                 return
 
-            # Get chat and message info - use message_reaction.chat_id, not effective_chat
-            chat_id = reaction.chat_id if reaction.chat_id else (update.effective_chat.id if update.effective_chat else None)
+            # Get chat and message info - use reaction.chat for group messages
+            chat_id = reaction.chat.id if reaction.chat else None
             if not chat_id:
-                logger.error("[REACTION] Could not determine chat_id")
+                logger.error("[REACTION] Could not determine chat_id from reaction.chat")
                 return
             
             message_id = reaction.message_id
@@ -262,16 +267,8 @@ class ReactionTicketHandler:
         # Department keywords mapping
         keywords = {
             "IT": ["computer", "laptop", "printer", "network", "internet", "wifi", "server", "password",
-                   "software", "hardware", "email", "access", "vpn", "offline", "down", "broken", "error"],
-            "Maintenance": ["repair", "broken", "maintenance", "fix", "plumbing", "electrical", "air", "heating",
-                           "cooling", "door", "lock", "ceiling", "wall", "floor", "roof"],
-            "HR": ["hr", "human resources", "payroll", "benefits", "leave", "vacation", "sick", "policy",
-                  "training", "onboarding", "recruitment", "employee"],
-            "Accounting": ["invoice", "payment", "accounting", "receipt", "finance", "budget", "expense",
-                          "reimbursement", "bill", "cost"],
-            "Operations": ["operations", "supply", "stock", "inventory", "schedule", "logistics"],
-            "Facilities": ["facilities", "office", "room", "building", "facility", "cleanup", "supply",
-                          "equipment", "furniture"]
+                   "software", "hardware", "email", "access", "vpn", "offline", "down", "broken", "error", "PC", "mac", "windows", "urgent", "asap"],
+                   
         }
 
         for department, dept_keywords in keywords.items():

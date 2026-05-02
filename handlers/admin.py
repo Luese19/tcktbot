@@ -141,9 +141,43 @@ class AdminHandlers:
             "/view {ticket_id} - View ticket details\n"
             "/delete {ticket_id} - Delete ticket\n"
             "/reply {ticket_id} {message} - Add reply\n"
-            "/replies {ticket_id} - View replies\n"
+            "/replies {ticket_id} - View replies\n\n"
+            "🗓️ Schedule Commands:\n"
+            "/schedule - Create a scheduled task\n"
+            "/tasks - List scheduled tasks\n"
+            "/delete_schedule {task_id} - Delete scheduled task\n"
         )
         await update.message.reply_text(message)
+
+    @staticmethod
+    async def delete_schedule_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Wrapper for ScheduleHandler.delete_task_command with admin check"""
+        try:
+            user_id = update.effective_user.id
+            if not AdminHandlers._is_authenticated(user_id):
+                await update.message.reply_text("❌ Access denied. Use /admin to login.")
+                return
+
+            from handlers.schedule_handler import ScheduleHandler
+            await ScheduleHandler.delete_task_command(update, context)
+        except Exception as e:
+            logger.error(f"Error in delete_schedule_command: {e}")
+            await update.message.reply_text("Error processing delete schedule command.")
+
+    @staticmethod
+    async def list_tasks_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Wrapper for ScheduleHandler.list_tasks_command with admin check"""
+        try:
+            user_id = update.effective_user.id
+            if not AdminHandlers._is_authenticated(user_id):
+                await update.message.reply_text("❌ Access denied. Use /admin to login.")
+                return
+
+            from handlers.schedule_handler import ScheduleHandler
+            await ScheduleHandler.list_tasks_command(update, context)
+        except Exception as e:
+            logger.error(f"Error in list_tasks_command: {e}")
+            await update.message.reply_text("Error processing list tasks command.")
 
     @staticmethod
     async def list_tickets_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -481,5 +515,7 @@ def get_admin_command_handlers():
         CommandHandler("delete", AdminHandlers.delete_ticket_command),
         CommandHandler("reply", AdminHandlers.reply_command),
         CommandHandler("replies", AdminHandlers.view_replies_command),
+        CommandHandler("tasks", AdminHandlers.list_tasks_command),
+        CommandHandler("delete_schedule", AdminHandlers.delete_schedule_command),
         CommandHandler("group_tickets", AdminHandlers.group_tickets_command),
     ] + get_user_manager_command_handlers()

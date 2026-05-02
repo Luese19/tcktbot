@@ -193,9 +193,12 @@ For direct support, you can also reach our team at help@marquismaintenance.on.sp
             if ticket_id:
                 logger.info(f"SUCCESS! Ticket: {ticket_id}")
 
-                # Get current date and time for display
+                # Get current date and time for display in Philippine Time
                 from datetime import datetime
-                created_date = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+                import pytz
+                ph_timezone = pytz.timezone('Asia/Manila')
+                ph_time = datetime.now(ph_timezone)
+                created_date = ph_time.strftime("%B %d, %Y at %I:%M %p")
 
                 # Update with success message
                 success_msg = f"""✅ **Ticket Created!**
@@ -559,7 +562,10 @@ Your Tech Support team will handle this shortly."""
             # Update processing message with results
             if created_tickets:
                 from datetime import datetime
-                created_date = datetime.now().strftime("%B %d, %Y at %I:%M %p")
+                import pytz
+                ph_timezone = pytz.timezone('Asia/Manila')
+                ph_time = datetime.now(ph_timezone)
+                created_date = ph_time.strftime("%B %d, %Y at %I:%M %p")
 
                 result_text = f"✅ **Created {len(created_tickets)} Ticket(s)**\n**Date:** {created_date}\n\n"
                 for username, ticket_id in created_tickets:
@@ -740,11 +746,7 @@ Your Tech Support team will handle this shortly."""
         text_lower = text.lower()
 
         departments = {
-            "IT": ["wifi", "internet", "network", "computer", "email", "vpn", "password", "server", "tech", "laptop", "desktop", "printer", "software", "hardware","reset password"],
-            "Maintenance": ["broken", "leak", "hvac", "temperature", "heat", "light", "bulb", "ac", "ac"],
-            "Facilities": ["kitchen", "bathroom", "fridge", "coffee", "cleaning", "supplies", "chair", "desk"],
-            "HR": ["benefits", "payroll", "vacation", "leave", "contract", "hr"],
-            "Security": ["lock", "access", "badge", "door", "safe"],
+            "IT": ["wifi", "internet", "network", "computer", "email", "vpn", "password", "server", "tech", "laptop", "desktop", "printer", "software", "hardware","reset password", "access", "offline", "down", "error", "pc", "mac", "windows", "urgent", "asap"],
         }
 
         for dept, keywords in departments.items():

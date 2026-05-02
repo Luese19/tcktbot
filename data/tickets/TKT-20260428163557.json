@@ -1,0 +1,20 @@
+{
+  "ticket_id": "TKT-20260428163557",
+  "created_at": "2026-04-28T16:35:57.202785",
+  "updated_at": "2026-04-28T16:35:57.202804",
+  "name": "luese",
+  "email": "gamayluese@gmail.com",
+  "department": "HR",
+  "issue": "Printer issue",
+  "description": "printer sira",
+  "priority": "NORMAL",
+  "status": "open",
+  "attachments": [],
+  "status_history": [
+    {
+      "status": "open",
+      "updated_at": "2026-04-28T16:35:57.202815",
+      "updated_by": "system"
+    }
+  ]
+}

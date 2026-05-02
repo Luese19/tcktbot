@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  ticketingbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ticketing-bot-testing
+    restart: unless-stopped
+    user: "1000:1000"
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - COMPANY_NAME=${COMPANY_NAME}
+      - COMPANY_EMAIL_DOMAIN=${COMPANY_EMAIL_DOMAIN}
+      - SUPPORT_EMAIL=${SUPPORT_EMAIL}
+      - SMTP_SERVER=${SMTP_SERVER}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - LOG_LEVEL=DEBUG
+      - ADMIN_USER_IDS=${ADMIN_USER_IDS}
+    volumes:
+      # Sync current branch code into container for development/testing
+      - .:/app:rw
+      - ./data:/app/data:rw
+      - ./logs:/app/logs:rw
+    networks:
+      - bot-network
+
+networks:
+  bot-network:
+    driver: bridge

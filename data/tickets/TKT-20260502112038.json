@@ -1,0 +1,25 @@
+{
+  "ticket_id": "TKT-20260502112038",
+  "created_at": "2026-05-02T11:20:38.898023",
+  "updated_at": "2026-05-02T11:20:38.898072",
+  "name": "Yobii Kazama",
+  "email": "user.5139651410@gmail.com",
+  "department": "General Support",
+  "issue": "GUTOM NA AKO",
+  "description": "GUTOM NA AKO",
+  "priority": "Normal",
+  "status": "open",
+  "attachments": [],
+  "status_history": [
+    {
+      "status": "open",
+      "updated_at": "2026-05-02T11:20:38.898075",
+      "updated_by": "system"
+    }
+  ],
+  "group_id": -4848629984,
+  "group_name": "TEST",
+  "group_type": "group",
+  "bot_message_id": 155,
+  "source_message_id": 154
+}

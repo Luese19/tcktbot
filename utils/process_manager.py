@@ -26,17 +26,30 @@ class ProcessManager:
         try:
             # Check if lock file exists and contains a valid PID
             if self.LOCK_FILE.exists():
-                with open(self.LOCK_FILE, 'r') as f:
-                    old_pid = f.read().strip()
-                
-                # Try to check if old process is still running
-                if old_pid.isdigit():
-                    old_pid_int = int(old_pid)
-                    # On Windows, we can't use os.kill to check, so we'll just warn
-                    print(f"⚠️  Previous bot instance (PID: {old_pid}) may still be running.")
-                    print(f"Please stop it first: kill -9 {old_pid}")
-                    print("Or wait a few seconds for it to timeout.\n")
-                    return False
+                try:
+                    with open(self.LOCK_FILE, 'r') as f:
+                        old_pid = f.read().strip()
+                    
+                    # Try to check if old process is still running
+                    if old_pid.isdigit():
+                        old_pid_int = int(old_pid)
+                        
+                        import psutil
+                        if psutil.pid_exists(old_pid_int):
+                            # Check if it's actually a python process (optional but safer)
+                            try:
+                                proc = psutil.Process(old_pid_int)
+                                if "python" in proc.name().lower():
+                                    print(f"❌ ERROR: Another bot instance (PID: {old_pid}) is already running.")
+                                    return False
+                            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                                pass
+                        
+                        # If process doesn't exist, we can overwrite the stale lock
+                        print(f"🧹 Cleaning up stale lock file from PID {old_pid}")
+                        self.LOCK_FILE.unlink()
+                except Exception as e:
+                    print(f"⚠️ Error checking stale lock: {e}")
             
             # Write current PID to lock file
             self.LOCK_FILE.write_text(str(self.pid))

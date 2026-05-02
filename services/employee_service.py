@@ -64,7 +64,8 @@ class EmployeeService:
                 "user_id": user_id,
                 "email": email,
                 "name": user_name or "Unknown",
-                "registered_at": datetime.now().isoformat()
+                "registered_at": datetime.now().isoformat(),
+                "welcomed": False
             }
 
             cls._save_registry(registry)
@@ -227,3 +228,54 @@ class EmployeeService:
             bool: True if deletion successful
         """
         return cls.unregister_email(user_id)
+
+    @classmethod
+    def mark_as_welcomed(cls, user_id: int) -> bool:
+        """
+        Mark a registered employee as having received the private welcome message
+
+        Args:
+            user_id: Telegram user ID
+
+        Returns:
+            bool: True if successfully marked, False otherwise
+        """
+        try:
+            registry = cls._load_registry()
+
+            if str(user_id) in registry:
+                registry[str(user_id)]["welcomed"] = True
+                cls._save_registry(registry)
+                logger.info(f"Employee {user_id} marked as welcomed")
+                return True
+
+            logger.warning(f"Cannot mark non-registered user {user_id} as welcomed")
+            return False
+
+        except Exception as e:
+            logger.error(f"Error marking user {user_id} as welcomed: {e}")
+            return False
+
+    @classmethod
+    def is_welcomed(cls, user_id: int) -> bool:
+        """
+        Check if a registered employee has received the private welcome message
+
+        Args:
+            user_id: Telegram user ID
+
+        Returns:
+            bool: True if welcomed, False otherwise (also False for non-registered users)
+        """
+        try:
+            registry = cls._load_registry()
+            employee = registry.get(str(user_id))
+
+            if employee:
+                return employee.get("welcomed", False)
+
+            return False
+
+        except Exception as e:
+            logger.error(f"Error checking if user {user_id} is welcomed: {e}")
+            return False
