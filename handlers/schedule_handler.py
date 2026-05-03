@@ -148,12 +148,14 @@ class ScheduleHandler:
         user_input = update.message.text.strip()
         
         try:
+            ph_tz = pytz.timezone('Asia/Manila')
             if schedule_type == 'once':
                 # Parse: YYYY-MM-DD HH:MM AM/PM
                 dt = datetime.strptime(user_input, '%Y-%m-%d %I:%M %p')
+                dt = ph_tz.localize(dt)
                 
                 # Check if the scheduled time is in the past
-                if dt < datetime.now():
+                if dt < datetime.now(ph_tz):
                     await update.message.reply_text(
                         f"❌ The scheduled time ({user_input}) is in the past!\n\n"
                         f"Please enter a future date and time in format: <code>YYYY-MM-DD HH:MM AM/PM</code>\n"
