@@ -618,62 +618,67 @@ class ScheduleHandler:
             await update.message.reply_text(f"❌ Error: {str(e)}")
 
 
-def get_schedule_handler() -> ConversationHandler:
-    """Get the schedule conversation handler"""
-    
-    entry_points = [CommandHandler('schedule', ScheduleHandler.schedule_command)]
-    
-    states = {
-        ScheduleState.TASK_TYPE: [
-            CallbackQueryHandler(ScheduleHandler.select_task_type, pattern='^task_')
-        ],
-        ScheduleState.SCHEDULE_TYPE: [
-            CallbackQueryHandler(ScheduleHandler.select_schedule_type, pattern='^sched_')
-        ],
-        ScheduleState.SCHEDULE_DATE_TIME: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.collect_schedule_datetime)
-        ],
-        ScheduleState.TICKET_NAME: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.ticket_collect_name)
-        ],
-        ScheduleState.TICKET_EMAIL: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.ticket_collect_email)
-        ],
-        ScheduleState.TICKET_DEPT: [
-            CallbackQueryHandler(ScheduleHandler.ticket_select_dept, pattern='^dept_')
-        ],
-        ScheduleState.TICKET_SUMMARY: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.ticket_collect_summary)
-        ],
-        ScheduleState.TICKET_ISSUE: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.ticket_collect_issue)
-        ],
-        ScheduleState.TICKET_MEDIA: [
-            MessageHandler(filters.ALL, ScheduleHandler.ticket_collect_media)
-        ],
-        ScheduleState.TICKET_PRIORITY: [
-            CallbackQueryHandler(ScheduleHandler.ticket_select_priority, pattern='^priority_')
-        ],
-        ScheduleState.MESSAGE_TARGET: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.message_collect_target)
-        ],
-        ScheduleState.MESSAGE_TEXT: [
-            MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.message_collect_text)
-        ],
-        ScheduleState.CONFIRM_SCHEDULE: [
-            CallbackQueryHandler(ScheduleHandler.confirm_schedule, pattern='^confirm_')
+    async def cancel_callback(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        """Helper to end conversation properly"""
+        return ConversationHandler.END
+
+    @staticmethod
+    def get_schedule_handler() -> ConversationHandler:
+        """Get the schedule conversation handler"""
+        
+        entry_points = [CommandHandler('schedule', ScheduleHandler.schedule_command)]
+        
+        states = {
+            ScheduleState.TASK_TYPE: [
+                CallbackQueryHandler(ScheduleHandler.select_task_type, pattern='^task_')
+            ],
+            ScheduleState.SCHEDULE_TYPE: [
+                CallbackQueryHandler(ScheduleHandler.select_schedule_type, pattern='^sched_')
+            ],
+            ScheduleState.SCHEDULE_DATE_TIME: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.collect_schedule_datetime)
+            ],
+            ScheduleState.TICKET_NAME: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.ticket_collect_name)
+            ],
+            ScheduleState.TICKET_EMAIL: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.ticket_collect_email)
+            ],
+            ScheduleState.TICKET_DEPT: [
+                CallbackQueryHandler(ScheduleHandler.ticket_select_dept, pattern='^dept_')
+            ],
+            ScheduleState.TICKET_SUMMARY: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.ticket_collect_summary)
+            ],
+            ScheduleState.TICKET_ISSUE: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.ticket_collect_issue)
+            ],
+            ScheduleState.TICKET_MEDIA: [
+                MessageHandler(filters.ALL, ScheduleHandler.ticket_collect_media)
+            ],
+            ScheduleState.TICKET_PRIORITY: [
+                CallbackQueryHandler(ScheduleHandler.ticket_select_priority, pattern='^priority_')
+            ],
+            ScheduleState.MESSAGE_TARGET: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.message_collect_target)
+            ],
+            ScheduleState.MESSAGE_TEXT: [
+                MessageHandler(filters.TEXT & ~filters.COMMAND, ScheduleHandler.message_collect_text)
+            ],
+            ScheduleState.CONFIRM_SCHEDULE: [
+                CallbackQueryHandler(ScheduleHandler.confirm_schedule, pattern='^confirm_')
+            ]
+        }
+        
+        fallbacks = [
+            CommandHandler('cancel', ScheduleHandler.cancel_callback),
+            CommandHandler('tasks', ScheduleHandler.list_tasks_command),
+            CommandHandler('delete', ScheduleHandler.delete_task_command)
         ]
-    }
-    
-    fallbacks = [
-        CommandHandler('cancel', lambda u, c: ConversationHandler.END),
-        CommandHandler('tasks', ScheduleHandler.list_tasks_command),
-        CommandHandler('delete', ScheduleHandler.delete_task_command)
-    ]
-    
-    return ConversationHandler(
-        entry_points=entry_points,
-        states=states,
-        fallbacks=fallbacks,
-        per_user=True
-    )
+        
+        return ConversationHandler(
+            entry_points=entry_points,
+            states=states,
+            fallbacks=fallbacks,
+            per_user=True
+        )
