@@ -35,7 +35,7 @@ class SchedulerManager:
                 return False
 
             # Add cleanup job - runs on 1st of each month at specified time
-            trigger = CronTrigger(day=day, hour=hour, minute=minute)
+            trigger = CronTrigger(day=day, hour=hour, minute=minute, timezone='Asia/Manila')
             self.scheduler.add_job(
                 func=self._safe_cleanup_wrapper,
                 trigger=trigger,
@@ -146,7 +146,7 @@ class TaskManager:
                 return task.task_id
 
             # Calculate next run time based on schedule type
-            if task.schedule_type == ScheduleType.ONCE:
+            elif task.schedule_type == ScheduleType.ONCE:
                 # scheduled_time is ISO format datetime string
                 next_run = datetime.fromisoformat(task.schedule_config.get('datetime'))
                 
@@ -159,7 +159,7 @@ class TaskManager:
                 
                 task.next_run = next_run  # Set next_run on the task object
                 
-                trigger = None  # Will be handled separately
+                # Use 'date' trigger for one-time tasks
                 self.scheduler.add_job(
                     func=self._execute_task_wrapper,
                     args=[task.task_id],
@@ -178,7 +178,7 @@ class TaskManager:
                 self.scheduler.add_job(
                     func=self._execute_task_wrapper,
                     args=[task.task_id],
-                    trigger=CronTrigger.from_crontab(cron_expr),
+                    trigger=CronTrigger.from_crontab(cron_expr, timezone='Asia/Manila'),
                     id=f"task_{task.task_id}",
                     name=f"{task.task_type.value}: {task.task_id}",
                     max_instances=1,
@@ -190,7 +190,7 @@ class TaskManager:
                 # Daily at specific time HH:MM
                 time_str = task.schedule_config.get('time', '09:00')
                 hour, minute = map(int, time_str.split(':'))
-                trigger = CronTrigger(hour=hour, minute=minute)
+                trigger = CronTrigger(hour=hour, minute=minute, timezone='Asia/Manila')
                 self.scheduler.add_job(
                     func=self._execute_task_wrapper,
                     args=[task.task_id],
@@ -207,7 +207,7 @@ class TaskManager:
                 day_of_week = task.schedule_config.get('day_of_week', 0)  # 0=Monday
                 time_str = task.schedule_config.get('time', '09:00')
                 hour, minute = map(int, time_str.split(':'))
-                trigger = CronTrigger(day_of_week=day_of_week, hour=hour, minute=minute)
+                trigger = CronTrigger(day_of_week=day_of_week, hour=hour, minute=minute, timezone='Asia/Manila')
                 self.scheduler.add_job(
                     func=self._execute_task_wrapper,
                     args=[task.task_id],
@@ -224,7 +224,7 @@ class TaskManager:
                 day = task.schedule_config.get('day', 1)
                 time_str = task.schedule_config.get('time', '09:00')
                 hour, minute = map(int, time_str.split(':'))
-                trigger = CronTrigger(day=day, hour=hour, minute=minute)
+                trigger = CronTrigger(day=day, hour=hour, minute=minute, timezone='Asia/Manila')
                 self.scheduler.add_job(
                     func=self._execute_task_wrapper,
                     args=[task.task_id],
@@ -242,7 +242,7 @@ class TaskManager:
                 day = task.schedule_config.get('day', 1)
                 time_str = task.schedule_config.get('time', '09:00')
                 hour, minute = map(int, time_str.split(':'))
-                trigger = CronTrigger(month=month, day=day, hour=hour, minute=minute)
+                trigger = CronTrigger(month=month, day=day, hour=hour, minute=minute, timezone='Asia/Manila')
                 self.scheduler.add_job(
                     func=self._execute_task_wrapper,
                     args=[task.task_id],
