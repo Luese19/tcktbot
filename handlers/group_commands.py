@@ -15,6 +15,9 @@ class GroupCommandHandlers:
     @staticmethod
     async def my_tickets_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Show user's tickets via /my_tickets command"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
             user_id = update.effective_user.id
             user_email = None
@@ -50,7 +53,7 @@ class GroupCommandHandlers:
 
             # Check if in group and update any closed/waiting tickets in group messages
             chat = update.effective_chat
-            if chat.type in ["group", "supergroup"]:
+            if chat and chat.type in ["group", "supergroup"]:
                 for ticket in user_tickets:
                     ticket_status = ticket.get('status', 'open')
 
@@ -112,6 +115,9 @@ Your team will handle this shortly."""
     @staticmethod
     async def ticket_status_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Show ticket status via /ticket_status command"""
+        if not update.message:
+            return
+
         try:
             if not context.args:
                 await update.message.reply_text(
@@ -176,6 +182,9 @@ Your team will handle this shortly."""
     @staticmethod
     async def ticket_replies_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Show ticket replies via /ticket_replies command"""
+        if not update.message:
+            return
+
         try:
             if not context.args:
                 await update.message.reply_text(
@@ -231,6 +240,9 @@ Your team will handle this shortly."""
     @staticmethod
     async def group_help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Show group-specific help when /help is used in a group"""
+        if not update.message or not update.effective_chat:
+            return
+
         try:
             chat = update.effective_chat
 
@@ -339,6 +351,9 @@ Support: {settings.email.SPICEWORKS_EMAIL}"""
     @staticmethod
     async def handle_ticket_reply(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle replies to bot's ticket messages in groups"""
+        if not update.message or not update.effective_chat:
+            return
+
         try:
             message = update.message
             chat = update.effective_chat
@@ -384,13 +399,15 @@ Support: {settings.email.SPICEWORKS_EMAIL}"""
             ticket = TicketService.get_ticket(ticket_id)
             if not ticket:
                 await message.reply_text(
-                    f"❌ Ticket {ticket_id} not found.",
-                    reply_to_message_id=message.message_id
+                    f"❌ Ticket {ticket_id} not found."
                 )
                 return
 
             # Add reply to ticket
-            user_name = message.from_user.full_name or message.from_user.username or "Anonymous"
+            user_name = "Anonymous"
+            if message.from_user:
+                user_name = message.from_user.full_name or message.from_user.username or "Anonymous"
+            
             success = TicketService.add_reply(
                 ticket_id,
                 message.text,

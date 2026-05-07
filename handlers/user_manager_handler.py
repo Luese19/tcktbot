@@ -19,11 +19,10 @@ class UserManagerHandlers:
     @staticmethod
     async def add_admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Add a user to the admin list - /add_admin <user_id>"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
-            if not update.message:
-                logger.error("Add admin command: update.message is None")
-                return
-            
             user_id = update.effective_user.id
 
             # Check if user is super admin
@@ -81,11 +80,10 @@ class UserManagerHandlers:
     @staticmethod
     async def remove_admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Remove a user from the admin list - /remove_admin <user_id>"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
-            if not update.message:
-                logger.error("Remove admin command: update.message is None")
-                return
-            
             user_id = update.effective_user.id
 
             # Check if user is super admin
@@ -142,11 +140,10 @@ class UserManagerHandlers:
     @staticmethod
     async def add_it_member_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Add a user to the IT team - /add_it_member <user_id>"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
-            if not update.message:
-                logger.error("Add IT member command: update.message is None")
-                return
-            
             user_id = update.effective_user.id
 
             # Check if user is super admin
@@ -204,11 +201,10 @@ class UserManagerHandlers:
     @staticmethod
     async def remove_it_member_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Remove a user from the IT team - /remove_it_member <user_id>"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
-            if not update.message:
-                logger.error("Remove IT member command: update.message is None")
-                return
-            
             user_id = update.effective_user.id
 
             # Check if user is super admin
@@ -265,11 +261,10 @@ class UserManagerHandlers:
     @staticmethod
     async def list_admins_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """List all admin users - /list_admins"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
-            if not update.message:
-                logger.error("List admins command: update.message is None")
-                return
-            
             user_id = update.effective_user.id
 
             # Check if user is super admin
@@ -312,11 +307,10 @@ class UserManagerHandlers:
     @staticmethod
     async def list_it_members_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """List all IT team members - /list_it_members"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
-            if not update.message:
-                logger.error("List IT members command: update.message is None")
-                return
-            
             user_id = update.effective_user.id
 
             # Check if user is super admin

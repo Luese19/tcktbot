@@ -1,0 +1,20 @@
+{
+  "ticket_id": "TKT-20260503014008",
+  "created_at": "2026-05-03T01:40:08.573349",
+  "updated_at": "2026-05-03T01:40:08.573353",
+  "name": "luese",
+  "email": "luesegamay@gmail.com",
+  "department": "IT",
+  "issue": "TESTING DAILY COMMAND",
+  "description": "test200k",
+  "priority": "low",
+  "status": "open",
+  "attachments": [],
+  "status_history": [
+    {
+      "status": "open",
+      "updated_at": "2026-05-03T01:40:08.573356",
+      "updated_by": "system"
+    }
+  ]
+}

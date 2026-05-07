@@ -32,6 +32,9 @@ class ConvHandlers:
 
     @staticmethod
     async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        if not update.message or not update.effective_user:
+            return ConversationHandler.END
+
         user_id = update.effective_user.id # type: ignore
         ConvHandlers.ticket_data[user_id] = {}
 
@@ -45,6 +48,9 @@ class ConvHandlers:
     @staticmethod
     async def dept_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
         query = update.callback_query
+        if not query or not query.from_user:
+            return ConversationState.DEPT
+            
         user_id = query.from_user.id
 
         # Permission verification
@@ -52,6 +58,9 @@ class ConvHandlers:
         if not is_authorized:
             await query.answer(error_msg, show_alert=True)
             logger.warning(f"Unauthorized dept_select attempt by user {user_id}")
+            return ConversationState.DEPT
+
+        if not query.data:
             return ConversationState.DEPT
 
         dept = query.data.replace("dept_", "")
@@ -63,6 +72,9 @@ class ConvHandlers:
 
     @staticmethod
     async def name_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        if not update.message or not update.effective_user or not update.message.text:
+            return ConversationState.NAME
+
         from config.settings import settings
         user_id = update.effective_user.id
         name = update.message.text.strip()
@@ -86,9 +98,12 @@ class ConvHandlers:
 
     @staticmethod
     async def email_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        if not update.message or not update.effective_user or not update.message.text:
+            return ConversationState.EMAIL
+
         from config.settings import settings
         user_id = update.effective_user.id
-        email = update.message.text
+        email = update.message.text.strip()
 
         if not settings.is_company_email(email):
             await update.message.reply_text(f"Please use your company email (@{settings.company.EMAIL_DOMAIN})")
@@ -100,6 +115,9 @@ class ConvHandlers:
 
     @staticmethod
     async def issue_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        if not update.message or not update.effective_user or not update.message.text:
+            return ConversationState.ISSUE
+
         from config.settings import settings
         user_id = update.effective_user.id
         issue = update.message.text.strip()
@@ -123,6 +141,9 @@ class ConvHandlers:
 
     @staticmethod
     async def description_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        if not update.message or not update.effective_user or not update.message.text:
+            return ConversationState.DESCRIPTION
+
         from config.settings import settings
         user_id = update.effective_user.id
         description = update.message.text.strip()
@@ -154,6 +175,9 @@ class ConvHandlers:
     @staticmethod
     async def done_attachments(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handler for /done command to finish attachments"""
+        if not update.message:
+            return ConversationState.PRIORITY
+
         from config.departments import create_priority_keyboard
         await update.message.reply_text(
             "Select priority level:",
@@ -163,6 +187,9 @@ class ConvHandlers:
 
     @staticmethod
     async def attachment_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        if not update.message or not update.effective_user:
+            return ConversationState.ATTACHMENTS
+
         from config.settings import settings
         user_id = update.effective_user.id
 
@@ -175,12 +202,12 @@ class ConvHandlers:
             if update.message.photo:
                 # Get the largest photo size
                 file_obj = update.message.photo[-1]
-                file_size = file_obj.file_size
+                file_size = file_obj.file_size or 0
                 file_name = f"photo_{len(ConvHandlers.ticket_data[user_id]['attachments']) + 1}.jpg"
             elif update.message.document:
                 file_obj = update.message.document
-                file_size = file_obj.file_size
-                file_name = file_obj.file_name
+                file_size = file_obj.file_size or 0
+                file_name = file_obj.file_name or "document"
             else:
                 await update.message.reply_text("Please send a picture or file.")
                 return ConversationState.ATTACHMENTS
@@ -209,8 +236,8 @@ class ConvHandlers:
             # Save file temporarily
             from services.ticket_service import TicketService
             file_path = TicketService.save_attachment(
-                ticket_id=None,  # Temporary save without ticket_id
-                filename=file_name,
+                ticket_id="temp", # Temporary save
+                filename=file_name or "unknown",
                 file_content=bytes(file_content)
             )
 
@@ -238,6 +265,9 @@ class ConvHandlers:
     @staticmethod
     async def priority_select(update: Update, context: ContextTypes.DEFAULT_TYPE):
         query = update.callback_query
+        if not query or not query.from_user or not query.data:
+            return ConversationState.PRIORITY
+
         user_id = query.from_user.id
 
         # Permission verification
@@ -295,6 +325,9 @@ Submit this ticket?"""
     @staticmethod
     async def confirm(update: Update, context: ContextTypes.DEFAULT_TYPE):
         query = update.callback_query
+        if not query or not query.from_user:
+            return ConversationState.CONFIRM
+
         user_id = query.from_user.id
 
         # Permission verification
@@ -351,9 +384,10 @@ Submit this ticket?"""
                     att.get('local_path') for att in ticket_data.get('attachments', [])
                     if att.get('local_path') and Path(att.get('local_path', '')).exists()
                 ]
+                # Ensure attachment_paths is a list (could be empty, but not None)
                 spiceworks_sent = SpiceworksService.send_ticket_to_spiceworks(
                     ticket_data, ticket_id,
-                    attachments=attachment_paths if attachment_paths else None
+                    attachments=attachment_paths
                 )
                 logger.info(f"Spiceworks send result for {ticket_id}: {spiceworks_sent}")
 
@@ -386,9 +420,14 @@ Submit this ticket?"""
 
     @staticmethod
     async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
+        if not update.effective_user:
+            return ConversationHandler.END
+
         user_id = update.effective_user.id
         ConvHandlers.ticket_data.pop(user_id, None)
-        await update.message.reply_text("Cancelled")
+
+        if update.message:
+            await update.message.reply_text("Cancelled")
         return ConversationHandler.END
 
 def get_conversation_handler():

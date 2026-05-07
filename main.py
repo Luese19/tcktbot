@@ -121,8 +121,8 @@ class TelegramHelpDeskBot:
             self.application.add_handler(handler, group=3)
         
         # Schedule handler with group 3 (admin only)
-        from handlers.schedule_handler import get_schedule_handler, ScheduleHandler
-        self.application.add_handler(get_schedule_handler(), group=3)
+        from handlers.schedule_handler import ScheduleHandler
+        self.application.add_handler(ScheduleHandler.get_schedule_handler(), group=3)
         self.application.add_handler(CommandHandler('tasks', ScheduleHandler.list_tasks_command), group=3)
         self.application.add_handler(CommandHandler('delete', ScheduleHandler.delete_task_command), group=3)
         self.logger.info("Schedule handler configured")
