@@ -19,6 +19,9 @@ class EmailRegistrationHandler:
     @staticmethod
     async def start_registration(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Start email registration process"""
+        if not update.message or not update.effective_user:
+            return ConversationHandler.END
+
         user_id = update.effective_user.id
         user_name = update.effective_user.full_name or "User"
 
@@ -46,6 +49,9 @@ class EmailRegistrationHandler:
     @staticmethod
     async def receive_email(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Receive and validate email"""
+        if not update.message or not update.effective_user or not update.message.text:
+            return RegistrationState.WAITING_FOR_EMAIL
+
         user_id = update.effective_user.id
         user_name = update.effective_user.full_name or "User"
         email = update.message.text.strip()
@@ -68,7 +74,8 @@ class EmailRegistrationHandler:
                 f"- yes to confirm\n"
                 f"- no to try again"
             )
-            context.user_data['pending_email'] = email
+            if context.user_data is not None:
+                context.user_data['pending_email'] = email
             return RegistrationState.WAITING_FOR_EMAIL
 
         # Register the email
@@ -103,6 +110,9 @@ class EmailRegistrationHandler:
     @staticmethod
     async def check_registration(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Check current registration status"""
+        if not update.message or not update.effective_user:
+            return
+
         user_id = update.effective_user.id
 
         employee = EmployeeService.get_employee_info(user_id)
@@ -127,7 +137,8 @@ class EmailRegistrationHandler:
     @staticmethod
     async def cancel_registration(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Cancel registration process"""
-        await update.message.reply_text("❌ Registration cancelled.")
+        if update.message:
+            await update.message.reply_text("❌ Registration cancelled.")
         return ConversationHandler.END
 
     @staticmethod

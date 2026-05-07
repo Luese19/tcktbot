@@ -21,6 +21,9 @@ class AdminHandlers:
     @staticmethod
     async def lookup_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """User lookup their tickets by email"""
+        if not update.message or not update.effective_user:
+            return ConversationHandler.END
+
         try:
             user_id = update.effective_user.id
             user_name = update.effective_user.first_name
@@ -40,8 +43,12 @@ class AdminHandlers:
     @staticmethod
     async def lookup_email_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle user email lookup"""
+        if not update.message or not update.effective_user or not update.message.text:
+            return ConversationHandler.END
+
+        user_id = update.effective_user.id
         try:
-            user_id = update.effective_user.id
+            email = update.message.text.strip()
             email = update.message.text.strip()
 
             # Validate email format
@@ -84,6 +91,9 @@ class AdminHandlers:
     @staticmethod
     async def admin_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Admin login"""
+        if not update.message or not update.effective_user:
+            return ConversationHandler.END
+
         try:
             user_id = update.effective_user.id
 
@@ -107,8 +117,11 @@ class AdminHandlers:
     @staticmethod
     async def admin_auth_input(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Handle admin password"""
+        if not update.message or not update.effective_user or not update.message.text:
+            return ConversationHandler.END
+
+        user_id = update.effective_user.id
         try:
-            user_id = update.effective_user.id
             password = update.message.text.strip()
 
             if password != settings.app.ADMIN_PASSWORD:
@@ -134,6 +147,9 @@ class AdminHandlers:
     @staticmethod
     async def show_admin_menu(update: Update):
         """Show admin menu"""
+        if not update.message:
+            return
+
         message = (
             "✅ Authenticated!\n\n"
             "📊 Admin Commands:\n"
@@ -152,6 +168,9 @@ class AdminHandlers:
     @staticmethod
     async def delete_schedule_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Wrapper for ScheduleHandler.delete_task_command with admin check"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
             user_id = update.effective_user.id
             if not AdminHandlers._is_authenticated(user_id):
@@ -167,6 +186,9 @@ class AdminHandlers:
     @staticmethod
     async def list_tasks_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Wrapper for ScheduleHandler.list_tasks_command with admin check"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
             user_id = update.effective_user.id
             if not AdminHandlers._is_authenticated(user_id):
@@ -182,6 +204,9 @@ class AdminHandlers:
     @staticmethod
     async def list_tickets_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """List all tickets (admin only)"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
             user_id = update.effective_user.id
 
@@ -212,6 +237,9 @@ class AdminHandlers:
     @staticmethod
     async def view_ticket_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """View ticket details (admin only)"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
             user_id = update.effective_user.id
 
@@ -261,6 +289,9 @@ Attachments: {len(ticket.get('attachments', []))}
     @staticmethod
     async def delete_ticket_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Delete ticket (admin only)"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
             user_id = update.effective_user.id
 
@@ -289,6 +320,9 @@ Attachments: {len(ticket.get('attachments', []))}
     @staticmethod
     async def reply_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Add a reply/note to a ticket (admin only)"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
             user_id = update.effective_user.id
 
@@ -320,6 +354,9 @@ Attachments: {len(ticket.get('attachments', []))}
     @staticmethod
     async def view_replies_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """View all replies for a ticket"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
             user_id = update.effective_user.id
 
@@ -361,6 +398,9 @@ Attachments: {len(ticket.get('attachments', []))}
     @staticmethod
     async def group_tickets_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Show tickets from a specific group (admin only)"""
+        if not update.message or not update.effective_user:
+            return
+
         try:
             user_id = update.effective_user.id
 
@@ -371,6 +411,9 @@ Attachments: {len(ticket.get('attachments', []))}
             # Get group ID from args or use current chat
             chat = update.effective_chat
             group_id = None
+
+            if not chat:
+                return
 
             if context.args:
                 try:
@@ -477,9 +520,14 @@ Attachments: {len(ticket.get('attachments', []))}
     @staticmethod
     async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
         """Cancel admin operations"""
+        if not update.effective_user:
+            return ConversationHandler.END
+            
         user_id = update.effective_user.id
         AdminHandlers.admin_sessions.pop(user_id, None)
-        await update.message.reply_text("Cancelled.")
+
+        if update.message:
+            await update.message.reply_text("Cancelled.")
         return ConversationHandler.END
 
 
